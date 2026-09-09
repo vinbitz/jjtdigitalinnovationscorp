@@ -57,7 +57,6 @@ function BuildPage() {
 
   const lines = useMemo(() => resolveLines(items), [items]);
   const showSizes = hasApparel(items);
-  const belowMoq = lines.filter((l) => l.qty < l.moq);
 
   const canContinue =
     step === 1 ? lines.length > 0 : step === 3 ? details.contactName && details.company && details.email : true;
@@ -345,14 +344,6 @@ function BuildPage() {
                     </li>
                   ))}
                 </ul>
-              )}
-              {belowMoq.length > 0 && (
-                <p className="mt-3 flex items-start gap-2 rounded-sm bg-accent p-2.5 text-xs text-accent-foreground">
-                  <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-                  Some quantities are below our usual minimum ({belowMoq
-                    .map((l) => `${l.name}: min ${l.moq}`)
-                    .join("; ")}). We'll still quote them at an adjusted unit price.
-                </p>
               )}
             </section>
 

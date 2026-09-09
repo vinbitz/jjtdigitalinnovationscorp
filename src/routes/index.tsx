@@ -1,11 +1,25 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Download, Phone, Mail, MapPin } from "lucide-react";
+import {
+  ArrowRight,
+  Download,
+  Phone,
+  Mail,
+  MapPin,
+  Calendar,
+  Sparkles,
+  Clock,
+  CheckCircle2,
+  ExternalLink,
+} from "lucide-react";
 
 import heroTower from "@/assets/hero-tower.jpg";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { categories, bundles, services, company } from "@/lib/catalog";
 import { brochureUrl, brochureFilename } from "@/lib/brochure";
+import { BookingModal } from "@/components/booking-modal";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -14,7 +28,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Download the 2026 corporate marketing product catalog and build a custom quote for apparel, bags, tumblers, tech gifts and event services.",
+          "Download the 2026 corporate marketing product catalog, schedule a consultation or build a custom quote for apparel, bags, tumblers, tech gifts and event solutions.",
       },
       {
         property: "og:title",
@@ -23,7 +37,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Customized giveaways, apparel and full event management for Philippine companies. Download the catalog or build your quote.",
+          "Tailored corporate merchandise, apparel, executive gift sets and full event production for Philippine companies.",
       },
     ],
   }),
@@ -31,115 +45,269 @@ export const Route = createFileRoute("/")({
 });
 
 const steps = [
-  { n: "01", title: "Pick your products", body: "Browse the catalog and set the quantity you need per item." },
-  { n: "02", title: "Add services", body: "Event management, marketing, design, printing and delivery." },
-  { n: "03", title: "Send your logo & event date", body: "Upload .png, .svg or .ai and tell us the occasion." },
-  { n: "04", title: "Book a meeting", body: "Choose a slot and our team walks you through the quote." },
+  { n: "01", title: "Select items from catalog", body: "Explore popular essentials, bags, drinkware, apparel, and tech accessories." },
+  { n: "02", title: "Specify branding & quantities", body: "Upload your high-res logo and configure quantities per product line." },
+  { n: "03", title: "Choose service options", body: "Add event staging, booth installations, photo booths, or direct nationwide kitting." },
+  { n: "04", title: "Schedule or review quote", body: "Book a live 30-minute consultation or receive a detailed PDF proposal in 24 hours." },
 ];
 
 function LandingPage() {
+  const [mousePos, setMousePos] = useState({ x: 50, y: 30 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setMousePos({ x, y });
+  }
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background selection:bg-brand selection:text-white">
       <SiteHeader />
 
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-navy text-navy-foreground">
+      {/* Hero Section with Interactive Cursor Illumination */}
+      <section
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="relative overflow-hidden bg-navy text-navy-foreground border-b border-white/10"
+      >
+        {/* Background Image */}
         <img
           src={heroTower}
-          alt="Modern glass office tower under a bright blue sky"
+          alt="Modern glass office tower"
           width={1600}
           height={900}
-          className="absolute inset-0 h-full w-full object-cover opacity-25"
+          className="absolute inset-0 h-full w-full object-cover opacity-20 filter contrast-125"
         />
-        <div className="relative mx-auto max-w-6xl px-4 py-20 sm:py-28">
-          <p className="eyebrow text-brand-soft">2026 Corporate Marketing Catalog</p>
-          <h1 className="mt-4 max-w-3xl font-display text-4xl font-extrabold leading-[1.05] sm:text-6xl">
+
+        {/* Dynamic Cursor Spotlight Effect */}
+        <div
+          className="pointer-events-none absolute inset-0 transition-opacity duration-500 ease-out"
+          style={{
+            opacity: isHovered ? 0.75 : 0.25,
+            background: `radial-gradient(800px circle at ${mousePos.x}% ${mousePos.y}%, rgba(75, 115, 255, 0.22), transparent 75%)`,
+          }}
+        />
+
+        {/* Ambient Subtle Grid Texture */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+
+        <div className="relative mx-auto max-w-6xl px-4 py-20 sm:py-28 lg:py-32">
+          {/* Bespoke Corporate Brand Lockup */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mb-8">
+            <div className="relative group cursor-pointer">
+              <div className="absolute -inset-1 rounded-full bg-gradient-to-tr from-brand/60 via-blue-400/40 to-white/30 opacity-70 blur-md group-hover:opacity-100 transition-all duration-500" />
+              <img
+                src="/jjt-logo.png"
+                alt="JJT Digital Innovative Inc."
+                className="relative h-20 w-20 sm:h-24 sm:w-24 object-contain rounded-full bg-white p-1.5 shadow-2xl transition-transform duration-500 group-hover:scale-105 group-hover:rotate-2"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <span className="font-display text-sm sm:text-base font-extrabold tracking-widest text-white uppercase">
+                  JJT Digital Innovative Inc.
+                </span>
+                <span className="text-[10px] font-mono tracking-widest text-brand-soft border border-white/20 bg-white/10 px-2 py-0.5 rounded-xs font-semibold">
+                  EST. 2020
+                </span>
+              </div>
+              <div className="font-display text-xs font-bold text-brand-soft/90 tracking-widest uppercase">
+                Corporate Marketing • Merchandising • Event Solutions
+              </div>
+            </div>
+          </div>
+
+          {/* Headline */}
+          <h1 className="max-w-3xl font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.04] text-white">
             Driving Innovation
-            <span className="block text-brand-soft">in every branded detail.</span>
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-brand-soft via-blue-200 to-white/90">
+              in every branded detail.
+            </span>
           </h1>
-          <p className="mt-5 max-w-xl text-base text-navy-foreground/85 sm:text-lg">
-            We tailor corporate giveaways, apparel and full event solutions to your unique
-            requirements — from a 20-piece executive gift set to a 5,000-piece nationwide rollout.
+
+          <p className="mt-6 max-w-2xl text-base sm:text-lg text-navy-foreground/85 leading-relaxed font-normal">
+            From single bespoke executive gift sets to nationwide 5,000-piece conference campaigns, we
+            craft high-impact corporate merchandise, premium apparel, and full event experiences tailored
+            around your exact schedule and budget.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+
+          {/* Primary Action Buttons */}
+          <div className="mt-10 flex flex-wrap items-center gap-3.5">
+            {/* Direct Calendar Booking Trigger */}
+            <BookingModal
+              trigger={
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-2.5 rounded-sm bg-brand px-6 py-3.5 font-display text-sm font-bold text-brand-foreground shadow-lg shadow-brand/30 transition-all duration-300 hover:bg-brand/90 hover:scale-102 hover:shadow-brand/50 active:scale-98 cursor-pointer"
+                >
+                  <Calendar className="h-4 w-4" />
+                  Schedule a Consultation
+                </button>
+              }
+            />
+
+            <Link
+              to="/build"
+              className="inline-flex items-center gap-2 rounded-sm border border-white/30 bg-white/10 backdrop-blur-xs px-6 py-3.5 font-display text-sm font-bold text-white transition-all duration-300 hover:bg-white/20 hover:border-white/50 active:scale-98"
+            >
+              Build Your Quote
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+
             <a
               href={brochureUrl}
               download={brochureFilename}
-              className="inline-flex items-center gap-2 rounded-sm bg-brand px-5 py-3 font-display text-sm font-bold text-brand-foreground transition-opacity hover:opacity-90"
+              className="inline-flex items-center gap-2 rounded-sm px-5 py-3.5 font-display text-sm font-semibold text-white/80 transition-colors hover:text-white hover:bg-white/10"
             >
               <Download className="h-4 w-4" />
-              Download the 2026 Catalog
+              Download 2026 Catalog (PDF)
             </a>
-            <Link
-              to="/build"
-              className="inline-flex items-center gap-2 rounded-sm border border-white/25 px-5 py-3 font-display text-sm font-bold text-navy-foreground transition-colors hover:bg-white/10"
-            >
-              Build Your Quote
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+          </div>
+
+          {/* Quick Metrics Strip */}
+          <div className="mt-14 pt-8 border-t border-white/15 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-4xl text-left">
+            <div>
+              <p className="font-display text-2xl sm:text-3xl font-extrabold text-white">70+</p>
+              <p className="text-xs text-white/70 mt-0.5">Catalog Products</p>
+            </div>
+            <div>
+              <p className="font-display text-2xl sm:text-3xl font-extrabold text-white">100%</p>
+              <p className="text-xs text-white/70 mt-0.5">Custom Branding</p>
+            </div>
+            <div>
+              <p className="font-display text-2xl sm:text-3xl font-extrabold text-white">24h</p>
+              <p className="text-xs text-white/70 mt-0.5">Fast Quote Turnaround</p>
+            </div>
+            <div>
+              <p className="font-display text-2xl sm:text-3xl font-extrabold text-white">NCR & PH</p>
+              <p className="text-xs text-white/70 mt-0.5">Nationwide Door-to-Door</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Steps */}
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <p className="eyebrow text-brand">How it works</p>
-        <h2 className="mt-2 font-display text-2xl font-extrabold sm:text-3xl">
-          A custom quote in four steps
-        </h2>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Interactive Meeting Schedule Banner */}
+      <section className="bg-gradient-to-r from-blue-950 via-navy to-slate-900 py-10 border-b border-border/80 text-white">
+        <div className="mx-auto max-w-6xl px-4 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-1.5 text-center md:text-left">
+            <div className="inline-flex items-center gap-2 text-xs font-bold text-brand-soft uppercase tracking-wider">
+              <Clock className="h-3.5 w-3.5 text-brand" />
+              Skip the manual form
+            </div>
+            <h2 className="font-display text-2xl font-extrabold text-white">
+              Prefer a direct consultation with our strategy team?
+            </h2>
+            <p className="text-sm text-white/80 max-w-2xl">
+              Select an open slot on our calendar to inspect material swatches, compare bulk volume tiers,
+              and receive personalized mockup recommendations.
+            </p>
+          </div>
+
+          <BookingModal
+            trigger={
+              <button
+                type="button"
+                className="whitespace-nowrap inline-flex items-center gap-2 rounded-sm bg-white text-navy px-6 py-3 font-display text-sm font-extrabold shadow-md transition-all duration-200 hover:bg-brand-soft hover:scale-105 active:scale-98 cursor-pointer"
+              >
+                <Calendar className="h-4 w-4 text-brand" />
+                Book 30-Min Meeting
+              </button>
+            }
+          />
+        </div>
+      </section>
+
+      {/* Steps Section */}
+      <section className="mx-auto max-w-6xl px-4 py-20">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-10">
+          <div>
+            <p className="eyebrow text-brand">How it works</p>
+            <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight">
+              A custom corporate campaign in four simple steps
+            </h2>
+          </div>
+          <Link
+            to="/build"
+            className="inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:underline"
+          >
+            Start configurator <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((s) => (
-            <div key={s.n} className="rounded-sm border border-border bg-card p-5">
-              <span className="font-display text-3xl font-extrabold text-brand-soft">{s.n}</span>
-              <h3 className="mt-2 font-display text-base font-bold">{s.title}</h3>
-              <p className="mt-1.5 text-sm text-muted-foreground">{s.body}</p>
+            <div
+              key={s.n}
+              className="group rounded-lg border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-brand/50 flex flex-col justify-between"
+            >
+              <div>
+                <span className="font-display text-4xl font-extrabold text-brand/30 group-hover:text-brand transition-colors duration-300">
+                  {s.n}
+                </span>
+                <h3 className="mt-3 font-display text-base font-bold text-foreground group-hover:text-brand transition-colors">
+                  {s.title}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.body}</p>
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="bg-card py-16">
+      {/* Categories Showcase */}
+      <section className="bg-card py-20 border-y border-border">
         <div className="mx-auto max-w-6xl px-4">
-          <div className="flex flex-wrap items-end justify-between gap-3">
+          <div className="flex flex-wrap items-end justify-between gap-4 mb-10">
             <div>
-              <p className="eyebrow text-brand">Product lines</p>
-              <h2 className="mt-2 font-display text-2xl font-extrabold sm:text-3xl">
-                Everything in the catalog, ready to customize
+              <p className="eyebrow text-brand">Product Lines</p>
+              <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight">
+                Everything in the 2026 catalog, ready to brand
               </h2>
             </div>
             <Link
               to="/catalog"
               className="inline-flex items-center gap-1.5 font-display text-sm font-bold text-brand hover:underline"
             >
-              View full catalog <ArrowRight className="h-4 w-4" />
+              Browse all {categories.reduce((acc, c) => acc + c.products.length, 0)} products{" "}
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {categories.map((cat) => (
               <Link
                 key={cat.id}
                 to="/catalog"
                 hash={cat.id}
-                className="group overflow-hidden rounded-sm border border-border bg-background transition-shadow hover:shadow-lg"
+                className="group overflow-hidden rounded-lg border border-border bg-background transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-brand/50"
               >
-                <div className="aspect-[4/3] overflow-hidden bg-secondary">
+                <div className="aspect-[4/3] overflow-hidden bg-secondary relative">
                   <img
                     src={cat.products[0].image}
                     alt={cat.name}
                     loading="lazy"
                     width={800}
                     height={800}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-108"
                   />
-                </div>
-                <div className="p-4">
-                  <h3 className="font-display text-base font-bold">{cat.name}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">{cat.tagline}</p>
-                  <p className="mt-2 text-xs font-semibold text-brand">
+                  <span className="absolute bottom-3 left-3 bg-navy/85 backdrop-blur-xs text-white text-xs font-semibold px-2.5 py-1 rounded-xs">
                     {cat.products.length} items
+                  </span>
+                </div>
+                <div className="p-5">
+                  <h3 className="font-display text-lg font-bold group-hover:text-brand transition-colors">
+                    {cat.name}
+                  </h3>
+                  <p className="mt-1 text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                    {cat.tagline}
                   </p>
+                  <div className="mt-3 flex items-center gap-1 text-xs font-bold text-brand group-hover:translate-x-1 transition-transform">
+                    View line &rarr;
+                  </div>
                 </div>
               </Link>
             ))}
@@ -147,92 +315,197 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Bundles */}
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <p className="eyebrow text-brand">Ready-made bundles</p>
-        <h2 className="mt-2 font-display text-2xl font-extrabold sm:text-3xl">
-          Packages that skip the guesswork
-        </h2>
-        <div className="mt-8 grid gap-4 sm:grid-cols-3">
-          {bundles.map((b) => (
-            <div key={b.id} className="overflow-hidden rounded-sm border border-border bg-card">
-              <div className="aspect-[4/3] overflow-hidden bg-secondary">
-                <img
-                  src={b.image}
-                  alt={b.name}
-                  loading="lazy"
-                  width={800}
-                  height={800}
-                  className="h-full w-full object-cover"
-                />
+      {/* Ready-Made Bundles Section */}
+      <section className="mx-auto max-w-6xl px-4 py-20">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-10">
+          <div>
+            <p className="eyebrow text-brand">Curated Packages</p>
+            <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight">
+              Ready-made kits that skip the guesswork
+            </h2>
+          </div>
+          <Link
+            to="/catalog"
+            hash="bundles"
+            className="inline-flex items-center gap-1.5 font-display text-sm font-bold text-brand hover:underline"
+          >
+            See all {bundles.length} bundles <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div className="grid gap-6 sm:grid-cols-3">
+          {bundles.slice(0, 3).map((b) => (
+            <div
+              key={b.id}
+              className="group overflow-hidden rounded-lg border border-border bg-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-brand/50 flex flex-col justify-between"
+            >
+              <div>
+                <div className="aspect-[4/3] overflow-hidden bg-secondary relative">
+                  <img
+                    src={b.image}
+                    alt={b.name}
+                    loading="lazy"
+                    width={800}
+                    height={800}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <span className="absolute top-3 right-3 bg-navy text-white text-[11px] font-bold px-2.5 py-1 rounded-xs">
+                    Min. {b.moq} sets
+                  </span>
+                </div>
+                <div className="p-5">
+                  <h3 className="font-display text-base font-bold text-foreground group-hover:text-brand transition-colors">
+                    {b.name}
+                  </h3>
+                  <p className="mt-1 text-xs text-muted-foreground">{b.blurb}</p>
+                  <ul className="mt-3 space-y-1.5 text-xs">
+                    {b.contents.map((c) => (
+                      <li key={c} className="flex items-center gap-2 text-muted-foreground">
+                        <CheckCircle2 className="h-3.5 w-3.5 text-brand shrink-0" />
+                        <span>{c}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <div className="p-5">
-                <h3 className="font-display text-base font-bold">{b.name}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{b.blurb}</p>
-                <ul className="mt-3 space-y-1 text-sm">
-                  {b.contents.map((c) => (
-                    <li key={c} className="flex gap-2 text-muted-foreground">
-                      <span className="text-brand">—</span>
-                      {c}
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-3 text-xs font-semibold text-brand">Minimum {b.moq} sets</p>
+              <div className="p-5 pt-0">
+                <Link
+                  to="/build"
+                  className="w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-sm border border-border bg-secondary/50 text-xs font-bold hover:bg-brand hover:text-white hover:border-brand transition-all"
+                >
+                  Configure This Set
+                </Link>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Services */}
-      <section className="bg-navy py-16 text-navy-foreground">
+      {/* Services Section */}
+      <section className="bg-navy py-20 text-navy-foreground border-y border-white/10">
         <div className="mx-auto max-w-6xl px-4">
           <p className="eyebrow text-brand-soft">Beyond the products</p>
-          <h2 className="mt-2 font-display text-2xl font-extrabold sm:text-3xl">
-            Services you can add to any campaign
+          <h2 className="mt-2 font-display text-3xl font-extrabold sm:text-4xl text-white">
+            Custom Event Solutions & Execution
           </h2>
-          <div className="mt-8 grid gap-px overflow-hidden rounded-sm bg-white/15 sm:grid-cols-2 lg:grid-cols-3">
+          <p className="mt-3 max-w-2xl text-sm text-navy-foreground/80">
+            From planning to execution: booths, LED walls, technical crew, and nationwide recipient kitting.
+          </p>
+
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s) => (
-              <div key={s.id} className="bg-navy p-5">
-                <h3 className="font-display text-base font-bold">{s.name}</h3>
-                <p className="mt-1.5 text-sm text-navy-foreground/80">{s.blurb}</p>
+              <div
+                key={s.id}
+                className="group rounded-lg border border-white/15 bg-white/5 p-5 backdrop-blur-xs transition-all duration-300 hover:bg-white/10 hover:border-white/30 hover:-translate-y-1"
+              >
+                <h3 className="font-display text-base font-bold text-white group-hover:text-brand-soft transition-colors">
+                  {s.name}
+                </h3>
+                <p className="mt-2 text-xs text-navy-foreground/80 leading-relaxed">{s.blurb}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Contact / CTA */}
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="rounded-sm border border-border bg-card p-8 sm:p-10">
-          <h2 className="max-w-lg font-display text-2xl font-extrabold sm:text-3xl">
-            Tell us about your event and we&apos;ll price it out.
-          </h2>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              to="/build"
-              className="inline-flex items-center gap-2 rounded-sm bg-brand px-5 py-3 font-display text-sm font-bold text-brand-foreground transition-opacity hover:opacity-90"
-            >
-              Start Your Campaign <ArrowRight className="h-4 w-4" />
-            </Link>
-            <a
-              href={brochureUrl}
-              download={brochureFilename}
-              className="inline-flex items-center gap-2 rounded-sm border border-border px-5 py-3 font-display text-sm font-bold transition-colors hover:bg-secondary"
-            >
-              <Download className="h-4 w-4" /> Get the brochure
-            </a>
-          </div>
-          <div className="mt-8 grid gap-3 border-t border-border pt-6 text-sm text-muted-foreground sm:grid-cols-3">
-            <p className="flex items-center gap-2">
-              <Phone className="h-4 w-4 text-brand" /> {company.phone}
-            </p>
-            <p className="flex items-center gap-2">
-              <Mail className="h-4 w-4 text-brand" /> {company.email}
-            </p>
-            <p className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-brand" /> {company.location}
-            </p>
+      {/* Contact & Meeting Consultation Box */}
+      <section className="mx-auto max-w-6xl px-4 py-20">
+        <div className="rounded-xl border border-border bg-card p-8 sm:p-12 shadow-sm">
+          <div className="grid lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-8 space-y-4">
+              <span className="eyebrow text-brand font-bold">Connect With JJT</span>
+              <h2 className="font-display text-3xl font-extrabold text-foreground tracking-tight sm:text-4xl">
+                Ready to build your next corporate campaign?
+              </h2>
+              <p className="text-sm sm:text-base text-muted-foreground max-w-2xl leading-relaxed">
+                Tell us about your event, product selection, or budget. Book a call directly or submit a
+                detailed quote request. We respond with mockups and lead times within one business day.
+              </p>
+
+              <div className="pt-2 flex flex-wrap items-center gap-3.5">
+                <BookingModal
+                  trigger={
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-2 rounded-sm bg-navy px-6 py-3 font-display text-sm font-bold text-white shadow-md transition-all hover:bg-navy/90 hover:scale-102 active:scale-98 cursor-pointer"
+                    >
+                      <Calendar className="h-4 w-4 text-brand-soft" />
+                      Schedule Meeting
+                    </button>
+                  }
+                />
+                <Link
+                  to="/build"
+                  className="inline-flex items-center gap-2 rounded-sm bg-brand px-6 py-3 font-display text-sm font-bold text-brand-foreground shadow-sm transition-all hover:bg-brand/90 hover:scale-102 active:scale-98"
+                >
+                  Start Your Custom Quote <ArrowRight className="h-4 w-4" />
+                </Link>
+                <a
+                  href={brochureUrl}
+                  download={brochureFilename}
+                  className="inline-flex items-center gap-2 rounded-sm border border-border px-4 py-3 font-display text-sm font-semibold transition-colors hover:bg-secondary"
+                >
+                  <Download className="h-4 w-4" /> 2026 Brochure
+                </a>
+              </div>
+            </div>
+
+            {/* Direct Contact Card */}
+            <div className="lg:col-span-4 bg-stone-50 p-6 rounded-lg border border-stone-200 text-xs space-y-3.5">
+              <p className="font-display font-bold text-sm text-foreground uppercase tracking-wide">
+                Direct Contact
+              </p>
+              <div className="space-y-2.5">
+                <p className="flex items-center gap-2 text-foreground font-medium">
+                  <Mail className="h-4 w-4 text-brand shrink-0" />
+                  <a href="mailto:sales@jjt-digital.com" className="hover:underline text-brand">
+                    sales@jjt-digital.com
+                  </a>
+                </p>
+                <p className="flex items-start gap-2 text-muted-foreground">
+                  <Phone className="h-4 w-4 text-brand shrink-0 mt-0.5" />
+                  <span>
+                    +(63) 917-143-5890 <br />
+                    +(63) 968-231-4096
+                  </span>
+                </p>
+                <p className="flex items-center gap-2 text-muted-foreground">
+                  <MapPin className="h-4 w-4 text-brand shrink-0" />
+                  Parañaque City, Metro Manila
+                </p>
+              </div>
+
+              {/* Social Channels */}
+              <div className="pt-2 border-t border-stone-200">
+                <p className="text-[11px] font-bold text-muted-foreground uppercase mb-2">Follow Our Work</p>
+                <div className="flex gap-2">
+                  <a
+                    href={company.socials.instagram}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-1.5 rounded-md bg-white border border-stone-200 text-stone-600 hover:text-pink-600 hover:border-pink-300 transition-colors shadow-2xs"
+                  >
+                    Instagram
+                  </a>
+                  <a
+                    href={company.socials.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-1.5 rounded-md bg-white border border-stone-200 text-stone-600 hover:text-blue-700 hover:border-blue-300 transition-colors shadow-2xs"
+                  >
+                    LinkedIn
+                  </a>
+                  <a
+                    href={company.socials.facebook}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-1.5 rounded-md bg-white border border-stone-200 text-stone-600 hover:text-blue-600 hover:border-blue-300 transition-colors shadow-2xs"
+                  >
+                    Facebook
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

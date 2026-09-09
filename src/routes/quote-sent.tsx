@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { useQuote } from "@/lib/quote-store";
 import { company } from "@/lib/catalog";
 import { schedulingUrl } from "@/lib/scheduling";
+import { BookingModal } from "@/components/booking-modal";
 
 export const Route = createFileRoute("/quote-sent")({
   head: () => ({
@@ -60,19 +61,23 @@ function QuoteSentPage() {
           ) : (
             <>
               <p className="mt-3 text-sm text-muted-foreground">
-                Pick a time with us directly — call or email and we&apos;ll lock in a slot for a
-                mockup walkthrough.
+                Lock in a consultation slot directly with our strategy team to discuss mockups,
+                material swatches, and timeline.
               </p>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                <a
-                  href={`tel:${company.phone.replace(/[^+\d]/g, "")}`}
-                  className="flex items-center gap-2 rounded-sm border border-border px-4 py-3 text-sm font-semibold transition-colors hover:bg-secondary"
-                >
-                  <Phone className="h-4 w-4 text-brand" /> {company.phone}
-                </a>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <BookingModal
+                  trigger={
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-2 rounded-sm bg-brand px-5 py-2.5 font-display text-sm font-bold text-brand-foreground shadow-xs hover:bg-brand/90 transition-all cursor-pointer"
+                    >
+                      <CalendarCheck className="h-4 w-4" /> Pick a Meeting Slot on Calendar
+                    </button>
+                  }
+                />
                 <a
                   href={`mailto:${company.email}?subject=Meeting%20request`}
-                  className="flex items-center gap-2 rounded-sm border border-border px-4 py-3 text-sm font-semibold transition-colors hover:bg-secondary"
+                  className="inline-flex items-center gap-2 rounded-sm border border-border px-4 py-2.5 text-sm font-semibold transition-colors hover:bg-secondary"
                 >
                   <Mail className="h-4 w-4 text-brand" /> {company.email}
                 </a>
