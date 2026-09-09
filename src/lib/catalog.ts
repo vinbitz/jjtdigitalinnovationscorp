@@ -20,6 +20,69 @@ import pBanner from "@/assets/p-banner.jpg";
 import pRaincoat from "@/assets/p-raincoat.jpg";
 import pUmbrella from "@/assets/p-umbrella.jpg";
 import pGiftset from "@/assets/p-giftset.jpg";
+// Authentic Brochure Assets
+import setA from "@/assets/products/set-a.jpg";
+import setB from "@/assets/products/set-b.jpg";
+import setC from "@/assets/products/set-c.jpg";
+import setD from "@/assets/products/set-d.jpg";
+import setE from "@/assets/products/set-e.jpg";
+import setF from "@/assets/products/set-f.jpg";
+import setG from "@/assets/products/set-g.jpg";
+import setH from "@/assets/products/set-h.jpg";
+import setI from "@/assets/products/set-i.jpg";
+import setJ from "@/assets/products/set-j.jpg";
+import setK from "@/assets/products/set-k.jpg";
+import setL from "@/assets/products/set-l.jpg";
+
+import eventBooth from "@/assets/products/event-booth.jpg";
+import eventLedWall from "@/assets/products/event-led-wall.jpg";
+import eventRegistration from "@/assets/products/event-registration.jpg";
+import eventPhotobooth from "@/assets/products/event-photobooth.jpg";
+import eventTechCrew from "@/assets/products/event-tech-crew.jpg";
+import eventHost from "@/assets/products/event-host.jpg";
+import eventCorporateSetup from "@/assets/products/event-corporate-setup.jpg";
+import eventDigitalKiosk from "@/assets/products/event-digital-kiosk.jpg";
+import eventIdBadge from "@/assets/products/event-id-badge.jpg";
+import eventCertificateHolder from "@/assets/products/event-certificate-holder.jpg";
+
+import kitDailyCommute from "@/assets/products/kit-daily-commute.jpg";
+import kitMobileWork from "@/assets/products/kit-mobile-work.jpg";
+import kitExecutiveDesk from "@/assets/products/kit-executive-desk.jpg";
+import kitTravelSmart from "@/assets/products/kit-travel-smart.jpg";
+import kitWfh from "@/assets/products/kit-wfh.jpg";
+import kitEventEssentials from "@/assets/products/kit-event-essentials.jpg";
+import kitTechStarter from "@/assets/products/kit-tech-starter.jpg";
+import kitEverydayCarry from "@/assets/products/kit-everyday-carry.jpg";
+import kitPremiumWelcome from "@/assets/products/kit-premium-welcome.jpg";
+
+import luxuryBundle0 from "@/assets/products/luxury-bundle-0.jpg";
+import luxuryBundle1 from "@/assets/products/luxury-bundle-1.jpg";
+import luxuryBundle2 from "@/assets/products/luxury-bundle-2.jpg";
+import luxuryBundle3 from "@/assets/products/luxury-bundle-3.jpg";
+import luxuryBundle4 from "@/assets/products/luxury-bundle-4.jpg";
+import luxuryBundle5 from "@/assets/products/luxury-bundle-5.jpg";
+import luxuryBundle6 from "@/assets/products/luxury-bundle-6.jpg";
+import luxuryBundle7 from "@/assets/products/luxury-bundle-7.jpg";
+import luxuryBundle8 from "@/assets/products/luxury-bundle-8.jpg";
+
+import kitAnniversary from "@/assets/products/kit-anniversary.jpg";
+import kitAppreciation from "@/assets/products/kit-appreciation.jpg";
+import kitTechEvents from "@/assets/products/kit-tech-events.jpg";
+import kitConferences from "@/assets/products/kit-conferences.jpg";
+import kitFunRuns from "@/assets/products/kit-fun-runs.jpg";
+import kitConcerts from "@/assets/products/kit-concerts.jpg";
+import kitAwardsNight from "@/assets/products/kit-awards-night.jpg";
+import kitNewYears from "@/assets/products/kit-new-years.jpg";
+
+import techSpeaker from "@/assets/products/tech-speaker.jpg";
+import techUsb from "@/assets/products/tech-usb.jpg";
+import techWirelessCharger from "@/assets/products/tech-wireless-charger.jpg";
+import ecoCutlery from "@/assets/products/eco-cutlery.jpg";
+import ecoLunchbox from "@/assets/products/eco-lunchbox.jpg";
+import itemLanyard from "@/assets/products/item-lanyard.jpg";
+import itemKraftBox from "@/assets/products/item-kraft-box.jpg";
+import itemUmbrella from "@/assets/products/item-umbrella.jpg";
+
 
 export type Product = {
   id: string;
@@ -43,7 +106,7 @@ export const categories: Category[] = [
   {
     id: "popular",
     name: "Popular Items & Event Essentials",
-    tagline: "High-impact brand-ready essentials from page 4 & 5 of the 2026 catalog.",
+    tagline: "High-impact brand-ready essentials tailored for corporate gifting and brand activations.",
     products: [
       {
         id: "metal-pen",
@@ -441,7 +504,7 @@ export const categories: Category[] = [
         id: "bluetooth-speaker",
         name: "Portable Fabric Bluetooth Speaker",
         blurb: "Crisp 360-degree sound with woven fabric acoustic grille and convenient silicone lanyard strap.",
-        image: pPowerbank,
+        image: techSpeaker,
         moq: 25,
         specs: "5W Output • 6 Hours Playtime • Bluetooth 5.3",
       },
@@ -497,7 +560,7 @@ export const categories: Category[] = [
         id: "swivel-usb",
         name: "Swivel Metal USB Flash Drive (32GB / 64GB)",
         blurb: "Classic 360-degree aluminum rotating shield protects the USB connector. Laser-engraved or silkscreened.",
-        image: pPowerbank,
+        image: techUsb,
         moq: 50,
         specs: "High-speed USB 3.0 • 32GB or 64GB capacity",
       },
@@ -799,13 +862,13 @@ export const categories: Category[] = [
   {
     id: "event-management",
     name: "Custom Event Solutions",
-    tagline: "End-to-end event production and technical solutions from page 2 & 5 of the catalog.",
+    tagline: "End-to-end event production and technical solutions from planning to full on-site production.",
     products: [
       {
         id: "booth-installation",
         name: "Small / Big Booth Installation & Fabrication",
         blurb: "Full exhibition booth setup: modular aluminum framing, laminated wall panels, display counters, and overhead signage.",
-        image: pBanner,
+        image: eventBooth,
         moq: 1,
         specs: "Custom 2x2m, 3x3m, or multi-island exhibition booths",
       },
@@ -813,7 +876,7 @@ export const categories: Category[] = [
         id: "led-walls",
         name: "Indoor / Outdoor LED Wall Stage Setup",
         blurb: "High-definition P2.6 / P3.9 modular LED video wall with rigging, ground support, and video processors.",
-        image: pBanner,
+        image: eventLedWall,
         moq: 1,
         specs: "Custom dimensions • Live switcher and technician",
       },
@@ -821,7 +884,7 @@ export const categories: Category[] = [
         id: "registration-system",
         name: "Event Registration System & Automated Website",
         blurb: "Custom branded registration microsite, automated QR confirmation passes, badge printing setup, and on-site crew.",
-        image: pBanner,
+        image: eventRegistration,
         moq: 1,
         specs: "Web platform + QR scanner equipment + trained manpower",
       },
@@ -829,7 +892,7 @@ export const categories: Category[] = [
         id: "photo-booth",
         name: "Photo Booth & 360 Video Booth Support",
         blurb: "Interactive open-air photo booth or 360-degree rotating video platform with instant magnetic photo prints and custom frames.",
-        image: pBanner,
+        image: eventPhotobooth,
         moq: 1,
         specs: "Unlimited 4R prints or magnetic strips • Custom overlay",
       },
@@ -837,7 +900,7 @@ export const categories: Category[] = [
         id: "tech-documentation",
         name: "AV Tech Crew & Video Documentation",
         blurb: "Professional videography and photography team for event recaps, high-res photo albums, and multi-camera live switching.",
-        image: pBanner,
+        image: eventTechCrew,
         moq: 1,
         specs: "Full coverage • Same-day edit (SDE) available",
       },
@@ -845,7 +908,7 @@ export const categories: Category[] = [
         id: "event-host",
         name: "Professional Bilingual Event Emcee / Host",
         blurb: "Experienced English and Filipino hosts for corporate conferences, awards galas, team buildings, and sports fests.",
-        image: pBanner,
+        image: eventHost,
         moq: 1,
         specs: "Script consultation and full event program hosting",
       },
@@ -853,7 +916,7 @@ export const categories: Category[] = [
         id: "pubmat-design",
         name: "Full Pubmat Designing & Collateral Templates",
         blurb: "Complete graphic design suite: event key visuals, stage backdrop artwork, social media countdown pubmats, and program brochures.",
-        image: pBanner,
+        image: eventDigitalKiosk,
         moq: 1,
         specs: "High-res vector assets and print-ready files",
       },
@@ -861,7 +924,7 @@ export const categories: Category[] = [
         id: "corporate-setups",
         name: "Corporate Venue & Stage Staging",
         blurb: "Comprehensive venue dressing, lighting fixtures, floral/corporate table centerpieces, and stage backdrop fabrication.",
-        image: pBanner,
+        image: eventCorporateSetup,
         moq: 1,
         specs: "Bespoke production based on venue floorplan",
       },
@@ -880,253 +943,343 @@ export type Bundle = {
 };
 
 export const bundles: Bundle[] = [
-  // Curated Kits 01 to 09 (Catalog Page 13)
+  // Luxury Corporate Gift Box Suites (Executive Series)
+  {
+    id: "luxury-executive-bamboo-suite",
+    name: "Executive Bamboo & Gold Ribbon Suite",
+    blurb: "Handcrafted bamboo thermo flask, wooden journal, bamboo ballpoint pen, umbrella, keyring, and plush embroidered towel in a luxury black gift box with gold bow.",
+    contents: ["Bamboo Vacuum Flask", "Wood-Cover A5 Journal", "Bamboo Ballpoint Pen", "Compact Umbrella", "Leather Keyring", "Executive Towel", "Gold Bow Gift Box"],
+    image: luxuryBundle0,
+    moq: 15,
+  },
+  {
+    id: "luxury-black-onyx-suite",
+    name: "Black Onyx C-Suite Executive Box",
+    blurb: "Matte black vacuum tumbler, executive leatherette notebook with metal clasp, luxury pen, ceramic coffee mug, leather wallet, and custom keychain.",
+    contents: ["Matte Black Tumbler", "Leather A5 Clasp Journal", "Precision Pen", "Ceramic Matte Mug", "Leather Cardholder Wallet", "Metal Keychain"],
+    image: luxuryBundle1,
+    moq: 15,
+  },
+  {
+    id: "luxury-high-tech-suite",
+    name: "High-Tech Executive Power Box",
+    blurb: "Full tech arsenal: automatic storm umbrella, thermal LED display flask, wireless powerbank, Bluetooth speaker, swivel USB drive, leather journal, and executive pen.",
+    contents: ["Auto Open/Close Umbrella", "Thermal LED Flask", "Slim Wireless Powerbank", "Portable Speaker", "Metal USB 3.0", "Leather Journal", "Executive Pen"],
+    image: luxuryBundle2,
+    moq: 15,
+  },
+  {
+    id: "luxury-nordic-hospitality",
+    name: "Nordic Cozy Hospitality Box",
+    blurb: "Cozy waffle-knit throw blanket, two matte ceramic mugs with natural wood bases, artisanal scented candle, and luxury room fragrance diffuser.",
+    contents: ["Waffle Knit Blanket", "Two Ceramic & Wood Mugs", "Artisan Scented Candle", "Fragrance Diffuser", "Crinkle Paper Fill"],
+    image: luxuryBundle3,
+    moq: 15,
+  },
+  {
+    id: "luxury-executive-folio-suite",
+    name: "Executive Product Suite Folio Box",
+    blurb: "Premium cognac leather organizer folio, smart LED thermal bottle, high-capacity wireless powerbank, and braided fast-charging cable in an embossed gift box.",
+    contents: ["Cognac Leather Folio", "Smart LED Thermal Flask", "Wireless Powerbank", "Braided Multi-Cable", "Embossed Box"],
+    image: luxuryBundle4,
+    moq: 15,
+  },
+  {
+    id: "luxury-artisanal-wellness",
+    name: "Artisanal Heather Wellness Box",
+    blurb: "Heather gray fabric journal with silver latch, dark steel vacuum flask, ceramic glazed mug, musk & patchouli soy candle, and dried botanical sprigs.",
+    contents: ["Heather Fabric Journal", "Dark Steel Flask", "Ceramic Glazed Mug", "Musk & Patchouli Candle", "Executive Pen", "Botanical Sprigs"],
+    image: luxuryBundle5,
+    moq: 15,
+  },
+  {
+    id: "luxury-winter-warmth",
+    name: "Grand Winter Warmth & Hospitality Box",
+    blurb: "Ivory cable-knit throw blanket with royal blue satin ribbon, two fluted ceramic mugs with wooden bases, marble/acacia wood coasters, and prosecco berries candle.",
+    contents: ["Cable-Knit Throw Blanket", "Two Fluted Ceramic Mugs", "Two Marble & Wood Coasters", "Prosecco & Berries Candle", "Royal Blue Ribbon Box"],
+    image: luxuryBundle6,
+    moq: 15,
+  },
+  {
+    id: "luxury-presidential-gold",
+    name: "Presidential Suite Gold Gift Box",
+    blurb: "Matte black flask, executive leather planner with silver clasp, stainless steel egg tumbler, metal pen, foldable desktop phone stand, and leather key loop in gold ribbon box.",
+    contents: ["Matte Black Flask", "Executive Leather Planner", "Egg Tumbler with Lid", "Metal Ballpoint Pen", "Foldable Desktop Stand", "Keyring", "Gold Gift Box"],
+    image: luxuryBundle7,
+    moq: 15,
+  },
+  {
+    id: "luxury-eco-bamboo-heritage",
+    name: "Pure Eco Bamboo Heritage Box",
+    blurb: "Real bamboo stainless steel flask, bamboo wood-bound notebook, bamboo pen, stainless steel rim bamboo coffee mug, and matching bamboo keytag in gold luxury box.",
+    contents: ["Real Bamboo Steel Flask", "Bamboo Wood Notebook", "Bamboo Pen", "Bamboo & Steel Mug", "Bamboo Keytag", "Gold Ribbon Presentation Box"],
+    image: luxuryBundle8,
+    moq: 15,
+  },
+
+  // Curated Kits (Clean Titles & Authentic Photos from Brochure Page 13)
   {
     id: "daily-commute-kit",
-    name: "01 Daily Commute Kit",
-    blurb: "Weather-ready urban commuter bundle packed in a durable canvas tote.",
+    name: "Daily Commute Kit",
+    blurb: "Weather-ready urban commuter bundle packed with storm umbrella, tumbler, fan, powerbank, and canvas tote.",
     contents: ["Stainless Vacuum Tumbler", "Rechargeable Mini Fan", "10k mAh Powerbank", "Auto Folding Umbrella", "Canvas Tote Bag"],
-    image: pGiftset,
+    image: kitDailyCommute,
     moq: 25,
   },
   {
     id: "mobile-work-kit",
-    name: "02 Mobile Work Kit",
-    blurb: "Everything mobile professionals need for productivity on the move.",
+    name: "Mobile Work Kit",
+    blurb: "Everything mobile professionals need for productivity: laptop sleeve, wireless mouse, USB hub, cable, and tech pouch.",
     contents: ["15.6\" Laptop Sleeve", "Silent Wireless Mouse", "Multi-Port USB Hub", "3-in-1 Charging Cable", "Padded Tech Pouch"],
-    image: pLaptopBag,
+    image: kitMobileWork,
     moq: 20,
   },
   {
     id: "executive-desk-kit",
-    name: "03 Executive Desk Kit",
-    blurb: "High-end executive boardroom essentials in a luxury gift box.",
-    contents: ["A5 Hardcover Leather Journal", "Luxury Laser-Engraved Metal Pen", "15W Wireless Charging Pad", "Desk Catchall Tray"],
-    image: pGiftset,
+    name: "Executive Desk Kit",
+    blurb: "Executive boardroom essentials: A5 hardcover journal, laser-engraved pen, fast wireless charger, and desk organizer.",
+    contents: ["A5 Hardcover Leather Journal", "Laser-Engraved Metal Pen", "15W Wireless Charging Pad", "Foldable Desk Tray"],
+    image: kitExecutiveDesk,
     moq: 20,
   },
   {
     id: "travel-smart-kit",
-    name: "04 Travel Smart Kit",
-    blurb: "Curated comfort kit for corporate business travelers and flight trips.",
-    contents: ["Memory Foam Neck Pillow", "500ml Vacuum Flask", "Leatherette Passport Cover", "Custom Luggage Tag", "Cable Organizer"],
-    image: pGiftset,
+    name: "Travel Smart Kit",
+    blurb: "Comfort kit for corporate travelers: memory foam neck pillow, vacuum flask, leather passport holder, luggage tag, and pouch.",
+    contents: ["Memory Foam Neck Pillow", "500ml Vacuum Flask", "Leather Passport Cover", "Custom Luggage Tag", "Cable Organizer Pouch"],
+    image: kitTravelSmart,
     moq: 25,
   },
   {
     id: "wfh-kit",
-    name: "05 Work-From-Anywhere Kit",
-    blurb: "Ergonomic mobile office pack for remote and hybrid teams.",
-    contents: ["Executive Laptop Briefcase", "Ergonomic Wireless Mouse", "Foldable Phone/Laptop Stand", "Thermal Travel Tumbler"],
-    image: pLaptopBag,
+    name: "Work-From-Anywhere Kit",
+    blurb: "Ergonomic mobile office pack: laptop briefcase, wireless mouse, adjustable phone/tablet stand, and thermal travel tumbler.",
+    contents: ["Executive Laptop Briefcase", "Ergonomic Wireless Mouse", "Foldable Stand", "Thermal Travel Tumbler"],
+    image: kitWfh,
     moq: 20,
   },
   {
     id: "event-essentials-kit",
-    name: "06 Event Essentials Kit",
-    blurb: "Our most popular comprehensive conference attendee kit.",
-    contents: ["Canvas Tote Bag", "Japanese Metal Tumbler", "Compact Umbrella", "ID Lanyard with Card Holder", "Drawstring Bag"],
-    image: pCanvasTote,
+    name: "Event Essentials Kit",
+    blurb: "Comprehensive conference attendee kit: canvas tote bag, tumbler, compact umbrella, ID lanyard, and drawstring pouch.",
+    contents: ["Canvas Tote Bag", "Japanese Metal Tumbler", "Compact Umbrella", "ID Lanyard with Card Holder", "Drawstring Pouch"],
+    image: kitEventEssentials,
     moq: 50,
   },
   {
     id: "tech-starter-kit",
-    name: "07 Tech Starter Kit",
-    blurb: "Modern digital accessories pack in a protective zippered case.",
+    name: "Tech Starter Kit",
+    blurb: "Digital accessories pack: slim powerbank, swivel USB drive, wireless mouse, multi-cable, and zippered case.",
     contents: ["Slim Powerbank", "32GB Swivel USB Drive", "Wireless Mouse", "3-in-1 Cable Case", "Zippered Hard Case"],
-    image: pPowerbank,
+    image: kitTechStarter,
     moq: 25,
   },
   {
     id: "everyday-carry-kit",
-    name: "08 Everyday Carry Kit",
-    blurb: "Compact daily tools designed to fit comfortably in any bag.",
+    name: "Everyday Carry Kit",
+    blurb: "Compact daily tools: automatic umbrella, engraved pen, canvas zipper pouch, and vacuum cylinder tumbler.",
     contents: ["Compact Automatic Umbrella", "Engraved Metal Pen", "Canvas Zipper Pouch", "Vacuum Cylinder Tumbler"],
-    image: pGiftset,
+    image: kitEverydayCarry,
     moq: 30,
   },
   {
     id: "premium-welcome-kit",
-    name: "09 Premium Welcome Kit",
-    blurb: "The gold standard new hire onboarding gift package.",
-    contents: ["Custom Branded Cotton Shirt", "Padded Laptop Bag", "Stainless Tumbler", "A5 Hardbound Notebook", "Canvas Tote"],
-    image: pGiftset,
+    name: "Premium Welcome Kit",
+    blurb: "Full-scale corporate welcome bundle: combed cotton crewneck, hardbound journal, tumbler, tote bag, laptop sleeve, and pen.",
+    contents: ["Combed Cotton T-Shirt", "A5 Hardbound Journal", "Stainless Tumbler", "Canvas Tote", "Laptop Sleeve", "Metal Pen"],
+    image: kitPremiumWelcome,
     moq: 25,
   },
 
-  // Signature Curated Sets A to L (Catalog Page 12)
+  // Authentic Corporate Sets A to L (Cropped from Catalog Page 12)
   {
     id: "set-a",
-    name: "Curated Set A (VIP Gift Set)",
-    blurb: "Japanese Tumbler, Hardbound Notebook, and Metal Pen in a rigid custom box.",
-    contents: ["Japanese Travel Tumbler", "Hardbound Notebook", "Metal Executive Pen", "Custom Box"],
-    image: pGiftset,
-    moq: 25,
+    name: "Set A: Executive Essentials",
+    blurb: "Stainless steel tumbler, hardcover notebook, laser-engraved metal pen, and luxury presentation box.",
+    contents: ["Vacuum Tumbler", "Hardbound Notebook", "Engraved Pen", "Rigid Presentation Box"],
+    image: setA,
+    moq: 30,
   },
   {
     id: "set-b",
-    name: "Curated Set B (Workplace Pack)",
-    blurb: "Sport Handle Flask, A5 Notebook, Ballpoint Pen, and ID Lanyard.",
-    contents: ["Sport Handle Flask", "A5 Notebook", "Metal Pen", "Lanyard with Card Holder"],
-    image: pGiftset,
-    moq: 25,
+    name: "Set B: Active Professional",
+    blurb: "Sports loop insulated bottle, notebook, pen, and matching satin ID lanyard.",
+    contents: ["Sports Handle Bottle", "Hardcover Notebook", "Metal Pen", "Satin ID Lanyard"],
+    image: setB,
+    moq: 30,
   },
   {
     id: "set-c",
-    name: "Curated Set C (Eco Dining Pack)",
-    blurb: "Eco Cutlery Set, Glass Bento Lunch Box, Insulated Tumbler, and Canvas Tote.",
-    contents: ["Bamboo Cutlery Set", "Glass Lunch Box", "Insulated Tumbler", "Canvas Tote Bag"],
-    image: pCanvasTote,
+    name: "Set C: Eco Lifestyle",
+    blurb: "Glass & bamboo bento lunchbox, bamboo cutlery set with straw, steel tumbler, and canvas tote bag.",
+    contents: ["Glass & Bamboo Lunchbox", "Bamboo Cutlery Set", "Insulated Tumbler", "Canvas Tote Bag"],
+    image: setC,
     moq: 25,
   },
   {
     id: "set-d",
-    name: "Curated Set D (Flight & Commute)",
-    blurb: "Auto-Folding Umbrella, Memory Foam Neck Pillow, and Drawstring Backpack.",
-    contents: ["Automatic Umbrella", "Memory Foam Neck Pillow", "Drawstring Bag"],
-    image: pUmbrella,
-    moq: 30,
-  },
-  {
-    id: "set-e",
-    name: "Curated Set E (Wellness & Care)",
-    blurb: "Thermal Flask, Desktop Tissue Box, Alcohol Spray Bottle, and Pocket Mirror.",
-    contents: ["Thermal Flask", "Desk Tissue Caddy", "Alcohol Mist Bottle", "Pocket Mirror"],
-    image: pJpTumbler,
+    name: "Set D: Comfort Commute",
+    blurb: "Ergonomic neck pillow, windproof compact umbrella, canvas drawstring backpack, and zippered pouch.",
+    contents: ["Memory Foam Neck Pillow", "Compact Umbrella", "Drawstring Bag", "Multi-Pouch"],
+    image: setD,
     moq: 25,
   },
   {
-    id: "set-f",
-    name: "Curated Set F (Office Casual)",
-    blurb: "Canvas Tote with Rope Handle, Ceramic Coffee Mug, and A5 Notebook.",
-    contents: ["Canvas Tote with Rope Handle", "Ceramic Coffee Mug", "A5 Notebook"],
-    image: pCanvasTote,
+    id: "set-e",
+    name: "Set E: Wellness & Care",
+    blurb: "Insulated thermal flask, desktop tissue dispenser, dual pocket mirror, and spray bottle.",
+    contents: ["Thermal Flask", "Desktop Tissue Box", "Pocket Mirror", "Spray Bottle"],
+    image: setE,
     moq: 30,
   },
   {
+    id: "set-f",
+    name: "Set F: Office Routine",
+    blurb: "Wide canvas shoulder tote, ceramic coffee mug with lid, notebook, and ballpoint pen.",
+    contents: ["Wide Canvas Tote", "Ceramic Mug", "A5 Notebook", "Metal Pen"],
+    image: setF,
+    moq: 35,
+  },
+  {
     id: "set-g",
-    name: "Curated Set G (Conference Starter)",
-    blurb: "Vacuum Tumbler, Canvas Shoulder Bag, and Lanyard with Card Badge.",
-    contents: ["Vacuum Tumbler", "Canvas Shoulder Bag", "ID Lanyard with Badge"],
-    image: pCanvasTote,
+    name: "Set G: Conference Ready",
+    blurb: "Thermal bottle, canvas tote, A5 journal, metal pen, and satin badge lanyard.",
+    contents: ["Thermal Bottle", "Canvas Tote", "A5 Notebook", "Metal Pen", "Satin Lanyard"],
+    image: setG,
     moq: 30,
   },
   {
     id: "set-h",
-    name: "Curated Set H (Coffee & Journal)",
-    blurb: "Ceramic Coffee Mug, Hardbound Journal, and Laser-Engraved Metal Pen.",
-    contents: ["Ceramic Coffee Mug", "Hardbound Journal", "Metal Executive Pen"],
-    image: pMug,
-    moq: 30,
+    name: "Set H: Coffee & Ideas",
+    blurb: "Classic ceramic coffee mug, matching hardcover notebook, and executive metal ballpoint pen.",
+    contents: ["Ceramic Coffee Mug", "Hardbound Journal", "Executive Pen"],
+    image: setH,
+    moq: 40,
   },
   {
     id: "set-i",
-    name: "Curated Set I (Smart Tech)",
-    blurb: "LED Temperature Display Tumbler, Powerbank, Bluetooth Earbuds, and Metal Pen.",
-    contents: ["Temperature Tumbler", "Powerbank", "Bluetooth Earbuds", "Metal Pen"],
-    image: pPowerbank,
-    moq: 25,
+    name: "Set I: Smart Tech Suite",
+    blurb: "Thermal LED display flask, slim powerbank, fast wireless charging pad, notebook, and pen.",
+    contents: ["Smart LED Flask", "Powerbank", "Wireless Charger", "Notebook", "Metal Pen"],
+    image: setI,
+    moq: 20,
   },
   {
     id: "set-j",
-    name: "Curated Set J (Apparel & Drinkware)",
-    blurb: "Corporate Polo Shirt, Structured Baseball Cap, Stainless Tumbler, and Canvas Tote.",
-    contents: ["Corporate Polo Shirt", "Structured Baseball Cap", "Stainless Tumbler", "Canvas Tote"],
-    image: pPolo,
+    name: "Set J: Signature Apparel Bundle",
+    blurb: "Pique cotton corporate polo shirt, 5-panel twill cap, vacuum tumbler, and heavy canvas tote.",
+    contents: ["Custom Polo Shirt", "Brushed Twill Cap", "Stainless Tumbler", "Canvas Tote"],
+    image: setJ,
     moq: 25,
   },
   {
     id: "set-k",
-    name: "Curated Set K (VIP Executive Box)",
-    blurb: "Matte Black Vacuum Flask, Leather Organizer Binder, and Luxury Pen in rigid display box.",
-    contents: ["Matte Black Thermal Flask", "Leather Organizer Binder", "Luxury Metal Pen", "Gift Box"],
-    image: pGiftset,
-    moq: 20,
+    name: "Set K: Executive Matte Black Suite",
+    blurb: "Luxury black gift box: matte black flask, automatic umbrella, leather organizer planner, and pen.",
+    contents: ["Matte Black Flask", "Automatic Umbrella", "Leather Organizer", "Metal Pen", "Luxury Box"],
+    image: setK,
+    moq: 15,
   },
   {
     id: "set-l",
-    name: "Curated Set L (2026 Executive Planner)",
-    blurb: "Black Stainless Tumbler, Premium 2026 Executive Planner, and Engraved Pen.",
-    contents: ["Black Stainless Tumbler", "2026 Executive Planner", "Laser-Engraved Metal Pen", "Gift Box"],
-    image: pGiftset,
-    moq: 20,
+    name: "Set L: 2026 Boardroom Gift Box",
+    blurb: "Luxury gold-stamped box: stainless steel tumbler, 2026 executive dated planner, and precision pen.",
+    contents: ["Stainless Steel Tumbler", "2026 Executive Planner", "Precision Pen", "Deluxe Box"],
+    image: setL,
+    moq: 15,
   },
 
-  // Seasonal & Occasion Specials (Catalog Page 14 & 15)
+  // Occasion & Event Summit Kits (Catalog Page 15)
   {
-    id: "summer-kit",
-    name: "Summer Adventure Pack",
-    blurb: "Beach towel, waterproof dry bag, bucket hat, sunglasses, mini fan, and insulated tumbler.",
-    contents: ["Beach Towel", "Waterproof Dry Bag", "Bucket Hat", "Sunglasses", "Handheld Mini Fan", "Insulated Tumbler"],
-    image: pCanvasTote,
+    id: "corporate-anniversary-kit",
+    name: "Corporate Anniversary & Milestones Kit",
+    blurb: "Commemorative star plaque, tumbler, notebook, umbrella, leather pouch, and luxury gift box.",
+    contents: ["Crystal/Acrylic Star Trophy", "Matte Tumbler", "Debossed Journal", "Executive Umbrella", "Leather Pouch", "Gift Box"],
+    image: kitAnniversary,
+    moq: 20,
+  },
+  {
+    id: "employee-appreciation-kit",
+    name: "Employee Appreciation & Recognition Kit",
+    blurb: "Geometric crystal plaque, executive backpack, vacuum bottle, journal, pen set, and fleece throw.",
+    contents: ["Faceted Crystal Trophy", "Corporate Backpack", "Insulated Flask", "Journal & Pen Set", "Fleece Blanket", "Faux Succulent"],
+    image: kitAppreciation,
+    moq: 15,
+  },
+  {
+    id: "conferences-summit-kit",
+    name: "Annual Summit & Conferences Kit",
+    blurb: "Executive laptop bag, tech backpack, notebook, stainless tumbler, magnetic ID, powerbank, and organizer.",
+    contents: ["Briefcase & Backpack", "A5 Journal", "Thermal Tumbler", "Magnetic ID", "Powerbank", "Cable Case"],
+    image: kitConferences,
     moq: 25,
   },
   {
-    id: "rainy-day-kit",
-    name: "Rainy Season Readiness Kit",
-    blurb: "Hooded raincoat, automatic umbrella, waterproof shoe covers, water-resistant phone pouch, and towel.",
-    contents: ["Hooded Raincoat", "Automatic Umbrella", "Waterproof Shoe Covers", "Phone Pouch", "Microfiber Towel"],
-    image: pRaincoat,
-    moq: 25,
+    id: "tech-events-kit",
+    name: "Tech Events & Hackathons Kit",
+    blurb: "Custom jacket/windbreaker, laptop tote, wireless charger, powerbank, tumbler, notebook, and snack jar.",
+    contents: ["Custom Track Jacket", "Utility Laptop Tote", "Wireless Charger", "Powerbank", "Tumbler", "Cashew Snack Jar"],
+    image: kitTechEvents,
+    moq: 20,
   },
   {
-    id: "holiday-christmas-kit",
-    name: "Christmas & Year-End Holiday Set",
-    blurb: "Plaid holiday scarf, knit beanie, ceramic mug, insulated tumbler, hot cocoa set, and gift bag.",
-    contents: ["Winter Scarf", "Knit Beanie", "Ceramic Mug", "Insulated Tumbler", "Gift Bag"],
-    image: pGiftset,
-    moq: 25,
-  },
-  {
-    id: "fun-run-kit",
-    name: "Company Fun Run & Sports Fest Kit",
-    blurb: "Dri-fit running singlet, sports towel, squeeze water bottle, drawstring backpack, and wristband.",
-    contents: ["Dri-Fit Running Singlet", "Sports Towel", "Squeeze Bottle", "Drawstring Bag", "Silicone Wristband"],
-    image: pTshirt,
+    id: "company-fun-runs-kit",
+    name: "Company Fun Runs & Sports Fest Kit",
+    blurb: "Dri-fit active shirt, running singlet, finisher medal, sports bottle, running cap, waist pouch, and sweat towel.",
+    contents: ["Sublimated Running Singlet", "Dri-Fit Shirt", "Custom Die-Cast Medal", "Sports Bottle", "Sports Cap", "Running Waist Pack", "Sports Towel"],
+    image: kitFunRuns,
     moq: 50,
   },
   {
-    id: "conference-tech-pack",
-    name: "Conferences & Tech Events Pack",
-    blurb: "Tech backpack, lanyard with NFC badge, powerbank, 3-in-1 cable, notebook, and metal pen.",
-    contents: ["Tech Backpack", "Lanyard with NFC Badge", "Powerbank", "3-in-1 Cable", "Notebook", "Metal Pen"],
-    image: pLaptopBag,
-    moq: 30,
+    id: "concerts-entertainment-kit",
+    name: "Concerts & Entertainment Kit",
+    blurb: "Soundwave graphic tee, fleece hoodie, LED light stick, bucket hat, portable fan, waterproof phone pouch, and sling bag.",
+    contents: ["Graphic T-Shirt", "Heavyweight Hoodie", "LED Concert Light Stick", "Bucket Hat", "Handheld Fan", "Waterproof Phone Pouch", "Sling Bag"],
+    image: kitConcerts,
+    moq: 50,
   },
   {
-    id: "anniversary-awards-set",
-    name: "Corporate Anniversaries & Awards Night",
-    blurb: "Custom engraved plaque, VIP champagne/wine tumbler set, commemorative pin, and gold-foil box.",
-    contents: ["Engraved Plaque", "Wine Tumbler Set", "Commemorative Lapel Pin", "Gold Foil Box"],
-    image: pGiftset,
+    id: "awards-night-kit",
+    name: "Awards Night & Gala Dinner Kit",
+    blurb: "Custom engraved diamond crystal award, championship medal, polo with gold tipping, windbreaker, matte mug, and notebook.",
+    contents: ["Faceted Crystal Award", "Gold Medal in Box", "Polo with Gold Trim", "Executive Jacket", "Matte Mug", "Leather Notebook"],
+    image: kitAwardsNight,
     moq: 15,
+  },
+  {
+    id: "new-years-holiday-kit",
+    name: "New Year & Year-End Celebration Kit",
+    blurb: "Firework graphic tee, 2026/2027 dated planner, fleece jacket, tumbler, lucky fortune pastry box, fruit basket, and holiday gift box.",
+    contents: ["Year-End Graphic Tee", "Executive Dated Planner", "Zip Jacket", "Spark Tumbler", "Tikoy / Pastry Box", "Holiday Treats Basket"],
+    image: kitNewYears,
+    moq: 20,
   },
 ];
 
 export const services = [
   {
     id: "event-management",
-    name: "04 Event Management (Planning to Execution)",
+    name: "Event Management (Planning to Execution)",
     blurb: "Event set-ups, registration support, booths, LED walls, event website creation, hosts, photo booth support, technical requirements, and documentation.",
   },
   {
     id: "marketing-services",
-    name: "05 Marketing Services (Support Beyond Merchandise)",
+    name: "Marketing Services (Support Beyond Merchandise)",
     blurb: "Brand and campaign materials, digital marketing support, promotional strategies, creative requirements, and customized marketing initiatives.",
   },
   {
     id: "custom-products",
-    name: "01 Customized Products (Tailored on Request)",
+    name: "Customized Products (Tailored on Request)",
     blurb: "Corporate merchandise, apparel, bags, drinkware, tech items, event essentials, packaging, and custom brand-ready products.",
   },
   {
     id: "custom-gift-sets",
-    name: "02 Customized Gift Sets (Built Around Requirements)",
+    name: "Customized Gift Sets (Built Around Requirements)",
     blurb: "Curated according to your preferred items, recipients, budget, purpose, and occasion — from simple bundles to luxury premium VIP sets.",
   },
   {
     id: "occasion-packages",
-    name: "03 Occasion-Based Packages (Made for the Moment)",
+    name: "Occasion-Based Packages (Made for the Moment)",
     blurb: "Corporate events, holidays, employee recognition, onboarding, giveaways, milestones, conferences, and company celebrations.",
   },
   {

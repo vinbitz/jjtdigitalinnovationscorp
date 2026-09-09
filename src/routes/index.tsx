@@ -13,12 +13,13 @@ import {
   ExternalLink,
 } from "lucide-react";
 
-import heroTower from "@/assets/hero-tower.jpg";
+import heroArchitecture from "@/assets/products/hero-architecture.jpg";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { categories, bundles, services, company } from "@/lib/catalog";
 import { brochureUrl, brochureFilename } from "@/lib/brochure";
 import { BookingModal } from "@/components/booking-modal";
+import { ClientShowcase } from "@/components/client-showcase";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
@@ -73,26 +74,53 @@ function LandingPage() {
         onMouseLeave={() => setIsHovered(false)}
         className="relative overflow-hidden bg-navy text-navy-foreground border-b border-white/10"
       >
-        {/* Background Image */}
+        {/* Authentic 2026 Catalog Architectural Facade */}
         <img
-          src={heroTower}
-          alt="Modern glass office tower"
+          src={heroArchitecture}
+          alt="JJT Corporate Architectural Innovation"
           width={1600}
           height={900}
-          className="absolute inset-0 h-full w-full object-cover opacity-20 filter contrast-125"
+          className="absolute inset-0 h-full w-full object-cover opacity-25 filter contrast-125 transition-transform duration-1000 ease-out"
         />
 
-        {/* Dynamic Cursor Spotlight Effect */}
+        {/* Dynamic Cursor Spotlight Effect - Soft Outer Ambient Aura */}
         <div
           className="pointer-events-none absolute inset-0 transition-opacity duration-500 ease-out"
           style={{
-            opacity: isHovered ? 0.75 : 0.25,
-            background: `radial-gradient(800px circle at ${mousePos.x}% ${mousePos.y}%, rgba(75, 115, 255, 0.22), transparent 75%)`,
+            opacity: isHovered ? 0.85 : 0.25,
+            background: `radial-gradient(850px circle at ${mousePos.x}% ${mousePos.y}%, rgba(59, 130, 246, 0.22), rgba(30, 58, 138, 0.08) 45%, transparent 75%)`,
           }}
         />
 
-        {/* Ambient Subtle Grid Texture */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+        {/* Dynamic Cursor Spotlight Effect - Concentrated Core Sheen */}
+        <div
+          className="pointer-events-none absolute inset-0 transition-opacity duration-300 ease-out"
+          style={{
+            opacity: isHovered ? 0.65 : 0.1,
+            background: `radial-gradient(320px circle at ${mousePos.x}% ${mousePos.y}%, rgba(56, 189, 248, 0.3), transparent 70%)`,
+          }}
+        />
+
+        {/* Dynamic Cursor-Illuminated High-Tech Grid Matrix */}
+        <div
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#ffffff18_1px,transparent_1px),linear-gradient(to_bottom,#ffffff18_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] transition-opacity duration-300"
+          style={{
+            maskImage: `radial-gradient(420px circle at ${mousePos.x}% ${mousePos.y}%, black 20%, transparent 80%)`,
+            WebkitMaskImage: `radial-gradient(420px circle at ${mousePos.x}% ${mousePos.y}%, black 20%, transparent 80%)`,
+            opacity: isHovered ? 1 : 0.3,
+          }}
+        />
+
+        {/* Ambient Base Subtle Grid Texture */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_10%,#000_65%,transparent_100%)] pointer-events-none" />
+
+        {/* Floating Luminous Ambient Particles */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute top-1/4 left-1/6 w-1.5 h-1.5 rounded-full bg-blue-400/50 blur-[1px] animate-pulse" />
+          <div className="absolute top-1/3 right-1/5 w-2 h-2 rounded-full bg-sky-300/40 blur-[1px] animate-pulse delay-700" />
+          <div className="absolute bottom-1/4 left-1/3 w-1.5 h-1.5 rounded-full bg-indigo-300/40 blur-[1px] animate-pulse delay-1000" />
+          <div className="absolute top-2/3 right-1/3 w-1 h-1 rounded-full bg-white/60 blur-[0.5px] animate-pulse delay-500" />
+        </div>
 
         <div className="relative mx-auto max-w-6xl px-4 py-20 sm:py-28 lg:py-32">
           {/* Bespoke Corporate Brand Lockup */}
@@ -121,10 +149,24 @@ function LandingPage() {
             </div>
           </div>
 
-          {/* Headline */}
+          {/* Headline with interactive cursor sheen */}
           <h1 className="max-w-3xl font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.04] text-white">
-            Driving Innovation
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-brand-soft via-blue-200 to-white/90">
+            <span
+              className="inline-block transition-all duration-300"
+              style={{
+                textShadow: isHovered
+                  ? `0 0 35px rgba(96, 165, 250, 0.4)`
+                  : "none",
+              }}
+            >
+              Driving Innovation
+            </span>
+            <span
+              className="block text-transparent bg-clip-text transition-all duration-300"
+              style={{
+                backgroundImage: `radial-gradient(circle at ${mousePos.x}% ${mousePos.y}%, #ffffff 0%, #bfdbfe 30%, #60a5fa 65%, #3b82f6 100%)`,
+              }}
+            >
               in every branded detail.
             </span>
           </h1>
@@ -189,6 +231,9 @@ function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Enterprise Client Logo Marquee & Core Value Pillars */}
+      <ClientShowcase />
 
       {/* Interactive Meeting Schedule Banner */}
       <section className="bg-gradient-to-r from-blue-950 via-navy to-slate-900 py-10 border-b border-border/80 text-white">
@@ -349,8 +394,8 @@ function LandingPage() {
                     height={800}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <span className="absolute top-3 right-3 bg-navy text-white text-[11px] font-bold px-2.5 py-1 rounded-xs">
-                    Min. {b.moq} sets
+                  <span className="absolute top-3 right-3 bg-navy/90 backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1 rounded-xs flex items-center gap-1 shadow-sm">
+                    <Sparkles className="h-3 w-3 text-brand-soft" /> Curated Set
                   </span>
                 </div>
                 <div className="p-5">
