@@ -10,11 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BuildRouteImport } from './routes/build'
 import { Route as CatalogRouteImport } from './routes/catalog'
+import { Route as QuoteSentRouteImport } from './routes/quote-sent'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BuildRoute = BuildRouteImport.update({
+  id: '/build',
+  path: '/build',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CatalogRoute = CatalogRouteImport.update({
@@ -22,31 +29,44 @@ const CatalogRoute = CatalogRouteImport.update({
   path: '/catalog',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuoteSentRoute = QuoteSentRouteImport.update({
+  id: '/quote-sent',
+  path: '/quote-sent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/build': typeof BuildRoute
   '/catalog': typeof CatalogRoute
+  '/quote-sent': typeof QuoteSentRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/build': typeof BuildRoute
   '/catalog': typeof CatalogRoute
+  '/quote-sent': typeof QuoteSentRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/build': typeof BuildRoute
   '/catalog': typeof CatalogRoute
+  '/quote-sent': typeof QuoteSentRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/catalog'
+  fullPaths: '/' | '/build' | '/catalog' | '/quote-sent'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/catalog'
-  id: '__root__' | '/' | '/catalog'
+  to: '/' | '/build' | '/catalog' | '/quote-sent'
+  id: '__root__' | '/' | '/build' | '/catalog' | '/quote-sent'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BuildRoute: typeof BuildRoute
   CatalogRoute: typeof CatalogRoute
+  QuoteSentRoute: typeof QuoteSentRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +78,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/build': {
+      id: '/build'
+      path: '/build'
+      fullPath: '/build'
+      preLoaderRoute: typeof BuildRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/catalog': {
       id: '/catalog'
       path: '/catalog'
@@ -65,12 +92,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CatalogRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quote-sent': {
+      id: '/quote-sent'
+      path: '/quote-sent'
+      fullPath: '/quote-sent'
+      preLoaderRoute: typeof QuoteSentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BuildRoute: BuildRoute,
   CatalogRoute: CatalogRoute,
+  QuoteSentRoute: QuoteSentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
