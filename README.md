@@ -70,17 +70,17 @@ Instead of just a static list, treat this like an e-commerce checkout flow, but 
 
 ​Apparel Size Breakdown: If they select apparel (like Polo Shirts or Hoodies), reveal an optional text box where they can paste their size breakdown (e.g., 10 M, 15 L, 5 XL).
 
-This project was built with [Lovable](https://lovable.dev).
+## Official Documentation
 
-**Live app**: https://jjtdigitalinnovationscorp.lovable.app
+JJT Digital Innovative Inc. is an enterprise corporate merchandise and custom campaign provider established in 2020 in Parañaque City, Metro Manila, Philippines.
 
-## Build with Lovable
+### Core Features
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/6e3ef3d6-50dc-44de-8d9c-715fb6e5ef2d).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+- **2026 Product Catalog**: Over 70+ corporate merchandise categories with authentic brochure photography.
+- **Interactive Campaign Builder**: 4-step custom quote configurator for tailored corporate gifting and volume inquiries.
+- **Calendar Consultation Scheduler**: Live booking integration for 30-minute discovery calls with the strategy team.
+- **Enterprise Partner Showcase**: Moving line marquee featuring AWS, Cisco, Nutanix, OutSystems, VST ECS, and more.
+- **Staff Admin Dashboard**: Live lead management, stock counts, and MOQ threshold administration.
 
 ## Development
 

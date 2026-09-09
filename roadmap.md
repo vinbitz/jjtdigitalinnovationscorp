@@ -5,5 +5,5 @@
 - [x] Catalog pages by category with mockup images + bundles section
 - [x] Build Your Campaign flow: products+qty (MOQ warnings, apparel size breakdown), services, logo upload, event date, occasion, budget
 - [x] Success page with meeting scheduling
-- [x] Lovable Cloud backend: leads table, logo storage, admin auth
+- [x] Supabase Cloud backend: leads table, logo storage, admin auth
 - [x] Admin dashboard /admin: leads table, detail view, status actions

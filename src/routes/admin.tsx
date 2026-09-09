@@ -401,25 +401,6 @@ function AdminPage() {
                   )}
                 </Button>
               </form>
-
-              <div className="mt-6 border-t border-stone-200 pt-5 text-center">
-                <p className="text-xs text-muted-foreground mb-3">
-                  Previewing locally or setting up staff access?
-                </p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-full text-xs font-medium border-stone-300"
-                  onClick={() => {
-                    setDemoMode(true);
-                    setLeads(sampleLeads);
-                    toast.info("Entering Admin Dashboard in local review mode.");
-                  }}
-                >
-                  <Layers className="mr-2 h-3.5 w-3.5 text-brand" />
-                  Explore Admin & Stock Management (Local Mode)
-                </Button>
-              </div>
             </CardContent>
           </Card>
 
