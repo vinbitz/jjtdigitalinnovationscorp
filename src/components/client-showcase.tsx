@@ -1,5 +1,5 @@
 import React from "react";
-import { Sparkles, CheckCircle2, HeartHandshake, Gift, ExternalLink } from "lucide-react";
+import { ShieldCheck, CheckCircle2, HeartHandshake, Gift, ExternalLink } from "lucide-react";
 
 export interface ClientBrand {
   name: string;
@@ -93,6 +93,12 @@ export const clientBrands: ClientBrand[] = [
     tagline: "Your Preferred i-Security Partner",
     logoUrl: "/clients/m-security.png",
   },
+  {
+    name: "VST ECS",
+    url: "https://www.vstecs.com.ph/",
+    tagline: "Premier ICT Distributor Philippines",
+    logoUrl: "/clients/vst-ecs.png",
+  },
 ];
 
 export function ClientShowcase() {
@@ -105,7 +111,7 @@ export function ClientShowcase() {
         {/* Core Value Proposition Badges */}
         <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 mb-6">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-white dark:bg-card px-3.5 py-1 text-xs font-bold text-foreground shadow-2xs">
-            <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+            <ShieldCheck className="h-3.5 w-3.5 text-blue-600" />
             High Quality & Premium Craftsmanship
           </span>
           <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-white dark:bg-card px-3.5 py-1 text-xs font-bold text-foreground shadow-2xs">

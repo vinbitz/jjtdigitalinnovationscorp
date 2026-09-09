@@ -15,7 +15,6 @@ import {
   Trash2,
   LogOut,
   ShieldAlert,
-  Sparkles,
   ChevronRight,
   User,
   Phone,
@@ -417,7 +416,7 @@ function AdminPage() {
                     toast.info("Entering Admin Dashboard in local review mode.");
                   }}
                 >
-                  <Sparkles className="mr-2 h-3.5 w-3.5 text-brand" />
+                  <Layers className="mr-2 h-3.5 w-3.5 text-brand" />
                   Explore Admin & Stock Management (Local Mode)
                 </Button>
               </div>

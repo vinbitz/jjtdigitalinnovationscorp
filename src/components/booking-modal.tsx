@@ -9,7 +9,6 @@ import {
   User,
   Mail,
   Phone,
-  Sparkles,
   ArrowRight,
 } from "lucide-react";
 import { toast } from "sonner";

@@ -7,7 +7,7 @@ import {
   Mail,
   MapPin,
   Calendar,
-  Sparkles,
+  Package,
   Clock,
   CheckCircle2,
   ExternalLink,
@@ -395,7 +395,7 @@ function LandingPage() {
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <span className="absolute top-3 right-3 bg-navy/90 backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1 rounded-xs flex items-center gap-1 shadow-sm">
-                    <Sparkles className="h-3 w-3 text-brand-soft" /> Curated Set
+                    <Package className="h-3 w-3 text-brand-soft" /> Curated Set
                   </span>
                 </div>
                 <div className="p-5">

@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Check, Plus, Search, Layers, Package, Sparkles } from "lucide-react";
+import { Check, Plus, Search, Layers, Package, CheckCircle2 } from "lucide-react";
 
 import { categories, bundles } from "@/lib/catalog";
 import { useQuote } from "@/lib/quote-store";
@@ -94,7 +94,7 @@ export function ProductPicker() {
           {/* Flexible Quantity Badge */}
           <div className="text-xs text-muted-foreground font-medium flex items-center gap-2 self-end sm:self-center">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">
-              <Sparkles className="h-3 w-3 text-emerald-600" />
+              <CheckCircle2 className="h-3 w-3 text-emerald-600" />
               No Minimums • Any Quantity Welcome
             </span>
           </div>
