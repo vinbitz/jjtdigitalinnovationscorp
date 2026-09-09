@@ -1,94 +1,92 @@
-# Custom Campaign Builder
+# JJT Digital Innovative Inc.
 
-Create a website where it will show all the products in mockup and the customer can tick or input if how many they need, also place the logo they want to place, and date of event, and others think of what to put, also the services they want to available, and i will show in the admin. Also they can set up the calendar for meeting, also they can get the brochure in the landing page
+> Corporate Marketing, Bespoke Merchandising & Event Solutions Platform
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue.svg)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-19.0-61dafb.svg)](https://react.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38b2ac.svg)](https://tailwindcss.com/)
 
+Official web portal and custom quote configuration engine for **JJT Digital Innovative Inc.** (EST. 2020), Parañaque City, Metro Manila, Philippines.
 
-1. The Client-Facing Website (Frontend)
+---
 
-​A. The Landing Page & Brochure
+## Architecture & Features
 
-​Hero Section: A strong tagline (like "Driving Innovation") and a brief intro about tailoring solutions for unique requirements.  
+### Client-Facing Portal
+- **2026 Corporate Catalog (`/catalog`)**: Real-time product directory across 70+ product lines including apparel, drinkware, tech gifts, rain gear, bags, and luxury corporate gift sets.
+- **Custom Campaign Configurator (`/build`)**: 4-phase interactive procurement flow for volume inquiries, custom branding specs, apparel size distributions, and event dates.
+- **Executive Consultation Scheduling**: Integrated discovery call booking with instant Google Calendar and ICS calendar invitations.
+- **Enterprise Partner Showcase**: Animated moving marquee highlighting collaborations with leading brands (AWS, Cisco, Nutanix, OutSystems, VST ECS, Freshworks, Akamai, SolarWinds, FWD Insurance, Landbank, Hotel Sogo, Astrotel, Trainocate, and M-Security).
+- **Direct Catalog Distribution**: Immediate PDF brochure retrieval with one-click download.
 
-​Instant Download: A prominent, above-the-fold button to download the new 2026 Corporate Marketing Product Catalog.  
+### Internal Management Console (`/admin`)
+- **Lead Pipeline**: Comprehensive tracking of incoming quote requests, event dates, contact briefs, and uploaded vector branding assets.
+- **Stock & Inventory Control**: Real-time stock counts and minimum order quantity (MOQ) configuration across all SKUs.
+- **Status Workflow**: Stage transitions (`New Lead` &rarr; `Contacted` &rarr; `Quoted` &rarr; `Won` &rarr; `Lost`) with automated status filters.
 
-​Call to Action: A "Build Your Quote" or "Start Your Campaign" button that leads to the interactive catalog.
+---
 
-​B. The Interactive "Build Your Campaign" Flow
+## Tech Stack
 
-Instead of just a static list, treat this like an e-commerce checkout flow, but for a custom quote.
+- **Framework**: [TanStack Start](https://tanstack.com/start) with TanStack Router
+- **Runtime**: React 19, TypeScript
+- **Styling**: Tailwind CSS v4, Lucide Icons
+- **Backend & Persistence**: Supabase (PostgreSQL, Storage, Row-Level Security)
+- **Asset Processing**: Sharp image optimization pipeline
+- **Deployment**: Nitro (Cloudflare / Node)
 
-​Step 1: Choose Products & Quantities: * Display mockup images of your categories (Apparel, Bags, Tech, Eco-Friendly, etc.).  
+---
 
-​When a user clicks a product (e.g., a Canvas Tote Bag or a Bamboo Tumbler), a modal pops up where they can type in the quantity needed.  
+## Getting Started
 
-​Step 2: Add Custom Services:
+### Prerequisites
+- Node.js 20.x or higher
+- npm 10.x or higher
 
-​Provide a checkbox list of your non-physical services.
+### Installation
 
-​Options should include Event Management (planning, booths, LED walls, hosts) and Marketing Services (brand materials, digital support).  
+```bash
+# Clone the repository
+git clone https://github.com/vinbitz/jjtdigitalinnovationscorp.git
+cd jjtdigitalinnovationscorp
 
-​Step 3: Customization & Event Details:
+# Install dependencies
+npm install
 
-​Logo Upload: A drag-and-drop zone for them to upload their company logo (accept .png, .svg, .ai).
-
-​Event Date: A calendar date picker so you know their timeline.
-
-​Occasion/Purpose: A dropdown asking what this is for (e.g., Holidays, Employee Recognition, Conferences).  
-
-​Budget Range: A field to select their target budget to help you tailor the final proposal.  
-
-​Step 4: Book a Meeting:
-
-​Embed a scheduling tool (like Calendly or Google Calendar Appointment Scheduling) directly on the success page so they can immediately lock in a discovery call after submitting their request.
-
-​2. The Admin Dashboard (Backend)
-
-​You will need a clean, protected route (e.g., /admin) to manage these incoming leads.
-
-​Lead Overview: A table listing all submissions with columns for Client Name, Company, Event Date, and Status (New, Reviewed, Quoted).
-
-​Request Details: Clicking a lead opens a detailed view showing:
-
-​The exact itemized list and quantities they selected.
-
-​The services they ticked.
-
-​A direct download link for their uploaded logo file.
-
-​Their budget and occasion notes.  
-
-​Action Buttons: Quick buttons to mark the lead as "Contacted" or to generate a baseline PDF quote.
-
-​3. "Other Things to Put" (Recommended Additions)
-
-​To make the site convert better and feel more complete, consider adding these elements:
-
-​A "Bundles" Section: Some clients don't want to pick individual items. Create a quick-select option for your curated Corporate Gift Sets (like the Daily Commute Kit or Executive Desk Kit).  
-
-​Minimum Order Quantity (MOQ) Warnings: If certain items (like custom jackets or tech gadgets) require a minimum order, display that dynamically when they enter a quantity.
-
-​Apparel Size Breakdown: If they select apparel (like Polo Shirts or Hoodies), reveal an optional text box where they can paste their size breakdown (e.g., 10 M, 15 L, 5 XL).
-
-## Official Documentation
-
-JJT Digital Innovative Inc. is an enterprise corporate merchandise and custom campaign provider established in 2020 in Parañaque City, Metro Manila, Philippines.
-
-### Core Features
-
-- **2026 Product Catalog**: Over 70+ corporate merchandise categories with authentic brochure photography.
-- **Interactive Campaign Builder**: 4-step custom quote configurator for tailored corporate gifting and volume inquiries.
-- **Calendar Consultation Scheduler**: Live booking integration for 30-minute discovery calls with the strategy team.
-- **Enterprise Partner Showcase**: Moving line marquee featuring AWS, Cisco, Nutanix, OutSystems, VST ECS, and more.
-- **Staff Admin Dashboard**: Live lead management, stock counts, and MOQ threshold administration.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+# Start development server
 npm run dev
 ```
+
+The application will be available at `http://localhost:8080`.
+
+### Production Build
+
+```bash
+# Compile and build production bundle
+npm run build
+
+# Preview production build locally
+npm run preview
+```
+
+---
+
+## Environment Configuration
+
+Create a `.env` file in the root directory:
+
+```env
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_key
+```
+
+---
+
+## Company Contact
+
+**JJT Digital Innovative Inc.**  
+Parañaque City, Metro Manila, Philippines  
+- **Email**: [sales@jjt-digital.com](mailto:sales@jjt-digital.com)  
+- **Phone**: +(63) 917-143-5890 / +(63) 968-231-4096  
+- **Socials**: [Instagram](https://www.instagram.com/jjtdigitalinnovative.agency) • [LinkedIn](https://www.linkedin.com/company/jjt-digital-innovative-agency) • [Facebook](https://www.facebook.com/jjtdigitalinnovative)
