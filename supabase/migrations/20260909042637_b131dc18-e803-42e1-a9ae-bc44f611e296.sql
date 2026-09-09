@@ -1,0 +1,2 @@
+CREATE POLICY "Anyone can upload a quote logo" ON storage.objects FOR INSERT TO anon, authenticated WITH CHECK (bucket_id = 'quote-logos');
+CREATE POLICY "Admins can read quote logos" ON storage.objects FOR SELECT TO authenticated USING (bucket_id = 'quote-logos' AND public.has_role(auth.uid(),'admin'));
