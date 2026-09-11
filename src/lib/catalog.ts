@@ -84,6 +84,37 @@ import itemKraftBox from "@/assets/products/item-kraft-box.jpg";
 import itemUmbrella from "@/assets/products/item-umbrella.jpg";
 
 
+export const STANDARD_COLORS = [
+  "Black",
+  "White",
+  "Beige",
+  "Blue",
+  "Brown",
+  "Red",
+  "Green",
+  "Violet",
+  "Yellow",
+  "Pink",
+];
+
+export const JACKET_COLORS = [
+  "Black",
+  "White",
+  "Beige",
+  "Brown",
+  "Red",
+  "Blue",
+];
+
+export type ProductVariants = {
+  types?: string[];
+  brands?: string[];
+  sizes?: string[];
+  specialSizes?: string[];
+  colors?: string[];
+  printMethods?: string[];
+};
+
 export type Product = {
   id: string;
   name: string;
@@ -93,6 +124,8 @@ export type Product = {
   apparel?: boolean;
   specs?: string;
   category?: string;
+  priceTier?: "under_500" | "under_1000" | "executive";
+  variants?: ProductVariants;
 };
 
 export type Category = {
@@ -109,11 +142,28 @@ export const categories: Category[] = [
     tagline: "High-impact brand-ready essentials tailored for corporate gifting and brand activations.",
     products: [
       {
+        id: "tactical-led-flashlight",
+        name: "Tactical Rechargeable LED Flashlight",
+        blurb: "Heavy-duty aerospace aluminum LED torch with high-lumen output, adjustable zoom focus beam, strobe/SOS modes, and USB-C rechargeable battery. Precision laser engraved logo.",
+        image: pPowerbank,
+        moq: 25,
+        priceTier: "under_500",
+        specs: "USB-C Rechargeable • 800 Lumens • Zoomable • IPX6 Waterproof",
+        variants: {
+          types: [
+            "Standard Compact USB Torch (Under ₱500)",
+            "Heavy-Duty Tactical Zoom Power Torch (Under ₱1,000)",
+          ],
+          colors: ["Black", "Gunmetal Gray", "Navy Blue"],
+        },
+      },
+      {
         id: "metal-pen",
         name: "Personalized Laser-Engraved Metal Pen",
         blurb: "Luxury executive metal ballpoint pen with precision laser engraving. Gift box ready.",
         image: pPen,
         moq: 50,
+        priceTier: "under_500",
         specs: "Multiple barrel finishes • Blue or black ink",
       },
       {
@@ -122,6 +172,7 @@ export const categories: Category[] = [
         blurb: "Debossed or gold-foil stamped cover, ribbon bookmark, elastic closure and 100gsm cream lined paper.",
         image: pNotebook,
         moq: 50,
+        priceTier: "under_500",
         specs: "A5 Size (14.8 x 21 cm) • Hardbound PU leather",
       },
       {
@@ -130,6 +181,7 @@ export const categories: Category[] = [
         blurb: "Soft-touch leatherette cover with elastic strap closure. Elegant and customizable.",
         image: pNotebook,
         moq: 50,
+        priceTier: "under_500",
         specs: "A5 Size • Contrast strap & edging",
       },
       {
@@ -138,6 +190,7 @@ export const categories: Category[] = [
         blurb: "Premium Moleskine textured finish with sleek magnetic latch.",
         image: pNotebook,
         moq: 50,
+        priceTier: "under_500",
         specs: "A5 Size • Magnetic snap lock • Expandable inner pocket",
       },
       {
@@ -146,6 +199,7 @@ export const categories: Category[] = [
         blurb: "Matte black ceramic reveals vibrant full-color design when filled with hot liquid.",
         image: pMug,
         moq: 50,
+        priceTier: "under_500",
         specs: "11oz (325ml) • Ceramic • Heat-sensitive coating",
       },
       {
@@ -154,6 +208,7 @@ export const categories: Category[] = [
         blurb: "High-gloss white ceramic with full-wrap dishwasher-safe sublimation print.",
         image: pMug,
         moq: 50,
+        priceTier: "under_500",
         specs: "11oz • White porcelain ceramic",
       },
       {
@@ -162,6 +217,7 @@ export const categories: Category[] = [
         blurb: "Tempered frosted or clear glass mug with crisp custom branding.",
         image: pMug,
         moq: 50,
+        priceTier: "under_500",
         specs: "11oz • Frosted or transparent finish",
       },
       {
@@ -170,6 +226,7 @@ export const categories: Category[] = [
         blurb: "High-resolution printed banner on heavy vinyl with retractable aluminum stand and carry bag.",
         image: pBanner,
         moq: 1,
+        priceTier: "under_1000",
         specs: "2.75 x 6.5 ft (85 x 200 cm) • Heavy aluminum base",
       },
       {
@@ -178,6 +235,7 @@ export const categories: Category[] = [
         blurb: "2.25\" round pinback buttons with matte or glitter finish, plus die-cut and kiss-cut sheet stickers.",
         image: pLanyard,
         moq: 100,
+        priceTier: "under_500",
         specs: "2.25\" Pins • Waterproof vinyl kiss/die cut",
       },
       {
@@ -186,6 +244,7 @@ export const categories: Category[] = [
         blurb: "1-inch satin polyester lanyard with quick side-release buckle and heavy-duty metal G-hook.",
         image: pLanyard,
         moq: 100,
+        priceTier: "under_500",
         specs: "1 inch (2.5cm) x 32 inches • Full-color sublimation",
       },
       {
@@ -194,6 +253,7 @@ export const categories: Category[] = [
         blurb: "Sturdy kraft brown corrugated box with custom exterior/interior logo print. Perfect for onboarding & VIP sets.",
         image: pGiftset,
         moq: 30,
+        priceTier: "under_500",
         specs: "Multiple custom dimensions • Kraft or white board",
       },
       {
@@ -341,29 +401,99 @@ export const categories: Category[] = [
       {
         id: "tshirt",
         name: "Combed Cotton Round-Neck T-Shirt",
-        blurb: "100% combed cotton, soft handfeel. Available in Uniqlo, Collesione, Gildan, Softex, Blue Corner, Whistler, Winner.",
+        blurb: "100% premium combed cotton, ultra-soft handfeel. Available in top retail and wholesale brands with custom DTF, silkscreen, or embroidered logos.",
         image: pTshirt,
         moq: 24,
         apparel: true,
-        specs: "Sizes: XS to 5XL • DTF, silkscreen or embroidery",
+        priceTier: "under_500",
+        specs: "Sizes: XS to 5XL • 7 Top Brands Available",
+        variants: {
+          types: ["100% Combed Cotton"],
+          brands: [
+            "Uniqlo",
+            "Collesione",
+            "Gildan",
+            "Softex Brand",
+            "Blue Corner",
+            "Whistler",
+            "Winner",
+          ],
+          sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+          specialSizes: ["3XL", "4XL", "5XL"],
+          colors: STANDARD_COLORS,
+          printMethods: ["DTF (Direct to Film)", "Silkscreen Print", "Embroidery"],
+        },
       },
       {
         id: "drifit-shirt",
         name: "Dri-Fit Performance Sports Shirt",
-        blurb: "Breathable honeycomb or interlock athletic polyester. Quick-drying and perfect for company fun runs.",
+        blurb: "Breathable moisture-wicking athletic polyester. Fast-drying performance fabric tailored for company fun runs, team building, and outdoor events.",
         image: pTshirt,
         moq: 24,
         apparel: true,
-        specs: "Sizes: XS to 5XL • Full sublimation or DTF print",
+        priceTier: "under_500",
+        specs: "Sizes: XS to 5XL • DTF or Sublimation",
+        variants: {
+          types: [
+            "Simple - DTF Print",
+            "Simple - Sublimation Print",
+            "Winner - DTF Print",
+            "Winner - Sublimation Print",
+          ],
+          sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+          specialSizes: ["3XL", "4XL", "5XL"],
+          colors: STANDARD_COLORS,
+          printMethods: ["DTF Print", "Full Sublimation Print"],
+        },
       },
       {
         id: "polo",
-        name: "Pique Corporate Polo Shirt",
-        blurb: "Classic collared polo with ribbed cuffs. Available in cotton-rich pique or drifit. Custom embroidered logo.",
+        name: "Corporate Pique Polo Shirt",
+        blurb: "Classic collared corporate polo with ribbed cuffs. Available in top retail & corporate brands with high-definition embroidery.",
         image: pPolo,
         moq: 24,
         apparel: true,
-        specs: "Sizes: XS to 5XL • Brands: Uniqlo, Gildan, Lifeline, Softex",
+        priceTier: "under_1000",
+        specs: "Sizes: XS to 5XL • 7 Top Brands Available",
+        variants: {
+          brands: [
+            "Uniqlo",
+            "Gildan",
+            "Lifeline",
+            "Softex Brand",
+            "Blue Corner",
+            "Whistler",
+            "Winner",
+          ],
+          sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+          specialSizes: ["3XL", "4XL", "5XL"],
+          colors: STANDARD_COLORS,
+          printMethods: ["High-Density Embroidery", "DTF Print"],
+        },
+      },
+      {
+        id: "jacket-collection",
+        name: "Corporate Jacket & Outerwear Collection",
+        blurb: "Tailored executive jackets, hoodies, and vests for company uniforms, client gifts, and air-conditioned offices. Select your preferred silhouette and embroidery/DTF branding.",
+        image: pJacket,
+        moq: 15,
+        apparel: true,
+        priceTier: "under_1000",
+        specs: "Sizes: XS to 5XL • 6 Outerwear Styles Available",
+        variants: {
+          types: [
+            "Hoodie with zipper - with DTF or Embroidered logo",
+            "Hoodie without zipper",
+            "Leather Jacket",
+            "Corporate Jacket",
+            "Vest Jacket",
+            "Customized Jacket - client preferred design",
+          ],
+          sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+          specialSizes: ["3XL", "4XL", "5XL"],
+          colors: JACKET_COLORS,
+          printMethods: ["High-Density Embroidery", "DTF Print", "Debossed Leather Patch"],
+        },
       },
       {
         id: "long-sleeves",
@@ -372,7 +502,13 @@ export const categories: Category[] = [
         image: pTshirt,
         moq: 24,
         apparel: true,
-        specs: "Sizes: XS to 3XL • Ribbed cuffs",
+        priceTier: "under_500",
+        specs: "Sizes: XS to 5XL • Ribbed cuffs",
+        variants: {
+          sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+          specialSizes: ["3XL", "4XL", "5XL"],
+          colors: STANDARD_COLORS,
+        },
       },
       {
         id: "running-singlet",
@@ -381,7 +517,12 @@ export const categories: Category[] = [
         image: pTshirt,
         moq: 24,
         apparel: true,
+        priceTier: "under_500",
         specs: "Sizes: XS to 3XL • Ultra-light dry-fit",
+        variants: {
+          sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+          colors: STANDARD_COLORS,
+        },
       },
       {
         id: "vneck-sleeveless",
@@ -390,52 +531,12 @@ export const categories: Category[] = [
         image: pPolo,
         moq: 24,
         apparel: true,
+        priceTier: "under_500",
         specs: "Sizes: XS to 2XL • Custom knit collar",
-      },
-      {
-        id: "hoodie-zipper",
-        name: "Heavyweight Zip-Up Fleece Hoodie",
-        blurb: "Thick brushed fleece with durable front metal/nylon zipper, kangaroo pockets, and lined drawstring hood.",
-        image: pHoodie,
-        moq: 20,
-        apparel: true,
-        specs: "Sizes: XS to 5XL • 320gsm cotton-poly fleece",
-      },
-      {
-        id: "hoodie-pullover",
-        name: "Classic Pullover Hoodie",
-        blurb: "Cozy fleece pullover without zipper. Offers an expansive uninterrupted canvas for chest artwork.",
-        image: pHoodie,
-        moq: 20,
-        apparel: true,
-        specs: "Sizes: XS to 5XL • Front pouch pocket",
-      },
-      {
-        id: "jacket-windbreaker",
-        name: "Corporate Windbreaker Jacket",
-        blurb: "Water-resistant matte polyester shell with breathable mesh lining. Clean corporate silhouette.",
-        image: pJacket,
-        moq: 20,
-        apparel: true,
-        specs: "Sizes: XS to 5XL • Water-repellent finish",
-      },
-      {
-        id: "jacket-leather",
-        name: "Tailored Executive Leather Jacket",
-        blurb: "Premium faux or genuine leather executive jacket with subtle debossed or embroidered brand insignia.",
-        image: pJacket,
-        moq: 15,
-        apparel: true,
-        specs: "Custom tailored sizing • Metal hardware",
-      },
-      {
-        id: "jacket-vest",
-        name: "Corporate Padded Bodywarmer Vest",
-        blurb: "Sleeveless quilted thermal vest with high stand collar and zippered hand pockets.",
-        image: pJacket,
-        moq: 20,
-        apparel: true,
-        specs: "Sizes: S to 4XL • Lightweight polyfill insulation",
+        variants: {
+          sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+          colors: STANDARD_COLORS,
+        },
       },
       {
         id: "cap-baseball",
@@ -588,44 +689,41 @@ export const categories: Category[] = [
     tagline: "Weather-ready essentials made for Philippine conditions from page 10 & 20.",
     products: [
       {
-        id: "umbrella-jhandle",
-        name: "Classic J-Handle Umbrella",
-        blurb: "Sturdy curved wooden or rubberized J-hook handle with windproof fiberglass ribs in bold corporate colors.",
-        image: pUmbrella,
-        moq: 50,
-        specs: "23-inch radius • 190T Pongee water-repellent fabric",
-      },
-      {
-        id: "umbrella-golf-jhandle",
-        name: "J-Handle Golf Umbrella",
-        blurb: "Large canopy coverage with storm-resistant fiberglass shaft and classic curved handle.",
-        image: pUmbrella,
-        moq: 50,
-        specs: "30-inch canopy • Fiberglass frame",
-      },
-      {
-        id: "umbrella-double-canopy",
-        name: "Double Canopy Vented Golf Umbrella",
-        blurb: "Dual overlapping wind vents allow heavy gusts to pass through without inverting the frame.",
+        id: "custom-umbrella",
+        name: "Custom Corporate Umbrella",
+        blurb: "High-grade weather-ready corporate umbrella. Choose handle style, frame size, and corporate color with precision silk-screen or heat-transfer branding.",
         image: pUmbrella,
         moq: 30,
-        specs: "30-inch canopy • Wind-tunnel tested dual vents",
+        priceTier: "under_500",
+        specs: "Sizes: Mini & Standard • 10 Colors Available",
+        variants: {
+          types: [
+            "Classic J-Handle (23\")",
+            "J-Handle Golf Umbrella (30\")",
+            "Double Canopy Vented Golf (30\")",
+            "Premium Automatic Foldable (3-Fold)",
+            "30-Inch Heavy-Duty VIP Golf",
+          ],
+          sizes: ["Mini", "Standard"],
+          colors: STANDARD_COLORS,
+          printMethods: ["Silk-Screen Print", "Heat Transfer Full Color"],
+        },
       },
       {
-        id: "umbrella-auto-fold",
-        name: "Premium Automatic Foldable Umbrella",
-        blurb: "3-fold compact travel umbrella with one-touch button automatic open and automatic close mechanism.",
-        image: pUmbrella,
-        moq: 50,
-        specs: "21-inch 8-rib frame • Auto open/close • Sleeve included",
-      },
-      {
-        id: "umbrella-30in",
-        name: "30-Inch Heavy-Duty VIP Golf Umbrella",
-        blurb: "Maximum rain coverage designed for executive transport, golf courses, and outdoor hotel concierge.",
-        image: pUmbrella,
-        moq: 30,
-        specs: "Extra large 30-inch • Straight EVA foam grip",
+        id: "tactical-led-flashlight",
+        name: "Tactical Rechargeable LED Flashlight",
+        blurb: "Heavy-duty aerospace aluminum LED torch with high-lumen output, adjustable zoom focus beam, strobe/SOS modes, and USB-C rechargeable battery. Precision laser engraved logo.",
+        image: pPowerbank,
+        moq: 25,
+        priceTier: "under_500",
+        specs: "USB-C Rechargeable • 800 Lumens • Zoomable • IPX6 Waterproof",
+        variants: {
+          types: [
+            "Standard Compact USB Torch (Under ₱500)",
+            "Heavy-Duty Tactical Zoom Power Torch (Under ₱1,000)",
+          ],
+          colors: ["Black", "Gunmetal Gray", "Navy Blue"],
+        },
       },
       {
         id: "raincoat-hooded",
@@ -940,10 +1038,12 @@ export type Bundle = {
   image: string;
   moq: number;
   category?: string;
+  isPremium?: boolean;
+  priceTier?: "under_500" | "under_1000" | "executive";
 };
 
 export const bundles: Bundle[] = [
-  // Luxury Corporate Gift Box Suites (Executive Series)
+  // Luxury Corporate Gift Box Suites (Executive Series) - Premium Golden Collection
   {
     id: "luxury-executive-bamboo-suite",
     name: "Executive Bamboo & Gold Ribbon Suite",
@@ -951,6 +1051,8 @@ export const bundles: Bundle[] = [
     contents: ["Bamboo Vacuum Flask", "Wood-Cover A5 Journal", "Bamboo Ballpoint Pen", "Compact Umbrella", "Leather Keyring", "Executive Towel", "Gold Bow Gift Box"],
     image: luxuryBundle0,
     moq: 15,
+    isPremium: true,
+    priceTier: "executive",
   },
   {
     id: "luxury-black-onyx-suite",
@@ -959,6 +1061,8 @@ export const bundles: Bundle[] = [
     contents: ["Matte Black Tumbler", "Leather A5 Clasp Journal", "Precision Pen", "Ceramic Matte Mug", "Leather Cardholder Wallet", "Metal Keychain"],
     image: luxuryBundle1,
     moq: 15,
+    isPremium: true,
+    priceTier: "executive",
   },
   {
     id: "luxury-high-tech-suite",
@@ -967,6 +1071,8 @@ export const bundles: Bundle[] = [
     contents: ["Auto Open/Close Umbrella", "Thermal LED Flask", "Slim Wireless Powerbank", "Portable Speaker", "Metal USB 3.0", "Leather Journal", "Executive Pen"],
     image: luxuryBundle2,
     moq: 15,
+    isPremium: true,
+    priceTier: "executive",
   },
   {
     id: "luxury-nordic-hospitality",
@@ -975,6 +1081,8 @@ export const bundles: Bundle[] = [
     contents: ["Waffle Knit Blanket", "Two Ceramic & Wood Mugs", "Artisan Scented Candle", "Fragrance Diffuser", "Crinkle Paper Fill"],
     image: luxuryBundle3,
     moq: 15,
+    isPremium: true,
+    priceTier: "executive",
   },
   {
     id: "luxury-executive-folio-suite",
@@ -983,6 +1091,8 @@ export const bundles: Bundle[] = [
     contents: ["Cognac Leather Folio", "Smart LED Thermal Flask", "Wireless Powerbank", "Braided Multi-Cable", "Embossed Box"],
     image: luxuryBundle4,
     moq: 15,
+    isPremium: true,
+    priceTier: "executive",
   },
   {
     id: "luxury-artisanal-wellness",
@@ -991,6 +1101,8 @@ export const bundles: Bundle[] = [
     contents: ["Heather Fabric Journal", "Dark Steel Flask", "Ceramic Glazed Mug", "Musk & Patchouli Candle", "Executive Pen", "Botanical Sprigs"],
     image: luxuryBundle5,
     moq: 15,
+    isPremium: true,
+    priceTier: "executive",
   },
   {
     id: "luxury-winter-warmth",
@@ -999,6 +1111,8 @@ export const bundles: Bundle[] = [
     contents: ["Cable-Knit Throw Blanket", "Two Fluted Ceramic Mugs", "Two Marble & Wood Coasters", "Prosecco & Berries Candle", "Royal Blue Ribbon Box"],
     image: luxuryBundle6,
     moq: 15,
+    isPremium: true,
+    priceTier: "executive",
   },
   {
     id: "luxury-presidential-gold",
@@ -1007,6 +1121,8 @@ export const bundles: Bundle[] = [
     contents: ["Matte Black Flask", "Executive Leather Planner", "Egg Tumbler with Lid", "Metal Ballpoint Pen", "Foldable Desktop Stand", "Keyring", "Gold Gift Box"],
     image: luxuryBundle7,
     moq: 15,
+    isPremium: true,
+    priceTier: "executive",
   },
   {
     id: "luxury-eco-bamboo-heritage",
@@ -1015,6 +1131,8 @@ export const bundles: Bundle[] = [
     contents: ["Real Bamboo Steel Flask", "Bamboo Wood Notebook", "Bamboo Pen", "Bamboo & Steel Mug", "Bamboo Keytag", "Gold Ribbon Presentation Box"],
     image: luxuryBundle8,
     moq: 15,
+    isPremium: true,
+    priceTier: "executive",
   },
 
   // Curated Kits (Clean Titles & Authentic Photos from Brochure Page 13)

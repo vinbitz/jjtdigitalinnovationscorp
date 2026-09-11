@@ -49,14 +49,14 @@ const MAX_LOGO_BYTES = 10 * 1024 * 1024;
 function BuildPage() {
   const navigate = useNavigate();
   const quote = useQuote();
-  const { items, details, updateDetails, setQuantity } = quote;
+  const { items, itemOptions, details, updateDetails, setQuantity } = quote;
   const [step, setStep] = useState(1);
   const [logo, setLogo] = useState<File | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
 
-  const lines = useMemo(() => resolveLines(items), [items]);
-  const showSizes = hasApparel(items);
+  const lines = useMemo(() => resolveLines(items, itemOptions), [items, itemOptions]);
+  const showSizes = hasApparel(items, itemOptions);
 
   const canContinue =
     step === 1 ? lines.length > 0 : step === 3 ? details.contactName && details.company && details.email : true;
@@ -100,7 +100,14 @@ function BuildPage() {
         size_breakdown: details.sizeBreakdown || null,
         notes: details.notes || null,
         logo_path: logoPath,
-        items: lines.map((l) => ({ id: l.id, name: l.name, qty: l.qty, unit: l.unit, moq: l.moq })),
+        items: lines.map((l) => ({
+          id: l.id,
+          name: l.name,
+          qty: l.qty,
+          unit: l.unit,
+          moq: l.moq,
+          options: l.options || null,
+        })),
         services: quote.services.map((id) => services.find((s) => s.id === id)?.name ?? id),
       });
       if (error) throw error;
@@ -320,23 +327,40 @@ function BuildPage() {
                   {lines.map((l) => (
                     <li key={l.id} className="flex items-center gap-3 py-2.5">
                       {l.image && (
-                        <img
-                          src={l.image}
-                          alt=""
-                          loading="lazy"
-                          width={800}
-                          height={800}
-                          className="h-11 w-11 rounded-sm bg-secondary object-cover"
-                        />
+                        <div className="h-12 w-12 rounded-md bg-stone-100 dark:bg-card/40 border border-border/40 p-1 flex items-center justify-center shrink-0">
+                          <img
+                            src={l.image}
+                            alt=""
+                            loading="lazy"
+                            width={100}
+                            height={100}
+                            className="h-full w-full object-contain"
+                          />
+                        </div>
                       )}
-                      <span className="text-sm">{l.name}</span>
+                      <div className="space-y-0.5">
+                        <span className="text-sm font-semibold text-foreground block">{l.name}</span>
+                        {l.options && (
+                          <p className="text-xs text-brand font-medium">
+                            {[
+                              l.options.type,
+                              l.options.brand,
+                              l.options.size ? `Size: ${l.options.size}` : null,
+                              l.options.color ? `Color: ${l.options.color}` : null,
+                              l.options.printMethod,
+                            ]
+                              .filter(Boolean)
+                              .join(" • ")}
+                          </p>
+                        )}
+                      </div>
                       <span className="ml-auto font-display text-sm font-bold">
                         {l.qty} {l.unit}
                       </span>
                       <button
                         type="button"
                         onClick={() => setQuantity(l.id, 0)}
-                        className="text-muted-foreground hover:text-destructive"
+                        className="text-muted-foreground hover:text-destructive cursor-pointer"
                         aria-label={`Remove ${l.name}`}
                       >
                         <Trash2 className="h-4 w-4" />

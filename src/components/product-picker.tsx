@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
-import { Check, Plus, Search, Layers, Package, CheckCircle2 } from "lucide-react";
+import { Check, Plus, Search, Layers, Package, CheckCircle2, Sparkles, SlidersHorizontal } from "lucide-react";
 
-import { categories, bundles } from "@/lib/catalog";
-import { useQuote } from "@/lib/quote-store";
+import { categories, bundles, allProducts, Product } from "@/lib/catalog";
+import { useQuote, ItemOptions } from "@/lib/quote-store";
 import { useInventory } from "@/lib/inventory-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +17,21 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
+const COLOR_MAP: Record<string, string> = {
+  Black: "#111827",
+  White: "#f9fafb",
+  Beige: "#e7d7c1",
+  Blue: "#1d4ed8",
+  Brown: "#78350f",
+  Red: "#dc2626",
+  Green: "#15803d",
+  Violet: "#7c3aed",
+  Yellow: "#eab308",
+  Pink: "#ec4899",
+  "Gunmetal Gray": "#4b5563",
+  "Navy Blue": "#1e3a8a",
+};
+
 type Picked = {
   id: string;
   name: string;
@@ -24,25 +39,54 @@ type Picked = {
   image: string;
   unit: string;
   specs?: string;
+  product?: Product;
 };
 
 export function ProductPicker() {
-  const { items, setQuantity } = useQuote();
+  const { items, itemOptions, setQuantity } = useQuote();
   const { inventory } = useInventory();
   const [picked, setPicked] = useState<Picked | null>(null);
   const [qty, setQty] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [budgetFilter, setBudgetFilter] = useState<"all" | "under_500" | "under_1000">("all");
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Variant selections in modal
+  const [selectedType, setSelectedType] = useState<string>("");
+  const [selectedBrand, setSelectedBrand] = useState<string>("");
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [selectedColor, setSelectedColor] = useState<string>("");
+  const [selectedPrintMethod, setSelectedPrintMethod] = useState<string>("");
 
   function open(item: Picked) {
     setPicked(item);
     setQty(String(items[item.id] ?? 50));
+
+    // Pre-populate or initialize options
+    const existing = itemOptions?.[item.id];
+    const variants = item.product?.variants;
+
+    setSelectedType(existing?.type ?? variants?.types?.[0] ?? "");
+    setSelectedBrand(existing?.brand ?? variants?.brands?.[0] ?? "");
+    setSelectedSize(existing?.size ?? variants?.sizes?.[0] ?? "");
+    setSelectedColor(existing?.color ?? variants?.colors?.[0] ?? "");
+    setSelectedPrintMethod(existing?.printMethod ?? variants?.printMethods?.[0] ?? "");
   }
 
   function save() {
     if (!picked) return;
     const n = Number.parseInt(qty, 10);
-    setQuantity(picked.id, Number.isFinite(n) && n > 0 ? n : 0);
+    const quantity = Number.isFinite(n) && n > 0 ? n : 0;
+
+    const options: ItemOptions = {
+      ...(selectedType ? { type: selectedType } : {}),
+      ...(selectedBrand ? { brand: selectedBrand } : {}),
+      ...(selectedSize ? { size: selectedSize } : {}),
+      ...(selectedColor ? { color: selectedColor } : {}),
+      ...(selectedPrintMethod ? { printMethod: selectedPrintMethod } : {}),
+    };
+
+    setQuantity(picked.id, quantity, Object.keys(options).length > 0 ? options : undefined);
     setPicked(null);
   }
 
@@ -50,34 +94,57 @@ export function ProductPicker() {
     return categories
       .filter((cat) => activeCategory === "all" || cat.id === activeCategory)
       .map((cat) => {
-        if (!searchQuery.trim()) return cat;
-        const q = searchQuery.toLowerCase();
-        const matchingProducts = cat.products.filter(
-          (p) =>
-            p.name.toLowerCase().includes(q) ||
-            p.blurb.toLowerCase().includes(q) ||
-            (p.specs && p.specs.toLowerCase().includes(q))
-        );
+        let matchingProducts = cat.products;
+
+        // Apply budget filter
+        if (budgetFilter === "under_500") {
+          matchingProducts = matchingProducts.filter((p) => p.priceTier === "under_500");
+        } else if (budgetFilter === "under_1000") {
+          matchingProducts = matchingProducts.filter(
+            (p) => p.priceTier === "under_500" || p.priceTier === "under_1000"
+          );
+        }
+
+        // Apply text search
+        if (searchQuery.trim()) {
+          const q = searchQuery.toLowerCase();
+          matchingProducts = matchingProducts.filter(
+            (p) =>
+              p.name.toLowerCase().includes(q) ||
+              p.blurb.toLowerCase().includes(q) ||
+              (p.specs && p.specs.toLowerCase().includes(q))
+          );
+        }
+
         return { ...cat, products: matchingProducts };
       })
       .filter((cat) => cat.products.length > 0);
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, budgetFilter, searchQuery]);
 
   const filteredBundles = useMemo(() => {
     if (activeCategory !== "all" && activeCategory !== "bundles") return [];
-    if (!searchQuery.trim()) return bundles;
+    let list = bundles;
+
+    // Apply budget filter
+    if (budgetFilter === "under_500") {
+      list = list.filter((b) => b.priceTier === "under_500");
+    } else if (budgetFilter === "under_1000") {
+      list = list.filter((b) => b.priceTier === "under_500" || b.priceTier === "under_1000");
+    }
+
+    if (!searchQuery.trim()) return list;
     const q = searchQuery.toLowerCase();
-    return bundles.filter(
+    return list.filter(
       (b) =>
         b.name.toLowerCase().includes(q) ||
         b.blurb.toLowerCase().includes(q) ||
         b.contents.some((c) => c.toLowerCase().includes(q))
     );
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, budgetFilter, searchQuery]);
 
   return (
     <div className="space-y-8">
-      {/* Search and Category Filter Bar */}
+      {/* Search, Budget Filters, and Category Filter Bar */}
       <div className="sticky top-16 z-30 -mx-4 px-4 py-3 bg-background/95 backdrop-blur border-b border-border shadow-xs">
         <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between max-w-6xl mx-auto">
           {/* Search Input */}
@@ -91,12 +158,44 @@ export function ProductPicker() {
             />
           </div>
 
-          {/* Flexible Quantity Badge */}
-          <div className="text-xs text-muted-foreground font-medium flex items-center gap-2 self-end sm:self-center">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold">
-              <CheckCircle2 className="h-3 w-3 text-emerald-600" />
-              No Minimums • Any Quantity Welcome
+          {/* Quick Budget Tiers */}
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
+            <span className="text-xs font-semibold text-muted-foreground whitespace-nowrap flex items-center gap-1">
+              <SlidersHorizontal className="h-3 w-3" /> Budget:
             </span>
+            <button
+              type="button"
+              onClick={() => setBudgetFilter("all")}
+              className={`rounded-full px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
+                budgetFilter === "all"
+                  ? "bg-navy text-white shadow-2xs"
+                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+              }`}
+            >
+              All Prices
+            </button>
+            <button
+              type="button"
+              onClick={() => setBudgetFilter("under_500")}
+              className={`rounded-full px-3 py-1 text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
+                budgetFilter === "under_500"
+                  ? "bg-emerald-600 text-white shadow-2xs"
+                  : "bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100"
+              }`}
+            >
+              Under ₱500
+            </button>
+            <button
+              type="button"
+              onClick={() => setBudgetFilter("under_1000")}
+              className={`rounded-full px-3 py-1 text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
+                budgetFilter === "under_1000"
+                  ? "bg-blue-600 text-white shadow-2xs"
+                  : "bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-100"
+              }`}
+            >
+              Under ₱1,000
+            </button>
           </div>
         </div>
 
@@ -154,6 +253,7 @@ export function ProductPicker() {
                 const itemInv = inventory[p.id];
                 const stockCount = itemInv?.stock ?? 250;
                 const status = itemInv?.status ?? "in_stock";
+                const savedOpts = itemOptions?.[p.id];
 
                 return (
                   <button
@@ -167,19 +267,21 @@ export function ProductPicker() {
                         image: p.image,
                         unit: "pcs",
                         specs: p.specs,
+                        product: p,
                       })
                     }
-                    className="group overflow-hidden rounded-lg border border-border bg-card text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-brand/50 flex flex-col justify-between"
+                    className="group overflow-hidden rounded-xl border border-border bg-card text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-brand/50 flex flex-col justify-between"
                   >
                     <div>
-                      <div className="relative aspect-square overflow-hidden bg-secondary">
+                      {/* Product Image Box with padding to prevent any crop */}
+                      <div className="relative aspect-square overflow-hidden bg-stone-100 dark:bg-card/40 p-4 border-b border-border/50 flex items-center justify-center">
                         <img
                           src={p.image}
                           alt={p.name}
                           loading="lazy"
                           width={800}
                           height={800}
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                         />
                         {chosen ? (
                           <span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-sm bg-brand px-2.5 py-1 text-xs font-bold text-brand-foreground shadow-xs">
@@ -190,19 +292,43 @@ export function ProductPicker() {
                             <Plus className="h-3 w-3" /> Add
                           </span>
                         )}
+
+                        {/* Price tier badge */}
+                        {p.priceTier && (
+                          <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-sm bg-stone-900/80 text-white backdrop-blur-xs px-2 py-0.5 text-[10px] font-bold">
+                            {p.priceTier === "under_500"
+                              ? "Under ₱500"
+                              : p.priceTier === "under_1000"
+                              ? "Under ₱1,000"
+                              : "Executive"}
+                          </span>
+                        )}
                       </div>
+
                       <div className="p-4">
                         <h3 className="font-display text-base font-bold leading-tight group-hover:text-brand transition-colors">
                           {p.name}
                         </h3>
                         <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{p.blurb}</p>
-                        {p.specs && (
+
+                        {/* Specs or Active Variants preview */}
+                        {savedOpts && (
+                          <div className="mt-2 text-[11px] text-brand font-medium bg-brand/10 border border-brand/20 rounded-xs px-2 py-0.5">
+                            Selected:{" "}
+                            {[savedOpts.type, savedOpts.brand, savedOpts.size, savedOpts.color]
+                              .filter(Boolean)
+                              .join(" • ")}
+                          </div>
+                        )}
+
+                        {p.specs && !savedOpts && (
                           <p className="mt-2 text-[11px] text-muted-foreground/80 font-mono bg-muted/50 rounded-xs px-1.5 py-0.5 inline-block">
                             {p.specs}
                           </p>
                         )}
                       </div>
                     </div>
+
                     <div className="p-4 pt-0">
                       <div className="flex items-center justify-between pt-2 border-t border-border/60 text-xs">
                         <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 bg-emerald-50/80 px-2 py-0.5 rounded-xs border border-emerald-200">
@@ -221,15 +347,18 @@ export function ProductPicker() {
           </section>
         ))}
 
-        {/* Bundles Section */}
+        {/* Bundles Section with Gold Background for Premium Suites */}
         {filteredBundles.length > 0 && (
           <section id="bundles" className="scroll-mt-36">
             <p className="eyebrow text-brand">Save time with a curated package</p>
             <h2 className="mt-1.5 font-display text-2xl font-extrabold">Bundles & Curated Sets</h2>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+            <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {filteredBundles.map((b) => {
                 const key = `bundle:${b.id}`;
                 const chosen = items[key];
+                const isPremium = Boolean(b.isPremium);
+
                 return (
                   <button
                     key={b.id}
@@ -243,17 +372,22 @@ export function ProductPicker() {
                         unit: "sets",
                       })
                     }
-                    className="overflow-hidden rounded-lg border border-border bg-card text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-brand/50 flex flex-col justify-between"
+                    className={`overflow-hidden rounded-xl border text-left transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl flex flex-col justify-between ${
+                      isPremium
+                        ? "bg-gradient-to-br from-amber-500/15 via-yellow-500/10 to-amber-600/20 border-amber-400/70 shadow-amber-500/10 hover:border-amber-400"
+                        : "bg-card border-border hover:border-brand/50 hover:shadow-xl"
+                    }`}
                   >
                     <div>
-                      <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+                      {/* Bundle image with contain and padding so no item is cropped */}
+                      <div className="relative aspect-[4/3] overflow-hidden bg-stone-100 dark:bg-card/40 p-4 border-b border-border/50 flex items-center justify-center">
                         <img
                           src={b.image}
                           alt={b.name}
                           loading="lazy"
                           width={800}
                           height={800}
-                          className="h-full w-full object-cover"
+                          className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                         />
                         {chosen ? (
                           <span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-sm bg-brand px-2.5 py-1 text-xs font-bold text-brand-foreground shadow-xs">
@@ -264,13 +398,37 @@ export function ProductPicker() {
                             <Plus className="h-3 w-3" /> Add Set
                           </span>
                         )}
+
+                        {/* Gold Badge for Premium Bundles */}
+                        {isPremium ? (
+                          <span className="absolute top-2 left-2 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 text-white text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-sm flex items-center gap-1 shadow-md border border-amber-200/40">
+                            <Sparkles className="h-3 w-3 text-yellow-100" /> Premium Suite
+                          </span>
+                        ) : (
+                          <span className="absolute top-2 left-2 bg-navy/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-sm">
+                            Curated Set
+                          </span>
+                        )}
                       </div>
+
                       <div className="p-4">
-                        <h3 className="font-display text-base font-bold">{b.name}</h3>
+                        <h3
+                          className={`font-display text-base font-bold ${
+                            isPremium ? "text-amber-950 dark:text-amber-100" : ""
+                          }`}
+                        >
+                          {b.name}
+                        </h3>
                         <p className="mt-1 text-xs text-muted-foreground">{b.blurb}</p>
                         <div className="mt-2.5 flex flex-wrap gap-1">
                           {b.contents.slice(0, 3).map((item, idx) => (
-                            <Badge key={idx} variant="secondary" className="text-[10px] font-normal py-0">
+                            <Badge
+                              key={idx}
+                              variant="secondary"
+                              className={`text-[10px] font-normal py-0 ${
+                                isPremium ? "bg-amber-100/80 dark:bg-amber-900/40 text-amber-900 dark:text-amber-200 border border-amber-300/40" : ""
+                              }`}
+                            >
                               {item}
                             </Badge>
                           ))}
@@ -282,10 +440,17 @@ export function ProductPicker() {
                         </div>
                       </div>
                     </div>
+
                     <div className="p-4 pt-0">
                       <div className="flex items-center justify-between pt-2 border-t border-border/60 text-xs">
-                        <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-xs border border-blue-200">
-                          Package Ready
+                        <span
+                          className={`inline-flex items-center gap-1.5 text-[11px] font-semibold px-2 py-0.5 rounded-xs border ${
+                            isPremium
+                              ? "text-amber-800 dark:text-amber-300 bg-amber-100/90 dark:bg-amber-950/40 border-amber-300/60"
+                              : "text-blue-700 bg-blue-50 border-blue-200"
+                          }`}
+                        >
+                          {isPremium ? "24K Gold Ribbon Presentation" : "Package Ready"}
                         </span>
                         <span className="text-[11px] text-muted-foreground font-medium">
                           Custom Quantities
@@ -302,13 +467,14 @@ export function ProductPicker() {
         {filteredCategories.length === 0 && filteredBundles.length === 0 && (
           <div className="py-16 text-center text-muted-foreground">
             <p className="text-base font-semibold">No products found matching &ldquo;{searchQuery}&rdquo;</p>
-            <p className="text-xs mt-1">Try searching for &ldquo;tote&rdquo;, &ldquo;polo&rdquo;, &ldquo;tumbler&rdquo;, or reset your filters.</p>
+            <p className="text-xs mt-1">Try resetting your filters or search keywords.</p>
             <Button
               variant="outline"
               size="sm"
               className="mt-4"
               onClick={() => {
                 setSearchQuery("");
+                setBudgetFilter("all");
                 setActiveCategory("all");
               }}
             >
@@ -318,9 +484,9 @@ export function ProductPicker() {
         )}
       </div>
 
-      {/* Quantity Modal without MOQ Restrictions */}
+      {/* Comprehensive Customizer Modal with Variant Options & Uncropped Image */}
       <Dialog open={picked !== null} onOpenChange={(o) => !o && setPicked(null)}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           {picked && (
             <>
               <DialogHeader>
@@ -328,31 +494,183 @@ export function ProductPicker() {
                 <DialogDescription>{picked.blurb}</DialogDescription>
               </DialogHeader>
 
-              <img
-                src={picked.image}
-                alt={picked.name}
-                width={800}
-                height={800}
-                className="aspect-[4/3] w-full rounded-sm bg-secondary object-cover"
-              />
+              {/* Uncropped Image Display */}
+              <div className="relative aspect-[4/3] w-full rounded-lg bg-stone-100 dark:bg-card/40 border border-border/60 p-4 flex items-center justify-center overflow-hidden">
+                <img
+                  src={picked.image}
+                  alt={picked.name}
+                  width={800}
+                  height={800}
+                  className="h-full w-full object-contain"
+                />
+              </div>
 
-              <div className="space-y-3">
-                <div className="flex items-center justify-between text-xs bg-stone-50 p-2.5 rounded-sm border border-border">
-                  <span className="text-muted-foreground">
-                    Available Stock:{" "}
-                    <strong className="text-foreground">
-                      {inventory[picked.id]?.status === "made_to_order"
-                        ? "Custom Production"
-                        : `${(inventory[picked.id]?.stock ?? 250).toLocaleString()} ${picked.unit}`}
-                    </strong>
-                  </span>
-                  <span className="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-xs border border-emerald-200">
-                    No Minimum
-                  </span>
-                </div>
+              {/* Interactive Variant Selectors */}
+              <div className="space-y-4 pt-1">
+                {/* 1. Type Selector (e.g. Umbrella Type, Jacket Style, Dri-Fit Sublimation) */}
+                {picked.product?.variants?.types && picked.product.variants.types.length > 0 && (
+                  <div className="space-y-1.5">
+                    <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                      Select Type / Style:
+                    </Label>
+                    <div className="grid grid-cols-1 gap-1.5">
+                      {picked.product.variants.types.map((typeOption) => (
+                        <button
+                          key={typeOption}
+                          type="button"
+                          onClick={() => setSelectedType(typeOption)}
+                          className={`text-left text-xs font-medium px-3 py-2 rounded-md border transition-all cursor-pointer ${
+                            selectedType === typeOption
+                              ? "bg-brand text-brand-foreground border-brand font-bold shadow-xs"
+                              : "bg-secondary/60 hover:bg-secondary border-border"
+                          }`}
+                        >
+                          {typeOption}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-                <div className="space-y-1.5">
-                  <Label htmlFor="qty">Enter how many {picked.unit} you need:</Label>
+                {/* 2. Brand Selector (e.g. T-Shirt, Polo Shirt brands) */}
+                {picked.product?.variants?.brands && picked.product.variants.brands.length > 0 && (
+                  <div className="space-y-1.5">
+                    <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                      Select Brand Blank:
+                    </Label>
+                    <div className="flex flex-wrap gap-1.5">
+                      {picked.product.variants.brands.map((brandOption) => (
+                        <button
+                          key={brandOption}
+                          type="button"
+                          onClick={() => setSelectedBrand(brandOption)}
+                          className={`text-xs px-3 py-1.5 rounded-full border transition-all cursor-pointer ${
+                            selectedBrand === brandOption
+                              ? "bg-navy dark:bg-white text-white dark:text-navy border-navy font-bold shadow-xs"
+                              : "bg-secondary/60 hover:bg-secondary border-border text-foreground"
+                          }`}
+                        >
+                          {brandOption}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 3. Size Selector (Standard XS-XXL + Special 3XL-5XL, or Mini / Standard for Umbrellas) */}
+                {picked.product?.variants?.sizes && (
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                        Size:
+                      </Label>
+                      {picked.product.variants.specialSizes && (
+                        <span className="text-[11px] text-brand font-semibold">
+                          Special sizes (3XL-5XL) available
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex flex-wrap gap-1.5">
+                      {picked.product.variants.sizes.map((s) => (
+                        <button
+                          key={s}
+                          type="button"
+                          onClick={() => setSelectedSize(s)}
+                          className={`min-w-[38px] text-xs font-bold py-1.5 px-2.5 rounded-md border transition-all cursor-pointer ${
+                            selectedSize === s
+                              ? "bg-brand text-brand-foreground border-brand shadow-xs"
+                              : "bg-secondary/60 hover:bg-secondary border-border text-foreground"
+                          }`}
+                        >
+                          {s}
+                        </button>
+                      ))}
+
+                      {/* Special Sizes */}
+                      {picked.product.variants.specialSizes?.map((s) => (
+                        <button
+                          key={s}
+                          type="button"
+                          onClick={() => setSelectedSize(s)}
+                          className={`min-w-[42px] text-xs font-bold py-1.5 px-2.5 rounded-md border transition-all cursor-pointer ${
+                            selectedSize === s
+                              ? "bg-brand text-brand-foreground border-brand shadow-xs"
+                              : "bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-200 border-amber-300/70 hover:bg-amber-100"
+                          }`}
+                          title="Special Extended Sizing"
+                        >
+                          {s}*
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 4. Color Swatches Selector (10 Colors) */}
+                {picked.product?.variants?.colors && picked.product.variants.colors.length > 0 && (
+                  <div className="space-y-1.5">
+                    <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center justify-between">
+                      <span>Available Color:</span>
+                      <span className="font-bold text-foreground">{selectedColor || "None chosen"}</span>
+                    </Label>
+                    <div className="flex flex-wrap gap-2">
+                      {picked.product.variants.colors.map((c) => {
+                        const hex = COLOR_MAP[c] ?? "#64748b";
+                        const isSelected = selectedColor === c;
+                        return (
+                          <button
+                            key={c}
+                            type="button"
+                            onClick={() => setSelectedColor(c)}
+                            className={`group flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-full border transition-all cursor-pointer ${
+                              isSelected
+                                ? "border-brand bg-brand/10 font-bold text-brand shadow-xs"
+                                : "border-border bg-card hover:bg-secondary text-muted-foreground hover:text-foreground"
+                            }`}
+                          >
+                            <span
+                              className="h-3 w-3 rounded-full border border-black/20 shrink-0"
+                              style={{ backgroundColor: hex }}
+                            />
+                            <span>{c}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* 5. Print Method / Finish */}
+                {picked.product?.variants?.printMethods && (
+                  <div className="space-y-1.5">
+                    <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                      Branding / Print Method:
+                    </Label>
+                    <div className="flex flex-wrap gap-1.5">
+                      {picked.product.variants.printMethods.map((method) => (
+                        <button
+                          key={method}
+                          type="button"
+                          onClick={() => setSelectedPrintMethod(method)}
+                          className={`text-xs px-2.5 py-1 rounded-md border transition-all cursor-pointer ${
+                            selectedPrintMethod === method
+                              ? "bg-brand text-brand-foreground border-brand font-bold"
+                              : "bg-secondary/60 hover:bg-secondary border-border"
+                          }`}
+                        >
+                          {method}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Quantity Input */}
+                <div className="space-y-1.5 pt-2">
+                  <Label htmlFor="qty" className="font-bold text-sm">
+                    Enter how many {picked.unit} you need:
+                  </Label>
                   <Input
                     id="qty"
                     type="number"
@@ -365,12 +683,12 @@ export function ProductPicker() {
                     className="text-base font-bold"
                   />
                   <p className="text-[11px] text-muted-foreground">
-                    Order any amount. Our team will prepare tiered volume pricing for your exact quantity.
+                    Order any amount. Our team will prepare tiered volume pricing for your exact specifications.
                   </p>
                 </div>
               </div>
 
-              <DialogFooter className="gap-2 sm:justify-between pt-2">
+              <DialogFooter className="gap-2 sm:justify-between pt-3 border-t border-border/60">
                 {items[picked.id] ? (
                   <Button
                     variant="ghost"

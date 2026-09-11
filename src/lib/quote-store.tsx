@@ -24,14 +24,24 @@ export const emptyDetails: QuoteDetails = {
   notes: "",
 };
 
+export type ItemOptions = {
+  type?: string;
+  brand?: string;
+  size?: string;
+  color?: string;
+  printMethod?: string;
+};
+
 type QuoteState = {
   items: Record<string, number>;
+  itemOptions: Record<string, ItemOptions>;
   services: string[];
   details: QuoteDetails;
 };
 
 type QuoteContextValue = QuoteState & {
-  setQuantity: (id: string, qty: number) => void;
+  setQuantity: (id: string, qty: number, options?: ItemOptions) => void;
+  setItemOptions: (id: string, options: ItemOptions) => void;
   removeItem: (id: string) => void;
   toggleService: (id: string) => void;
   updateDetails: (patch: Partial<QuoteDetails>) => void;
@@ -47,6 +57,7 @@ const QuoteContext = createContext<QuoteContextValue | null>(null);
 export function QuoteProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<QuoteState>({
     items: {},
+    itemOptions: {},
     services: [],
     details: emptyDetails,
   });
@@ -58,6 +69,7 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
         const parsed = JSON.parse(raw) as Partial<QuoteState>;
         setState({
           items: parsed.items ?? {},
+          itemOptions: parsed.itemOptions ?? {},
           services: parsed.services ?? [],
           details: { ...emptyDetails, ...(parsed.details ?? {}) },
         });
@@ -81,18 +93,36 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
       ...state,
       totalPieces,
       lineCount: Object.keys(state.items).length,
-      setQuantity: (id, qty) =>
+      setQuantity: (id, qty, options) =>
         setState((prev) => {
           const items = { ...prev.items };
-          if (qty > 0) items[id] = qty;
-          else delete items[id];
-          return { ...prev, items };
+          const itemOptions = { ...prev.itemOptions };
+          if (qty > 0) {
+            items[id] = qty;
+            if (options) {
+              itemOptions[id] = options;
+            }
+          } else {
+            delete items[id];
+            delete itemOptions[id];
+          }
+          return { ...prev, items, itemOptions };
         }),
+      setItemOptions: (id, options) =>
+        setState((prev) => ({
+          ...prev,
+          itemOptions: {
+            ...prev.itemOptions,
+            [id]: options,
+          },
+        })),
       removeItem: (id) =>
         setState((prev) => {
           const items = { ...prev.items };
+          const itemOptions = { ...prev.itemOptions };
           delete items[id];
-          return { ...prev, items };
+          delete itemOptions[id];
+          return { ...prev, items, itemOptions };
         }),
       toggleService: (id) =>
         setState((prev) => ({
@@ -103,7 +133,7 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
         })),
       updateDetails: (patch) =>
         setState((prev) => ({ ...prev, details: { ...prev.details, ...patch } })),
-      reset: () => setState({ items: {}, services: [], details: emptyDetails }),
+      reset: () => setState({ items: {}, itemOptions: {}, services: [], details: emptyDetails }),
     };
   }, [state]);
 

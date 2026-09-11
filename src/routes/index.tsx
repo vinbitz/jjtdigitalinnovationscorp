@@ -19,7 +19,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { categories, bundles, services, company } from "@/lib/catalog";
 import { brochureUrl, brochureFilename } from "@/lib/brochure";
 import { BookingModal } from "@/components/booking-modal";
-import { ClientShowcase } from "@/components/client-showcase";
+import { EventsShowcase } from "@/components/events-showcase";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
@@ -232,8 +232,8 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Enterprise Client Logo Marquee & Core Value Pillars */}
-      <ClientShowcase />
+      {/* Real-World Events & Project Samples Showcase */}
+      <EventsShowcase />
 
       {/* Interactive Meeting Schedule Banner */}
       <section className="bg-gradient-to-r from-blue-950 via-navy to-slate-900 py-10 border-b border-border/80 text-white">
@@ -330,16 +330,16 @@ function LandingPage() {
                 hash={cat.id}
                 className="group overflow-hidden rounded-lg border border-border bg-background transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-brand/50"
               >
-                <div className="aspect-[4/3] overflow-hidden bg-secondary relative">
+                <div className="aspect-[4/3] overflow-hidden bg-stone-100 dark:bg-card/40 p-4 border-b border-border/40 relative flex items-center justify-center">
                   <img
                     src={cat.products[0].image}
                     alt={cat.name}
                     loading="lazy"
                     width={800}
                     height={800}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-108"
+                    className="h-full w-full object-contain transition-transform duration-700 group-hover:scale-105"
                   />
-                  <span className="absolute bottom-3 left-3 bg-navy/85 backdrop-blur-xs text-white text-xs font-semibold px-2.5 py-1 rounded-xs">
+                  <span className="absolute bottom-3 left-3 bg-navy/90 backdrop-blur-xs text-white text-xs font-semibold px-2.5 py-1 rounded-xs shadow-xs">
                     {cat.products.length} items
                   </span>
                 </div>
@@ -379,50 +379,71 @@ function LandingPage() {
         </div>
 
         <div className="grid gap-6 sm:grid-cols-3">
-          {bundles.slice(0, 3).map((b) => (
-            <div
-              key={b.id}
-              className="group overflow-hidden rounded-lg border border-border bg-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-brand/50 flex flex-col justify-between"
-            >
-              <div>
-                <div className="aspect-[4/3] overflow-hidden bg-secondary relative">
-                  <img
-                    src={b.image}
-                    alt={b.name}
-                    loading="lazy"
-                    width={800}
-                    height={800}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <span className="absolute top-3 right-3 bg-navy/90 backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1 rounded-xs flex items-center gap-1 shadow-sm">
-                    <Package className="h-3 w-3 text-brand-soft" /> Curated Set
-                  </span>
+          {bundles.slice(0, 3).map((b) => {
+            const isPremium = Boolean(b.isPremium);
+            return (
+              <div
+                key={b.id}
+                className={`group overflow-hidden rounded-xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl flex flex-col justify-between ${
+                  isPremium
+                    ? "bg-gradient-to-br from-amber-500/15 via-yellow-500/10 to-amber-600/20 border-amber-400/70 shadow-amber-500/10 hover:border-amber-400"
+                    : "bg-card border-border hover:border-brand/50 hover:shadow-xl"
+                }`}
+              >
+                <div>
+                  <div className="aspect-[4/3] overflow-hidden bg-stone-100 dark:bg-card/40 p-4 border-b border-border/40 relative flex items-center justify-center">
+                    <img
+                      src={b.image}
+                      alt={b.name}
+                      loading="lazy"
+                      width={800}
+                      height={800}
+                      className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                    />
+                    {isPremium ? (
+                      <span className="absolute top-3 right-3 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 text-white text-[11px] font-extrabold px-3 py-1 rounded-sm flex items-center gap-1.5 shadow-md border border-amber-200/40">
+                        <Sparkles className="h-3 w-3 text-yellow-100" /> Premium Suite
+                      </span>
+                    ) : (
+                      <span className="absolute top-3 right-3 bg-navy/90 backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1 rounded-xs flex items-center gap-1 shadow-sm">
+                        <Package className="h-3 w-3 text-brand-soft" /> Curated Set
+                      </span>
+                    )}
+                  </div>
+                  <div className="p-5">
+                    <h3
+                      className={`font-display text-base font-bold transition-colors ${
+                        isPremium ? "text-amber-950 dark:text-amber-100" : "text-foreground group-hover:text-brand"
+                      }`}
+                    >
+                      {b.name}
+                    </h3>
+                    <p className="mt-1 text-xs text-muted-foreground">{b.blurb}</p>
+                    <ul className="mt-3 space-y-1.5 text-xs">
+                      {b.contents.slice(0, 4).map((c) => (
+                        <li key={c} className="flex items-center gap-2 text-muted-foreground">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-brand shrink-0" />
+                          <span>{c}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <div className="p-5">
-                  <h3 className="font-display text-base font-bold text-foreground group-hover:text-brand transition-colors">
-                    {b.name}
-                  </h3>
-                  <p className="mt-1 text-xs text-muted-foreground">{b.blurb}</p>
-                  <ul className="mt-3 space-y-1.5 text-xs">
-                    {b.contents.map((c) => (
-                      <li key={c} className="flex items-center gap-2 text-muted-foreground">
-                        <CheckCircle2 className="h-3.5 w-3.5 text-brand shrink-0" />
-                        <span>{c}</span>
-                      </li>
-                    ))}
-                  </ul>
+                <div className="p-5 pt-0">
+                  <Link
+                    to="/build"
+                    className={`w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-sm border text-xs font-bold transition-all ${
+                      isPremium
+                        ? "border-amber-400 bg-amber-500 text-white hover:bg-amber-600 shadow-xs"
+                        : "border-border bg-secondary/50 text-foreground hover:bg-brand hover:text-white hover:border-brand"
+                    }`}
+                  >
+                    Configure This Set
+                  </Link>
                 </div>
               </div>
-              <div className="p-5 pt-0">
-                <Link
-                  to="/build"
-                  className="w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-sm border border-border bg-secondary/50 text-xs font-bold hover:bg-brand hover:text-white hover:border-brand transition-all"
-                >
-                  Configure This Set
-                </Link>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
