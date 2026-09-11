@@ -387,12 +387,18 @@ function LandingPage() {
                 key={b.id}
                 className={`group overflow-hidden rounded-xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl flex flex-col justify-between ${
                   isPremium
-                    ? "bg-gradient-to-br from-amber-500/15 via-yellow-500/10 to-amber-600/20 border-amber-400/70 shadow-amber-500/10 hover:border-amber-400"
+                    ? "bg-gradient-to-b from-amber-100/90 via-amber-50/70 to-yellow-100/80 dark:from-amber-950/40 dark:via-stone-900/60 dark:to-amber-950/40 border-2 border-amber-400/80 shadow-lg shadow-amber-500/10 hover:border-amber-400"
                     : "bg-card border-border hover:border-brand/50 hover:shadow-xl"
                 }`}
               >
                 <div>
-                  <div className="aspect-[4/3] overflow-hidden bg-stone-100 dark:bg-card/40 p-4 border-b border-border/40 relative flex items-center justify-center">
+                  <div
+                    className={`aspect-[4/3] overflow-hidden p-4 relative flex items-center justify-center ${
+                      isPremium
+                        ? "bg-gradient-to-br from-amber-300/40 via-yellow-200/50 to-amber-400/40 dark:from-amber-950/90 dark:via-yellow-900/60 dark:to-amber-900/80 border-b border-amber-300/50 shadow-inner"
+                        : "bg-stone-100 dark:bg-card/40 border-b border-border/40"
+                    }`}
+                  >
                     <img
                       src={b.image}
                       alt={b.name}

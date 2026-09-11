@@ -40,6 +40,7 @@ type Picked = {
   unit: string;
   specs?: string | undefined;
   product?: Product | undefined;
+  isPremium?: boolean | undefined;
 };
 
 export function ProductPicker() {
@@ -370,17 +371,24 @@ export function ProductPicker() {
                         blurb: `${b.blurb} Includes: ${b.contents.join(", ")}.`,
                         image: b.image,
                         unit: "sets",
+                        isPremium: Boolean(b.isPremium),
                       })
                     }
                     className={`overflow-hidden rounded-xl border text-left transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl flex flex-col justify-between ${
                       isPremium
-                        ? "bg-gradient-to-br from-amber-500/15 via-yellow-500/10 to-amber-600/20 border-amber-400/70 shadow-amber-500/10 hover:border-amber-400"
+                        ? "bg-gradient-to-b from-amber-100/90 via-amber-50/70 to-yellow-100/80 dark:from-amber-950/40 dark:via-stone-900/60 dark:to-amber-950/40 border-2 border-amber-400/80 shadow-lg shadow-amber-500/10 hover:border-amber-400"
                         : "bg-card border-border hover:border-brand/50 hover:shadow-xl"
                     }`}
                   >
                     <div>
-                      {/* Bundle image with contain and padding so no item is cropped */}
-                      <div className="relative aspect-[4/3] overflow-hidden bg-stone-100 dark:bg-card/40 p-4 border-b border-border/50 flex items-center justify-center">
+                      {/* Bundle image with gold background for premium suites */}
+                      <div
+                        className={`relative aspect-[4/3] overflow-hidden p-4 flex items-center justify-center ${
+                          isPremium
+                            ? "bg-gradient-to-br from-amber-300/40 via-yellow-200/50 to-amber-400/40 dark:from-amber-950/90 dark:via-yellow-900/60 dark:to-amber-900/80 border-b border-amber-300/50 shadow-inner"
+                            : "bg-stone-100 dark:bg-card/40 border-b border-border/50"
+                        }`}
+                      >
                         <img
                           src={b.image}
                           alt={b.name}
@@ -494,8 +502,14 @@ export function ProductPicker() {
                 <DialogDescription>{picked.blurb}</DialogDescription>
               </DialogHeader>
 
-              {/* Uncropped Image Display */}
-              <div className="relative aspect-[4/3] w-full rounded-lg bg-stone-100 dark:bg-card/40 border border-border/60 p-4 flex items-center justify-center overflow-hidden">
+              {/* Uncropped Image Display with Gold Background for Premium Suites */}
+              <div
+                className={`relative aspect-[4/3] w-full rounded-lg border p-4 flex items-center justify-center overflow-hidden ${
+                  picked.isPremium
+                    ? "bg-gradient-to-br from-amber-300/40 via-yellow-200/50 to-amber-400/40 dark:from-amber-950/90 dark:via-yellow-900/60 dark:to-amber-900/80 border-amber-300/60 shadow-inner"
+                    : "bg-stone-100 dark:bg-card/40 border-border/60"
+                }`}
+              >
                 <img
                   src={picked.image}
                   alt={picked.name}
