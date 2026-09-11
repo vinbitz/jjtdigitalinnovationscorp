@@ -408,8 +408,8 @@ function LandingPage() {
                       className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                     />
                     {isPremium ? (
-                      <span className="absolute top-3 right-3 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 text-white text-[11px] font-extrabold px-3 py-1 rounded-sm flex items-center gap-1.5 shadow-md border border-amber-200/40">
-                        <Sparkles className="h-3 w-3 text-yellow-100" /> Premium Suite
+                      <span className="absolute top-3 right-3 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 text-white text-[11px] font-extrabold px-3 py-1 rounded-sm flex items-center shadow-md border border-amber-200/40 tracking-wide uppercase">
+                        Premium Suite
                       </span>
                     ) : (
                       <span className="absolute top-3 right-3 bg-navy/90 backdrop-blur-xs text-white text-[11px] font-bold px-2.5 py-1 rounded-xs flex items-center gap-1 shadow-sm">

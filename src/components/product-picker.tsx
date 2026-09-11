@@ -409,8 +409,8 @@ export function ProductPicker() {
 
                         {/* Gold Badge for Premium Bundles */}
                         {isPremium ? (
-                          <span className="absolute top-2 left-2 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 text-white text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-sm flex items-center gap-1 shadow-md border border-amber-200/40">
-                            <Sparkles className="h-3 w-3 text-yellow-100" /> Premium Suite
+                          <span className="absolute top-2 left-2 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 text-white text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-sm flex items-center shadow-md border border-amber-200/40">
+                            Premium Suite
                           </span>
                         ) : (
                           <span className="absolute top-2 left-2 bg-navy/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-sm">

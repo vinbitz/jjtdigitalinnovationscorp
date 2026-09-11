@@ -64,28 +64,48 @@ export function EventsShowcase() {
   }, [activeImageIndex]);
 
   return (
-    <section className="relative overflow-hidden bg-stone-50/70 dark:bg-navy/40 border-y border-border py-14 sm:py-20">
+    <section className="relative overflow-hidden bg-stone-50/70 dark:bg-navy/40 border-y border-border py-8 sm:py-12">
+      <style>{`
+        @keyframes showcaseMarqueeAnim {
+          0% {
+            transform: translate3d(0, 0, 0);
+          }
+          100% {
+            transform: translate3d(-50%, 0, 0);
+          }
+        }
+        .showcase-marquee-track {
+          display: flex;
+          width: max-content;
+          will-change: transform;
+          animation: showcaseMarqueeAnim 42s linear infinite;
+        }
+        .showcase-marquee-track:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+
       {/* Section Header (clean, concise, unlabelled photos) */}
-      <div className="mx-auto max-w-6xl px-4 text-center space-y-2 mb-8 sm:mb-12">
-        <p className="eyebrow text-brand font-extrabold uppercase tracking-widest text-[11px]">
+      <div className="mx-auto max-w-6xl px-4 text-center space-y-1.5 mb-6 sm:mb-8">
+        <p className="eyebrow text-brand font-extrabold uppercase tracking-widest text-[10px] sm:text-[11px]">
           Finished Work • Authentic Production Samples
         </p>
-        <h2 className="font-display text-2xl sm:text-4xl font-extrabold text-foreground tracking-tight">
+        <h2 className="font-display text-xl sm:text-2xl md:text-3xl font-extrabold text-foreground tracking-tight">
           Our Work in Action
         </h2>
-        <p className="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto">
-          A continuous look at completed corporate merchandise, executive gift packaging, and event productions delivered nationwide.
+        <p className="text-xs sm:text-sm text-muted-foreground max-w-lg mx-auto">
+          Completed corporate merchandise, executive gift packaging, and event productions delivered nationwide.
         </p>
       </div>
 
       {/* Moving Line / Infinite Marquee Ribbon */}
       <div className="relative w-full overflow-hidden">
         {/* Soft edge gradient fades */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-background via-background/80 to-transparent z-10" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-background via-background/80 to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-24 bg-gradient-to-r from-stone-50 dark:from-navy/90 to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-24 bg-gradient-to-l from-stone-50 dark:from-navy/90 to-transparent z-10" />
 
-        {/* Marquee Track (duplicated for seamless loop) */}
-        <div className="animate-marquee-slow flex items-center gap-4 sm:gap-6 py-2">
+        {/* Marquee Track (duplicated for seamless continuous loop) */}
+        <div className="showcase-marquee-track items-center gap-3 sm:gap-4 py-1">
           {[...SHOWCASE_IMAGES, ...SHOWCASE_IMAGES].map((img, idx) => {
             const originalIndex = idx % SHOWCASE_IMAGES.length;
             return (
@@ -93,13 +113,13 @@ export function EventsShowcase() {
                 key={`${img.id}-${idx}`}
                 type="button"
                 onClick={() => setActiveImageIndex(originalIndex)}
-                className="group relative h-[240px] sm:h-[300px] md:h-[340px] w-[300px] sm:w-[380px] md:w-[440px] shrink-0 overflow-hidden rounded-2xl border border-border/80 bg-card shadow-sm hover:shadow-2xl hover:border-brand/60 transition-all duration-300 hover:-translate-y-1 cursor-pointer text-left focus:outline-hidden"
+                className="group relative h-36 sm:h-44 md:h-48 w-52 sm:w-64 md:w-72 shrink-0 overflow-hidden rounded-xl border border-border/80 bg-card shadow-xs hover:shadow-lg hover:border-brand/60 transition-all duration-200 cursor-pointer text-left focus:outline-hidden"
               >
                 <img
                   src={img.src}
                   alt={img.alt}
                   loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
                 {/* Subtle hover overlay hint with zero labels */}
                 <div className="absolute inset-0 bg-navy/0 group-hover:bg-navy/15 transition-colors" />
@@ -110,7 +130,7 @@ export function EventsShowcase() {
       </div>
 
       {/* Interactive Helper note */}
-      <p className="text-center text-[11px] text-muted-foreground mt-4 font-medium tracking-wide">
+      <p className="text-center text-[11px] text-muted-foreground mt-3 font-medium tracking-wide">
         Hover to pause • Click any photo to view in full resolution
       </p>
 
