@@ -220,7 +220,7 @@ function BuildPage() {
               <div className="space-y-1.5">
                 <Label>Occasion</Label>
                 <Select
-                  value={details.occasion || undefined}
+                  value={details.occasion || ""}
                   onValueChange={(v) => updateDetails({ occasion: v })}
                 >
                   <SelectTrigger>
@@ -238,7 +238,7 @@ function BuildPage() {
               <div className="space-y-1.5 sm:col-span-2">
                 <Label>Budget range</Label>
                 <Select
-                  value={details.budgetRange || undefined}
+                  value={details.budgetRange || ""}
                   onValueChange={(v) => updateDetails({ budgetRange: v })}
                 >
                   <SelectTrigger>

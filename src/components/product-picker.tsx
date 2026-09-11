@@ -38,8 +38,8 @@ type Picked = {
   blurb: string;
   image: string;
   unit: string;
-  specs?: string;
-  product?: Product;
+  specs?: string | undefined;
+  product?: Product | undefined;
 };
 
 export function ProductPicker() {

@@ -37,14 +37,15 @@ function createSupabaseClient() {
       ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),
       ...(!SUPABASE_PUBLISHABLE_KEY ? ['SUPABASE_PUBLISHABLE_KEY'] : []),
     ];
-    const message = `Missing Supabase environment variable(s): ${missing.join(', ')}. Please configure your Supabase environment variables.`;
-    console.error(`[Supabase] ${message}`);
-    throw new Error(message);
+    console.warn(`[Supabase] Warning: Missing ${missing.join(', ')}. Supabase features will be inactive until configured.`);
   }
 
-  return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  const url = SUPABASE_URL || 'https://placeholder-project.supabase.co';
+  const key = SUPABASE_PUBLISHABLE_KEY || 'placeholder-anon-key';
+
+  return createClient<Database>(url, key, {
     global: {
-      fetch: createSupabaseFetch(SUPABASE_PUBLISHABLE_KEY),
+      fetch: createSupabaseFetch(key),
     },
     auth: {
       persistSession: true,

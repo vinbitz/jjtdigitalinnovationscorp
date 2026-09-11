@@ -8,8 +8,8 @@ export type QuoteLine = {
   moq: number;
   unit: string;
   apparel: boolean;
-  image?: string;
-  options?: ItemOptions;
+  image?: string | undefined;
+  options?: ItemOptions | undefined;
 };
 
 export function resolveLine(id: string, qty: number, options?: ItemOptions): QuoteLine {

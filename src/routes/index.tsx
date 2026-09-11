@@ -11,6 +11,7 @@ import {
   Clock,
   CheckCircle2,
   ExternalLink,
+  Sparkles,
 } from "lucide-react";
 
 import heroArchitecture from "@/assets/products/hero-architecture.jpg";
@@ -332,7 +333,7 @@ function LandingPage() {
               >
                 <div className="aspect-[4/3] overflow-hidden bg-stone-100 dark:bg-card/40 p-4 border-b border-border/40 relative flex items-center justify-center">
                   <img
-                    src={cat.products[0].image}
+                    src={cat.products[0]?.image ?? ""}
                     alt={cat.name}
                     loading="lazy"
                     width={800}

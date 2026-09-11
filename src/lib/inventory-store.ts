@@ -8,7 +8,7 @@ export interface InventoryItem {
   name: string;
   category: string;
   image: string;
-  specs?: string;
+  specs?: string | undefined;
   moq: number; // Editable in admin, default is 1 (no minimum enforced for customer)
   stock: number; // Available inventory count
   status: StockStatus;
@@ -128,10 +128,11 @@ export function useInventory() {
     setInventory((prev) => {
       const next = { ...prev };
       Object.keys(next).forEach((id) => {
-        if (next[id].category === categoryName) {
+        const item = next[id];
+        if (item && item.category === categoryName) {
           next[id] = {
-            ...next[id],
-            stock: Math.max(0, next[id].stock + addAmount),
+            ...item,
+            stock: Math.max(0, item.stock + addAmount),
             updatedAt: new Date().toISOString(),
           };
         }

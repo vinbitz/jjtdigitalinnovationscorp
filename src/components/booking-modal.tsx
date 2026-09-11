@@ -72,8 +72,9 @@ function getAvailableDates() {
     d.setDate(d.getDate() + 1);
     const dayOfWeek = d.getDay();
     if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+      const isoStr = d.toISOString().split("T")[0] ?? "";
       dates.push({
-        value: d.toISOString().split("T")[0],
+        value: isoStr,
         label: d.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
         day: d.toLocaleDateString("en-US", { weekday: "short" }),
       });
@@ -89,8 +90,8 @@ export function BookingModal({ trigger, open, onOpenChange, defaultTopic }: Book
   const setModalOpen = isControlled ? (onOpenChange ?? (() => {})) : setInternalOpen;
 
   const availableDates = getAvailableDates();
-  const [selectedType, setSelectedType] = useState(defaultTopic || meetingTypes[0].id);
-  const [selectedDate, setSelectedDate] = useState(availableDates[0].value);
+  const [selectedType, setSelectedType] = useState(defaultTopic || (meetingTypes[0]?.id ?? ""));
+  const [selectedDate, setSelectedDate] = useState(availableDates[0]?.value ?? "");
   const [selectedTime, setSelectedTime] = useState(timeSlots[1]);
   const [name, setName] = useState("");
   const [clientCompany, setClientCompany] = useState("");
@@ -123,7 +124,7 @@ export function BookingModal({ trigger, open, onOpenChange, defaultTopic }: Book
     setNotes("");
   }
 
-  const activeMeeting = meetingTypes.find((m) => m.id === selectedType) || meetingTypes[0];
+  const activeMeeting = (meetingTypes.find((m) => m.id === selectedType) ?? meetingTypes[0])!;
 
   return (
     <Dialog
