@@ -20,7 +20,7 @@ import pBanner from "@/assets/p-banner.jpg";
 import pRaincoat from "@/assets/p-raincoat.jpg";
 import pUmbrella from "@/assets/p-umbrella.jpg";
 import pGiftset from "@/assets/p-giftset.jpg";
-// Authentic Brochure Assets
+
 import setA from "@/assets/products/set-a.jpg";
 import setB from "@/assets/products/set-b.jpg";
 import setC from "@/assets/products/set-c.jpg";
@@ -74,15 +74,57 @@ import kitConcerts from "@/assets/products/kit-concerts.jpg";
 import kitAwardsNight from "@/assets/products/kit-awards-night.jpg";
 import kitNewYears from "@/assets/products/kit-new-years.jpg";
 
+import ecoCutlery from "@/assets/products/eco-cutlery.jpg";
+import ecoLunchbox from "@/assets/products/eco-lunchbox.jpg";
 import techSpeaker from "@/assets/products/tech-speaker.jpg";
 import techUsb from "@/assets/products/tech-usb.jpg";
 import techWirelessCharger from "@/assets/products/tech-wireless-charger.jpg";
-import ecoCutlery from "@/assets/products/eco-cutlery.jpg";
-import ecoLunchbox from "@/assets/products/eco-lunchbox.jpg";
-import itemLanyard from "@/assets/products/item-lanyard.jpg";
-import itemKraftBox from "@/assets/products/item-kraft-box.jpg";
-import itemUmbrella from "@/assets/products/item-umbrella.jpg";
 
+import itemBambooBox from "@/assets/products/item-bamboo-box.jpg";
+import itemBambooCutlery from "@/assets/products/item-bamboo-cutlery.jpg";
+import itemCertHolder from "@/assets/products/item-cert-holder.jpg";
+import itemChargingMousepad from "@/assets/products/item-charging-mousepad.jpg";
+import itemCoolingTowel from "@/assets/products/item-cooling-towel.jpg";
+import itemDigitalClock from "@/assets/products/item-digital-clock.jpg";
+import itemDryBag from "@/assets/products/item-dry-bag.jpg";
+import itemFlashlight from "@/assets/products/item-flashlight.jpg";
+import itemGlassBento from "@/assets/products/item-glass-bento.jpg";
+import itemJacket from "@/assets/products/item-jacket.jpg";
+import itemKraftBox from "@/assets/products/item-kraft-box.jpg";
+import itemLanyard from "@/assets/products/item-lanyard.jpg";
+import itemLaptopStand from "@/assets/products/item-laptop-stand.jpg";
+import itemMetalPen from "@/assets/products/item-metal-pen.jpg";
+import itemMiniFan from "@/assets/products/item-mini-fan.jpg";
+import itemMouse from "@/assets/products/item-mouse.jpg";
+import itemMultiCable from "@/assets/products/item-multi-cable.jpg";
+import itemNeckPillow from "@/assets/products/item-neck-pillow.jpg";
+import itemPlaque from "@/assets/products/item-plaque.jpg";
+import itemPocketMirror from "@/assets/products/item-pocket-mirror.jpg";
+import itemPoloLongsleeve from "@/assets/products/item-polo-longsleeve.jpg";
+import itemPolo from "@/assets/products/item-polo.jpg";
+import itemPowerbank10k from "@/assets/products/item-powerbank-10k.jpg";
+import itemRaincoat from "@/assets/products/item-raincoat.jpg";
+import itemRubberMousepad from "@/assets/products/item-rubber-mousepad.jpg";
+import itemSandoJersey from "@/assets/products/item-sando-jersey.jpg";
+import itemSocks from "@/assets/products/item-socks.jpg";
+import itemSpeakerAuthentic from "@/assets/products/item-speaker.jpg";
+import itemSwivelUsb from "@/assets/products/item-swivel-usb.jpg";
+import itemTissueCaddy from "@/assets/products/item-tissue-caddy.jpg";
+import itemToiletryBag from "@/assets/products/item-toiletry-bag.jpg";
+import itemUmbrellaMaster from "@/assets/products/item-umbrella-master.jpg";
+import itemWirelessPad from "@/assets/products/item-wireless-pad.jpg";
+import itemPinsStickers from "@/assets/products/item-pins-stickers.jpg";
+import itemNfcBadge from "@/assets/products/item-nfc-badge.jpg";
+import itemSprayBottle from "@/assets/products/item-spray-bottle.jpg";
+import itemHumidifier from "@/assets/products/item-humidifier.jpg";
+import itemJuteBag from "@/assets/products/item-jute-bag.jpg";
+import itemPaperBag from "@/assets/products/item-paper-bag.jpg";
+import itemCanvasPouch from "@/assets/products/item-canvas-pouch.jpg";
+import itemWaistBag from "@/assets/products/item-waist-bag.jpg";
+import itemSlingBag from "@/assets/products/item-sling-bag.jpg";
+import itemDrifitShirt from "@/assets/products/item-drifit-shirt.jpg";
+import itemNotebookExec from "@/assets/products/item-notebook-exec.jpg";
+import itemCustomMug from "@/assets/products/item-custom-mug.jpg";
 
 export const STANDARD_COLORS = [
   "Black",
@@ -135,6 +177,18 @@ export type Category = {
   products: Product[];
 };
 
+export type Bundle = {
+  id: string;
+  name: string;
+  blurb: string;
+  contents: string[];
+  image: string;
+  moq: number;
+  category?: string;
+  isPremium?: boolean;
+  priceTier?: "under_500" | "under_1000" | "executive";
+};
+
 export const categories: Category[] = [
   {
     id: "popular",
@@ -145,7 +199,7 @@ export const categories: Category[] = [
         id: "tactical-led-flashlight",
         name: "Tactical Rechargeable LED Flashlight",
         blurb: "Heavy-duty aerospace aluminum LED torch with high-lumen output, adjustable zoom focus beam, strobe/SOS modes, and USB-C rechargeable battery. Precision laser engraved logo.",
-        image: pPowerbank,
+        image: itemFlashlight,
         moq: 25,
         priceTier: "under_500",
         specs: "USB-C Rechargeable • 800 Lumens • Zoomable • IPX6 Waterproof",
@@ -161,7 +215,7 @@ export const categories: Category[] = [
         id: "metal-pen",
         name: "Personalized Laser-Engraved Metal Pen",
         blurb: "Luxury executive metal ballpoint pen with precision laser engraving. Gift box ready.",
-        image: pPen,
+        image: itemMetalPen,
         moq: 50,
         priceTier: "under_500",
         specs: "Multiple barrel finishes • Blue or black ink",
@@ -170,7 +224,7 @@ export const categories: Category[] = [
         id: "custom-notebook",
         name: "Custom Corporate Executive Notebook",
         blurb: "Debossed or foil-stamped luxury cover, satin ribbon bookmark, pen loop, and 100gsm ink-proof cream paper. Tailor your binding style, cover texture, and branding.",
-        image: pNotebook,
+        image: itemNotebookExec,
         moq: 30,
         priceTier: "under_500",
         specs: "Sizes: A5 & B5 • 5 Binding Styles • 8 Colors",
@@ -219,34 +273,50 @@ export const categories: Category[] = [
         id: "pins-stickers",
         name: "Custom Button Pins & Vinyl Stickers",
         blurb: "2.25\" round pinback buttons with matte or glitter finish, plus die-cut and kiss-cut sheet stickers.",
-        image: pLanyard,
+        image: itemPinsStickers,
         moq: 100,
         priceTier: "under_500",
         specs: "2.25\" Pins • Waterproof vinyl kiss/die cut",
       },
       {
         id: "lanyard-id",
-        name: "Premium ID Lanyard with G-Hook & Side Release",
-        blurb: "1-inch satin polyester lanyard with quick side-release buckle and heavy-duty metal G-hook.",
-        image: pLanyard,
+        name: "Premium ID Lanyard",
+        blurb: "High-quality corporate lanyards tailored for your brand, available with different attachments and safety features.",
+        image: itemLanyard,
         moq: 100,
         priceTier: "under_500",
-        specs: "1 inch (2.5cm) x 32 inches • Full-color sublimation",
+        specs: "Multiple widths and attachments available • Full-color sublimation",
+        variants: {
+          types: [
+            "1\" G-Hook",
+            "0.75\" Adjustable",
+            "0.5\" Slim",
+            "Side Release Buckle"
+          ]
+        }
       },
       {
         id: "corrugated-box",
-        name: "Custom Branded Corrugated Gift Box",
-        blurb: "Sturdy kraft brown corrugated box with custom exterior/interior logo print. Perfect for onboarding & VIP sets.",
-        image: pGiftset,
+        name: "Custom Branded Gift Box",
+        blurb: "Sturdy custom packaging boxes with one-color or full-color print. Custom sizes available for kits and giveaways.",
+        image: itemKraftBox,
         moq: 30,
         priceTier: "under_500",
-        specs: "Multiple custom dimensions • Kraft or white board",
+        specs: "Multiple custom dimensions • Perfect for kits",
+        variants: {
+          types: [
+            "Corrugated Kraft",
+            "White Board",
+            "Magnetic Lid",
+            "Sliding Drawer"
+          ]
+        }
       },
       {
         id: "plaques-trophies",
         name: "Custom Recognition Plaques & Trophies",
         blurb: "Laser-engraved acrylic, crystal, or wooden award plaques with UV color accents.",
-        image: pBanner,
+        image: itemPlaque,
         moq: 5,
         specs: "Beveled acrylic / crystal / solid mahogany",
       },
@@ -254,7 +324,7 @@ export const categories: Category[] = [
         id: "diploma-holders",
         name: "Diploma & Certificate Holders",
         blurb: "Padded leatherette certificate folders with gold satin corner ribbons and hot foil stamping.",
-        image: pNotebook,
+        image: itemCertHolder,
         moq: 30,
         specs: "Letter / A4 size • Gold corner tabs",
       },
@@ -262,7 +332,7 @@ export const categories: Category[] = [
         id: "qr-nfc-badges",
         name: "Smart QR & NFC Event Badges",
         blurb: "Durable PVC badge with embedded contactless NFC chip and custom printed dynamic QR code.",
-        image: pLanyard,
+        image: itemNfcBadge,
         moq: 50,
         specs: "CR80 credit card size or oversize 4x6 badge",
       },
@@ -274,44 +344,35 @@ export const categories: Category[] = [
     tagline: "Practical, stylish everyday carry from page 6 & 18 of the catalog.",
     products: [
       {
-        id: "canvas-tote-rope",
-        name: "Canvas Tote Bag with Rope Handle",
-        blurb: "Heavy 14oz cotton canvas with thick braided nautical rope handles. Premium client giveaway.",
+        id: "canvas-tote",
+        name: "Canvas Tote Bag",
+        blurb: "High-quality cotton canvas totes perfect for corporate giveaways, conferences, and daily use.",
         image: pCanvasTote,
         moq: 50,
-        specs: "14 x 15 inches • Heavy duty canvas • Rope handle",
+        specs: "Durable natural cotton canvas",
+        variants: {
+          types: [
+            "Rope Handle 14oz",
+            "Standard 12x14",
+            "Wide Conference"
+          ]
+        }
       },
       {
-        id: "canvas-tote-standard",
-        name: "Standard Canvas Tote Bag",
-        blurb: "Classic 12 x 14 inch cotton canvas tote with flat webbed handles and spacious silkscreen area.",
-        image: pCanvasTote,
-        moq: 50,
-        specs: "12 x 14 inches • 10oz natural cotton",
-      },
-      {
-        id: "wide-tote",
-        name: "Wide Conference Canvas Tote",
-        blurb: "Horizontal landscape tote with extra gusset depth for documents, folders, and event swag.",
-        image: pCanvasTote,
-        moq: 50,
-        specs: "16 x 12 x 4 inches gusset",
-      },
-      {
-        id: "flat-ecobag",
-        name: "Flat Non-Woven Ecobag",
-        blurb: "Lightweight, heat-sealed punch-hole handle ecobag. Budget-friendly for high-volume distributions.",
+        id: "ecobag",
+        name: "Ecobag",
+        blurb: "Eco-friendly non-woven bags ideal for budget-friendly high-volume distributions and events.",
         image: pEcoBag,
         moq: 100,
-        specs: "80gsm non-woven • Assorted vibrant colors",
-      },
-      {
-        id: "nonwoven-gusset",
-        name: "Gusseted Non-Woven Reusable Bag",
-        blurb: "Durable stitched reusable bag with wide side and bottom gusset. Reusable shopping standard.",
-        image: pEcoBag,
-        moq: 100,
-        specs: "100gsm non-woven • Sewn loop handles",
+        specs: "80gsm - 100gsm non-woven • Assorted vibrant colors",
+        variants: {
+          types: [
+            "Flat Non-Woven",
+            "Gusseted Non-Woven",
+            "Vertical Conference",
+            "Horizontal"
+          ]
+        }
       },
       {
         id: "drawstring-bag",
@@ -325,7 +386,7 @@ export const categories: Category[] = [
         id: "jute-bag",
         name: "Eco Jute Bag with Padded Rope Handles",
         blurb: "Natural organic burlap jute tote with laminated interior and soft padded cotton handles.",
-        image: pCanvasTote,
+        image: itemJuteBag,
         moq: 50,
         specs: "Natural jute • Waterproof interior coating",
       },
@@ -333,25 +394,23 @@ export const categories: Category[] = [
         id: "paper-bag",
         name: "Branded Paper Shopping Bag with Rope",
         blurb: "High-grade kraft or white cardboard with reinforced bottom card and matching rope handles.",
-        image: pEcoBag,
+        image: itemPaperBag,
         moq: 100,
         specs: "250gsm art card / kraft • Matte/gloss lamination",
       },
       {
-        id: "string-canvas-pouch",
-        name: "String Canvas Gift Pouch",
-        blurb: "Natural cotton mini drawstring pouch for packing tumblers, cutlery, or jewelry accessories.",
-        image: pDrawstring,
+        id: "canvas-pouch",
+        name: "Canvas Organizer Pouch",
+        blurb: "Versatile canvas pouches for packing tumblers, stationery, or cosmetics.",
+        image: itemCanvasPouch,
         moq: 50,
-        specs: "Multiple small/medium sizes • Twin pull strings",
-      },
-      {
-        id: "zipper-pouch",
-        name: "Canvas Zippered Organizer Pouch",
-        blurb: "Versatile toiletry, stationery, or cosmetics pouch with heavy-duty brass/nylon zipper.",
-        image: pDrawstring,
-        moq: 50,
-        specs: "8 x 5 inches • Dual-tone or solid canvas",
+        specs: "Multiple sizes and closures",
+        variants: {
+          types: [
+            "String Drawstring",
+            "Zippered Organizer"
+          ]
+        }
       },
       {
         id: "laptop-bag",
@@ -365,7 +424,7 @@ export const categories: Category[] = [
         id: "sling-bag",
         name: "Compact Versatile Crossbody Sling Bag",
         blurb: "Modern ergonomic chest/shoulder sling with multi-zipper compartments and quick-access pockets.",
-        image: pLaptopBag,
+        image: itemSlingBag,
         moq: 30,
         specs: "Adjustable ambidextrous strap • USB pass-through",
       },
@@ -373,9 +432,25 @@ export const categories: Category[] = [
         id: "waist-bag",
         name: "Adjustable Sports Waist Bag / Fanny Pack",
         blurb: "Slim-profile waist pack with heavy-duty buckle, zippered front pocket, and concealed back wallet slot.",
-        image: pDrawstring,
+        image: itemWaistBag,
         moq: 30,
         specs: "High-density nylon • Reflective zipper pulls",
+      },
+      {
+        id: "dry-bag",
+        name: "Waterproof Roll-Top Dry Bag",
+        blurb: "Heavy-duty 500D PVC tarpaulin with welded watertight seams and adjustable shoulder sling.",
+        image: itemDryBag,
+        moq: 30,
+        specs: "10L or 20L capacity • Floats safely if dropped in water",
+      },
+      {
+        id: "organizer-toiletry",
+        name: "Hanging Travel Wash & Toiletry Bag",
+        blurb: "Fold-out multi-compartment travel organizer with 360-degree swivel hanging hook and waterproof mesh pockets.",
+        image: itemToiletryBag,
+        moq: 30,
+        specs: "Waterproof Oxford fabric • 4 separate zip sections",
       },
     ],
   },
@@ -414,7 +489,7 @@ export const categories: Category[] = [
         id: "drifit-shirt",
         name: "Dri-Fit Performance Sports Shirt",
         blurb: "Breathable moisture-wicking athletic polyester. Fast-drying performance fabric tailored for company fun runs, team building, and outdoor events.",
-        image: pTshirt,
+        image: itemDrifitShirt,
         moq: 24,
         apparel: true,
         priceTier: "under_500",
@@ -436,7 +511,7 @@ export const categories: Category[] = [
         id: "polo",
         name: "Corporate Pique Polo Shirt",
         blurb: "Classic collared corporate polo with ribbed cuffs. Available in top retail & corporate brands with high-definition embroidery.",
-        image: pPolo,
+        image: itemPolo,
         moq: 24,
         apparel: true,
         priceTier: "under_1000",
@@ -461,7 +536,7 @@ export const categories: Category[] = [
         id: "jacket-collection",
         name: "Corporate Jacket & Outerwear Collection",
         blurb: "Tailored executive jackets, hoodies, and vests for company uniforms, client gifts, and air-conditioned offices. Select your preferred silhouette and embroidery/DTF branding.",
-        image: pJacket,
+        image: itemJacket,
         moq: 15,
         apparel: true,
         priceTier: "under_1000",
@@ -485,7 +560,7 @@ export const categories: Category[] = [
         id: "long-sleeves",
         name: "Long Sleeves Corporate Shirt / Jersey",
         blurb: "Tailored long sleeve shirt or drifit crewneck for sun protection and air-conditioned offices.",
-        image: pTshirt,
+        image: itemPoloLongsleeve,
         moq: 24,
         apparel: true,
         priceTier: "under_500",
@@ -497,62 +572,43 @@ export const categories: Category[] = [
         },
       },
       {
-        id: "running-singlet",
-        name: "Athletic Running Singlet / Sando",
-        blurb: "Racerback or standard cut running tank top with breathable mesh side panels for sports festivals.",
-        image: pTshirt,
+        id: "athletic-sando",
+        name: "Athletic Sando / Singlet",
+        blurb: "High-performance sleeveless tops for sports festivals, marathons, and training.",
+        image: itemSandoJersey,
         moq: 24,
         apparel: true,
         priceTier: "under_500",
         specs: "Sizes: XS to 3XL • Ultra-light dry-fit",
         variants: {
+          types: [
+            "Running Singlet (Racerback/Standard)",
+            "V-Neck Sleeveless Top with Collar"
+          ],
           sizes: ["XS", "S", "M", "L", "XL", "XXL"],
           colors: STANDARD_COLORS,
         },
       },
       {
-        id: "vneck-sleeveless",
-        name: "V-Neck Sleeveless Top with Collar",
-        blurb: "Retro collegiate-inspired athletic sleeveless top with contrast striped ribbed collar and armholes.",
-        image: pPolo,
+        id: "headwear",
+        name: "Custom Headwear",
+        blurb: "Branded headwear options for casual everyday use, outdoor events, or company uniforms.",
+        image: pCap,
         moq: 24,
-        apparel: true,
-        priceTier: "under_500",
-        specs: "Sizes: XS to 2XL • Custom knit collar",
+        specs: "Adjustable sizing • Premium embroidery",
         variants: {
-          sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-          colors: STANDARD_COLORS,
-        },
-      },
-      {
-        id: "cap-baseball",
-        name: "5-Panel Structured Baseball Cap",
-        blurb: "Structured heavy cotton twill with pre-curved visor, sweatband, and adjustable back clasp.",
-        image: pCap,
-        moq: 24,
-        specs: "One size fits all • 3D puff or flat embroidery",
-      },
-      {
-        id: "bucket-hat",
-        name: "100% Cotton Casual Bucket Hat",
-        blurb: "Casual lifestyle bucket hat with reinforced brim stitch and ventilation brass eyelets.",
-        image: pCap,
-        moq: 24,
-        specs: "Medium / Large • 100% cotton canvas",
-      },
-      {
-        id: "visor-cap",
-        name: "Sports Sun Visor Cap",
-        blurb: "Open-top visor with quick-drying interior band, curved bill, and adjustable hook-and-loop back.",
-        image: pCap,
-        moq: 24,
-        specs: "One size adjustable • High-breathability sports fabric",
+          types: [
+            "5-Panel Baseball Cap",
+            "Bucket Hat",
+            "Sun Visor"
+          ]
+        }
       },
       {
         id: "custom-socks",
         name: "Custom Jacquard Knit Crew Socks",
         blurb: "Cushioned sole cotton crew socks with custom jacquard-knitted brand patterns and logo.",
-        image: pCap,
+        image: itemSocks,
         moq: 50,
         specs: "80% Combed cotton, 17% Poly, 3% Spandex",
       },
@@ -560,7 +616,7 @@ export const categories: Category[] = [
         id: "sports-towel",
         name: "Quick-Dry Sports Cooling Towel",
         blurb: "Soft absorbent microfiber towel for sports events, marathons, and gym kits.",
-        image: pCanvasTote,
+        image: itemCoolingTowel,
         moq: 50,
         specs: "30 x 80 cm or 35 x 100 cm • Sublimated edge-to-edge",
       },
@@ -575,7 +631,7 @@ export const categories: Category[] = [
         id: "powerbank-10k",
         name: "Slim Fast-Charging Power Bank (10,000mAh)",
         blurb: "Ultra-slim lithium-polymer power bank with dual USB + Type-C ports and digital LED percentage display.",
-        image: pPowerbank,
+        image: itemPowerbank10k,
         moq: 25,
         specs: "10,000mAh • 22.5W Fast Charge • Full UV Print",
       },
@@ -583,7 +639,7 @@ export const categories: Category[] = [
         id: "phone-laptop-stand",
         name: "Foldable Aluminum Phone & Laptop Stand",
         blurb: "Ergonomic multi-angle riser that elevates devices to eye level, folds completely flat for travel.",
-        image: pPowerbank,
+        image: itemLaptopStand,
         moq: 30,
         specs: "Anodized aluminum alloy • Anti-slip silicone pads",
       },
@@ -591,7 +647,7 @@ export const categories: Category[] = [
         id: "bluetooth-speaker",
         name: "Portable Fabric Bluetooth Speaker",
         blurb: "Crisp 360-degree sound with woven fabric acoustic grille and convenient silicone lanyard strap.",
-        image: techSpeaker,
+        image: itemSpeakerAuthentic,
         moq: 25,
         specs: "5W Output • 6 Hours Playtime • Bluetooth 5.3",
       },
@@ -599,7 +655,7 @@ export const categories: Category[] = [
         id: "mini-fan",
         name: "Rechargeable Handheld & Desk Mini Fan",
         blurb: "Whisper-quiet 3-speed brushless motor with detachable desktop stand and USB-C rechargeable battery.",
-        image: pPowerbank,
+        image: itemMiniFan,
         moq: 50,
         specs: "2000mAh Battery • 4-8 Hours run time",
       },
@@ -607,31 +663,29 @@ export const categories: Category[] = [
         id: "wireless-mouse",
         name: "Ergonomic Silent Wireless Optical Mouse",
         blurb: "Quiet-click 2.4GHz wireless mouse with sleek matte finish and custom printed brand logo.",
-        image: pMousepad,
+        image: itemMouse,
         moq: 30,
         specs: "1600 DPI • USB Nano receiver • Auto-sleep power saving",
       },
       {
-        id: "rubber-mousepad",
-        name: "Rubber Desk Mouse Pad (18 x 22 cm)",
-        blurb: "Non-slip textured rubber base with micro-weave smooth cloth surface and vibrant full-color sublimation.",
-        image: pMousepad,
+        id: "mousepad",
+        name: "Custom Mouse Pad",
+        blurb: "Enhance your desk setup with our premium branded mousepads. Available in standard rubber or integrated Qi wireless charging.",
+        image: itemRubberMousepad,
         moq: 50,
-        specs: "18 x 22 cm • 3mm thickness • Anti-fray edge",
-      },
-      {
-        id: "charging-mousepad",
-        name: "Qi Wireless Fast-Charging Desk Mouse Pad",
-        blurb: "Expansive premium PU leather desk mat with integrated 15W Qi fast charging pad on the right wing.",
-        image: pWirelessCharger,
-        moq: 25,
-        specs: "15W Fast Charge • Type-C power input included",
+        specs: "Anti-slip base • Smooth tracking surface",
+        variants: {
+          types: [
+            "Rubber Standard (18 x 22 cm)",
+            "Qi Wireless Charging Pad (15W)"
+          ]
+        }
       },
       {
         id: "multi-cable-case",
         name: "3-in-1 Retractable Multi-Charging Cable",
         blurb: "Compact circular roll case housing Type-C, Lightning, and Micro-USB cables in one neat package.",
-        image: pPowerbank,
+        image: itemMultiCable,
         moq: 50,
         specs: "Extendable up to 1.2m • 3A fast charging",
       },
@@ -639,7 +693,7 @@ export const categories: Category[] = [
         id: "bamboo-cable-organizer",
         name: "Multifunctional Bamboo Cable Organizer Box",
         blurb: "Real natural bamboo wooden folding case with built-in wireless charging coil, cables, and pen stand.",
-        image: pPowerbank,
+        image: itemBambooBox,
         moq: 20,
         specs: "Natural organic bamboo • Multi-connector cable set",
       },
@@ -647,7 +701,7 @@ export const categories: Category[] = [
         id: "swivel-usb",
         name: "Swivel Metal USB Flash Drive (32GB / 64GB)",
         blurb: "Classic 360-degree aluminum rotating shield protects the USB connector. Laser-engraved or silkscreened.",
-        image: techUsb,
+        image: itemSwivelUsb,
         moq: 50,
         specs: "High-speed USB 3.0 • 32GB or 64GB capacity",
       },
@@ -655,17 +709,23 @@ export const categories: Category[] = [
         id: "wireless-charger-pad",
         name: "Ultra-Slim Qi Wireless Charger (15W)",
         blurb: "Minimalist circular induction charging pad with breathing LED ring indicator and non-slip feet.",
-        image: pWirelessCharger,
+        image: itemWirelessPad,
         moq: 25,
         specs: "15W Max Output • Aluminum base with acrylic face",
       },
       {
         id: "digital-clock-nightlight",
-        name: "Digital Desk Clock & Acrylic LED Night Light",
-        blurb: "Modern digital desk clock paired with an edge-lit clear acrylic plaque laser-engraved with your logo.",
-        image: pPowerbank,
+        name: "Digital Clock & Night Light",
+        blurb: "Modern desktop accessories that combine utility with illuminated branding for your workspace or bedside.",
+        image: itemDigitalClock,
         moq: 25,
-        specs: "Warm LED glow • Time, date, and temperature display",
+        specs: "LED glow • Elegant design",
+        variants: {
+          types: [
+            "Digital Desk Clock",
+            "Acrylic LED Night Light"
+          ]
+        }
       },
     ],
   },
@@ -678,7 +738,7 @@ export const categories: Category[] = [
         id: "custom-umbrella",
         name: "Custom Corporate Umbrella",
         blurb: "High-grade weather-ready corporate umbrella. Choose handle style, frame size, and corporate color with precision silk-screen or heat-transfer branding.",
-        image: pUmbrella,
+        image: itemUmbrellaMaster,
         moq: 30,
         priceTier: "under_500",
         specs: "Sizes: Mini & Standard • 10 Colors Available",
@@ -696,42 +756,18 @@ export const categories: Category[] = [
         },
       },
       {
-        id: "tactical-led-flashlight",
-        name: "Tactical Rechargeable LED Flashlight",
-        blurb: "Heavy-duty aerospace aluminum LED torch with high-lumen output, adjustable zoom focus beam, strobe/SOS modes, and USB-C rechargeable battery. Precision laser engraved logo.",
-        image: pPowerbank,
-        moq: 25,
-        priceTier: "under_500",
-        specs: "USB-C Rechargeable • 800 Lumens • Zoomable • IPX6 Waterproof",
-        variants: {
-          types: [
-            "Standard Compact USB Torch (Under ₱500)",
-            "Heavy-Duty Tactical Zoom Power Torch (Under ₱1,000)",
-          ],
-          colors: ["Black", "Gunmetal Gray", "Navy Blue"],
-        },
-      },
-      {
         id: "raincoat-hooded",
         name: "Hooded Reusable Waterproof Raincoat",
         blurb: "Thick eco-friendly EVA waterproof coat with snap button closures, drawstring hood, and custom logo print.",
-        image: pRaincoat,
+        image: itemRaincoat,
         moq: 50,
         specs: "0.15mm thick EVA • Unisex one-size fit",
-      },
-      {
-        id: "dry-bag",
-        name: "Waterproof Roll-Top Dry Bag (10L / 20L)",
-        blurb: "Heavy-duty 500D PVC tarpaulin with welded watertight seams and adjustable shoulder sling.",
-        image: pDrawstring,
-        moq: 30,
-        specs: "10L or 20L capacity • Floats safely if dropped in water",
       },
       {
         id: "spray-bottle",
         name: "Pocket Alcohol Mist Spray Bottle (50ml)",
         blurb: "Refillable credit card or pocket mist spray bottle with leak-proof atomizing pump.",
-        image: pPen,
+        image: itemSprayBottle,
         moq: 100,
         specs: "50ml capacity • Silicone sleeve & carabiner optional",
       },
@@ -739,23 +775,15 @@ export const categories: Category[] = [
         id: "humidifier-desk",
         name: "Desktop Ultrasonic Mist Humidifier",
         blurb: "Quiet cool-mist personal humidifier with continuous/intermittent spray modes and warm LED nightlight.",
-        image: pJpTumbler,
+        image: itemHumidifier,
         moq: 30,
         specs: "300ml water capacity • USB powered",
-      },
-      {
-        id: "organizer-toiletry",
-        name: "Hanging Travel Wash & Toiletry Bag",
-        blurb: "Fold-out multi-compartment travel organizer with 360-degree swivel hanging hook and waterproof mesh pockets.",
-        image: pLaptopBag,
-        moq: 30,
-        specs: "Waterproof Oxford fabric • 4 separate zip sections",
       },
       {
         id: "tissue-box-caddy",
         name: "Multi-Compartment Desk Tissue Box & Caddy",
         blurb: "Minimalist desktop tissue dispenser featuring built-in side slots for mobile phones, remotes, and pens.",
-        image: pGiftset,
+        image: itemTissueCaddy,
         moq: 30,
         specs: "Matte ABS body with natural bamboo wood lid",
       },
@@ -763,7 +791,7 @@ export const categories: Category[] = [
         id: "neck-pillow",
         name: "Memory Foam Ergonomic Travel Neck Pillow",
         blurb: "High-density molded memory foam with 360-degree chin support and removable breathable velour cover.",
-        image: pCap,
+        image: itemNeckPillow,
         moq: 30,
         specs: "Contoured ergonomic curve • Washable zip cover",
       },
@@ -771,7 +799,7 @@ export const categories: Category[] = [
         id: "pocket-mirror",
         name: "Dual Folding Compact Pocket Mirror",
         blurb: "Sleek metallic pocket mirror with 1x true view and 2x magnification mirror inside.",
-        image: pCap,
+        image: itemPocketMirror,
         moq: 50,
         specs: "Round 70mm diameter • PU leather or metallic casing",
       },
@@ -809,7 +837,7 @@ export const categories: Category[] = [
         id: "custom-ceramic-glass-mug",
         name: "Custom Ceramic & Glass Coffee Mugs",
         blurb: "High-grade ceramic and tempered glass mugs. Select classic white porcelain, magic heat-activated color reveal, or modern frosted glass with your corporate emblem.",
-        image: pMug,
+        image: itemCustomMug,
         moq: 30,
         priceTier: "under_500",
         specs: "11oz to 14oz • Dishwasher Safe Sublimation",
@@ -828,7 +856,7 @@ export const categories: Category[] = [
         id: "bamboo-cutlery",
         name: "Bamboo Cutlery Set with Bamboo Straw & Pouch",
         blurb: "Full reusable dining set: wooden spoon, fork, knife, chopsticks, bamboo straw, and wire brush in custom canvas pouch.",
-        image: pCanvasTote,
+        image: itemBambooCutlery,
         moq: 50,
         specs: "Natural bamboo utensils • Cotton tie pouch",
       },
@@ -836,72 +864,9 @@ export const categories: Category[] = [
         id: "lunch-box-bamboo",
         name: "Glass Bento Lunch Box with Bamboo Lid",
         blurb: "Oven & microwave-safe borosilicate glass container topped with a solid bamboo cutting board lid and elastic band.",
-        image: pGiftset,
+        image: itemGlassBento,
         moq: 30,
         specs: "1000ml glass base • Solid bamboo lid",
-      },
-    ],
-  },
-  {
-    id: "lanyards-pins-packaging",
-    name: "Lanyards, Pins & Packaging",
-    tagline: "Small details with big impact from page 21 of the 2026 catalog.",
-    products: [
-      {
-        id: "lanyard-1in-g",
-        name: "1-Inch Lanyard with G-Hook & Side Release",
-        blurb: "1-inch smooth polyester lanyard with detachable buckle and premium matte metal G-hook. 32-inch length.",
-        image: pLanyard,
-        moq: 100,
-        specs: "1 inch width • 32 inches loop • Side release",
-      },
-      {
-        id: "lanyard-075",
-        name: "0.75-Inch Adjustable Lanyard",
-        blurb: "Medium width lanyard with custom attachment options (oval clip, lobster claw, whistle) and safety breakaway.",
-        image: pLanyard,
-        moq: 100,
-        specs: "0.75 inch width • Satin or woven ribbon",
-      },
-      {
-        id: "lanyard-050",
-        name: "0.5-Inch Slim Lanyard with Mask Holder",
-        blurb: "Slim cord lanyard with dual clip option for ID badge and face mask retention.",
-        image: pLanyard,
-        moq: 100,
-        specs: "0.5 inch width • Lightweight dual clips",
-      },
-      {
-        id: "id-lanyard-release",
-        name: "ID Lanyard with Side Release Buckle",
-        blurb: "Quick-disconnect buckle lanyard allowing users to scan keycards without removing the entire neckband.",
-        image: pLanyard,
-        moq: 100,
-        specs: "1 inch width • Heavy-duty ABS buckle",
-      },
-      {
-        id: "button-pins-225",
-        name: "2.25-Inch Custom Button Pins",
-        blurb: "Pinback badges with protective scratch-resistant matte, glossy, or holographic glitter laminate.",
-        image: pLanyard,
-        moq: 100,
-        specs: "2.25 inches (58mm) • Tinplate base with safety pin",
-      },
-      {
-        id: "corrugated-kraft-box",
-        name: "Custom Corrugated Kraft Shipping Box",
-        blurb: "Kraft brown packaging mailer box with one-color or full-color lid print. Custom sizes for kits.",
-        image: pGiftset,
-        moq: 30,
-        specs: "E-flute / B-flute heavy corrugated board",
-      },
-      {
-        id: "nonwoven-tote-pack",
-        name: "Non-Woven Ecobag (Assorted Styles)",
-        blurb: "Bulk conference ecobags available in vertical, horizontal, and long-handle formats.",
-        image: pEcoBag,
-        moq: 100,
-        specs: "80gsm - 100gsm • 100% recyclable non-woven",
       },
     ],
   },
@@ -977,18 +942,6 @@ export const categories: Category[] = [
     ],
   },
 ];
-
-export type Bundle = {
-  id: string;
-  name: string;
-  blurb: string;
-  contents: string[];
-  image: string;
-  moq: number;
-  category?: string;
-  isPremium?: boolean;
-  priceTier?: "under_500" | "under_1000" | "executive";
-};
 
 export const bundles: Bundle[] = [
   // Luxury Corporate Gift Box Suites (Executive Series) - Premium Golden Collection

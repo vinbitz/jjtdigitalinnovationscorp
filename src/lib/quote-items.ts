@@ -1,4 +1,5 @@
 import { allProducts, bundles } from "./catalog";
+import { getStoredCategories, getStoredBundles } from "./catalog-store";
 import type { ItemOptions } from "./quote-store";
 
 export type QuoteLine = {
@@ -14,7 +15,10 @@ export type QuoteLine = {
 
 export function resolveLine(id: string, qty: number, options?: ItemOptions): QuoteLine {
   if (id.startsWith("bundle:")) {
-    const bundle = bundles.find((b) => b.id === id.slice("bundle:".length));
+    const liveBundles = getStoredBundles();
+    const bundle =
+      liveBundles.find((b) => b.id === id.slice("bundle:".length)) ||
+      bundles.find((b) => b.id === id.slice("bundle:".length));
     return {
       id,
       name: bundle ? `${bundle.name} (bundle)` : id,
@@ -26,7 +30,9 @@ export function resolveLine(id: string, qty: number, options?: ItemOptions): Quo
       options,
     };
   }
-  const product = allProducts.find((p) => p.id === id);
+  const liveProducts = getStoredCategories().flatMap((c) => c.products);
+  const product =
+    liveProducts.find((p) => p.id === id) || allProducts.find((p) => p.id === id);
   return {
     id,
     name: product?.name ?? id,

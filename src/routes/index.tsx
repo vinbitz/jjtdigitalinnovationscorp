@@ -17,7 +17,8 @@ import {
 import heroArchitecture from "@/assets/products/hero-architecture.jpg";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { categories, bundles, services, company } from "@/lib/catalog";
+import { services, company } from "@/lib/catalog";
+import { useCatalogStore } from "@/lib/catalog-store";
 import { brochureUrl, brochureFilename } from "@/lib/brochure";
 import { BookingModal } from "@/components/booking-modal";
 import { EventsShowcase } from "@/components/events-showcase";
@@ -54,6 +55,7 @@ const steps = [
 ];
 
 function LandingPage() {
+  const { categories, bundles } = useCatalogStore();
   const [mousePos, setMousePos] = useState({ x: 50, y: 30 });
   const [isHovered, setIsHovered] = useState(false);
 

@@ -1,7 +1,8 @@
 import { useState, useMemo } from "react";
 import { Check, Plus, Search, Layers, Package, CheckCircle2, Sparkles, SlidersHorizontal } from "lucide-react";
 
-import { categories, bundles, allProducts, Product } from "@/lib/catalog";
+import { Product } from "@/lib/catalog";
+import { useCatalogStore } from "@/lib/catalog-store";
 import { useQuote, ItemOptions } from "@/lib/quote-store";
 import { useInventory } from "@/lib/inventory-store";
 import { Button } from "@/components/ui/button";
@@ -44,6 +45,7 @@ type Picked = {
 };
 
 export function ProductPicker() {
+  const { categories, bundles } = useCatalogStore();
   const { items, itemOptions, setQuantity } = useQuote();
   const { inventory } = useInventory();
   const [picked, setPicked] = useState<Picked | null>(null);
