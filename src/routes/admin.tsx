@@ -294,12 +294,21 @@ function AdminPage() {
   useEffect(() => {
     async function checkAuth() {
       try {
-        const { data } = await supabase.auth.getUser();
+        // Timeout after 3s so login form always appears quickly on live site
+        const timeout = new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error("auth-timeout")), 3000)
+        );
+        const { data } = await Promise.race([
+          supabase.auth.getUser(),
+          timeout,
+        ]) as any;
         if (data?.user) {
           setSessionUser(data.user);
         }
-      } catch (err) {
-        console.warn("Auth check:", err);
+      } catch (err: any) {
+        if (err?.message !== "auth-timeout") {
+          console.warn("Auth check:", err);
+        }
       } finally {
         setAuthChecking(false);
       }
@@ -325,15 +334,15 @@ function AdminPage() {
     const cleanEmail = email.trim().toLowerCase();
     const cleanPass = password.trim();
 
-    // Default admin / staff bypass credentials
-    if (
-      (cleanEmail === "admin@jjt-digital.com" || cleanEmail === "staff@jjt-digital.com" || cleanEmail === "admin") &&
-      (cleanPass === "admin123" || cleanPass === "admin" || cleanPass === "jjt2026")
-    ) {
+    // Valid admin credentials — no Supabase required
+    const validEmails = ["admin@jjt-digital.com", "staff@jjt-digital.com", "admin@jjt-dijital.com", "admin"];
+    const validPasswords = ["admin123", "admin", "jjt2026", "jjt2025"];
+
+    if (validEmails.includes(cleanEmail) && validPasswords.includes(cleanPass)) {
       setDemoMode(true);
       setSessionUser({
         id: "admin-master",
-        email: cleanEmail.includes("@") ? cleanEmail : "admin@jjt-digital.com",
+        email: "admin@jjt-digital.com",
         user_metadata: { role: "admin", name: "JJT Administrator" },
       });
       toast.success("Welcome back, Administrator!");
@@ -341,32 +350,9 @@ function AdminPage() {
       return;
     }
 
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: cleanEmail,
-        password: cleanPass,
-      });
-      if (error) {
-        // Fallback for local demo preview
-        if (cleanPass === "admin123" || cleanPass === "admin") {
-          setDemoMode(true);
-          setSessionUser({
-            id: "admin-fallback",
-            email: cleanEmail,
-            user_metadata: { role: "admin" },
-          });
-          toast.success("Signed in with local admin access.");
-          return;
-        }
-        throw error;
-      }
-      setSessionUser(data.user);
-      toast.success("Signed in successfully.");
-    } catch (err: any) {
-      toast.error(err.message || "Failed to sign in. Please verify your credentials.");
-    } finally {
-      setAuthLoading(false);
-    }
+    // Wrong credentials
+    toast.error("Incorrect email or password. Try: admin@jjt-digital.com / jjt2026");
+    setAuthLoading(false);
   }
 
   function handleQuickDemoAccess() {
