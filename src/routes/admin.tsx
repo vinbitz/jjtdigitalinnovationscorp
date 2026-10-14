@@ -67,6 +67,8 @@ export const Route = createFileRoute("/admin")({
     meta: [
       { title: "Admin Portal | JJT Digital Innovative Inc." },
       { name: "description", content: "Lead and quote management dashboard." },
+      // Keep the private admin page out of Google search results
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
   component: AdminPage,
@@ -137,7 +139,6 @@ function AdminPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
   const [activeLead, setActiveLead] = useState<QuoteLead | null>(null);
-  const [demoMode, setDemoMode] = useState(false);
 
   // Inventory management hook
   const { inventory, updateItem, bulkUpdateStock } = useInventory();
@@ -312,7 +313,12 @@ function AdminPage() {
         );
         const { data } = await Promise.race([supabase.auth.getUser(), timeout]);
         if (data?.user) {
-          setSessionUser(data.user);
+          if (await isAdminUser(data.user.id)) {
+            setSessionUser(data.user);
+          } else {
+            // Signed in, but not an admin: don't keep the session around
+            await supabase.auth.signOut();
+          }
         }
       } catch (err) {
         if (!(err instanceof Error) || err.message !== "auth-timeout") {
@@ -325,14 +331,12 @@ function AdminPage() {
     checkAuth();
   }, []);
 
-  // Fetch leads when authenticated or in demo mode
+  // Fetch leads once signed in
   useEffect(() => {
-    if (sessionUser || demoMode) {
+    if (sessionUser) {
       loadLeads();
     }
-    // loadLeads is recreated every render; re-run only when sign-in state changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionUser, demoMode]);
+  }, [sessionUser]);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -342,59 +346,40 @@ function AdminPage() {
     }
     setAuthLoading(true);
 
-    const cleanEmail = email.trim().toLowerCase();
-    const cleanPass = password.trim();
-
-    // Valid admin credentials — no Supabase required
-    const validEmails = ["admin@jjt-digital.com", "staff@jjt-digital.com", "admin@jjt-dijital.com", "admin"];
-    const validPasswords = ["admin123", "admin", "jjt2026", "jjt2025"];
-
-    if (validEmails.includes(cleanEmail) && validPasswords.includes(cleanPass)) {
-      setDemoMode(true);
-      setSessionUser({
-        id: "admin-master",
-        email: "admin@jjt-digital.com",
-        user_metadata: { role: "admin", name: "JJT Administrator" },
-      });
-      toast.success("Welcome back, Administrator!");
-      setAuthLoading(false);
-      return;
-    }
-
-    // Otherwise try a real Supabase staff account. Only a real admin account can
-    // read actual quote requests (the database blocks everyone else).
     try {
+      // Staff accounts live in Supabase Auth. Passwords are never stored in this code.
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: cleanEmail,
-        password: cleanPass,
+        email: email.trim().toLowerCase(),
+        password,
       });
-      if (error || !data.user) throw error ?? new Error("No user returned");
+      if (error || !data.user) {
+        toast.error("Incorrect email or password.");
+        return;
+      }
+
+      // Only accounts with the "admin" role may use this portal
+      if (!(await isAdminUser(data.user.id))) {
+        await supabase.auth.signOut();
+        toast.error("This account doesn't have admin access.");
+        return;
+      }
+
       setSessionUser(data.user);
+      setPassword("");
       toast.success("Signed in successfully.");
-    } catch {
-      // Wrong credentials
-      toast.error("Incorrect email or password. Try: admin@jjt-digital.com / jjt2026");
+    } catch (err) {
+      console.error("Sign-in failed:", err);
+      toast.error("Couldn't reach the server. Please check your connection and try again.");
     } finally {
       setAuthLoading(false);
     }
   }
 
-  function handleQuickDemoAccess() {
-    setEmail("admin@jjt-digital.com");
-    setPassword("admin123");
-    setDemoMode(true);
-    setSessionUser({
-      id: "admin-master",
-      email: "admin@jjt-digital.com",
-      user_metadata: { role: "admin", name: "JJT Administrator" },
-    });
-    toast.success("Quick Access Granted! Welcome to JJT Admin Portal.");
-  }
-
   async function handleLogout() {
     await supabase.auth.signOut();
     setSessionUser(null);
-    setDemoMode(false);
+    setLeads([]);
+    setActiveLead(null);
     toast.success("Signed out.");
   }
 
@@ -406,21 +391,11 @@ function AdminPage() {
         .select("*")
         .order("created_at", { ascending: false });
 
-      if (error) {
-        console.warn("Fetch quote_requests notice:", error.message);
-        if (demoMode && leads.length === 0) {
-          setLeads(sampleLeads);
-        }
-      } else if (data && data.length > 0) {
-        setLeads(data as QuoteLead[]);
-      } else if (demoMode && leads.length === 0) {
-        setLeads(sampleLeads);
-      }
+      if (error) throw error;
+      setLeads((data ?? []) as QuoteLead[]);
     } catch (err) {
-      console.error(err);
-      if (demoMode && leads.length === 0) {
-        setLeads(sampleLeads);
-      }
+      console.error("Failed to load quote requests:", err);
+      toast.error("Couldn't load quote requests. Please refresh and try again.");
     } finally {
       setLoading(false);
     }
@@ -434,10 +409,11 @@ function AdminPage() {
         .eq("id", id);
 
       if (error) {
-        toast.info(`Updated status to "${newStatus}" locally.`);
-      } else {
-        toast.success(`Status updated to ${newStatus}.`);
+        console.error("Status update failed:", error);
+        toast.error("Couldn't update the status. Please try again.");
+        return;
       }
+      toast.success(`Status updated to ${newStatus}.`);
 
       setLeads((prev) =>
         prev.map((l) => (l.id === id ? { ...l, status: newStatus, updated_at: new Date().toISOString() } : l))
@@ -556,8 +532,8 @@ function AdminPage() {
     );
   }
 
-  // Not signed in & not in demo preview
-  if (!sessionUser && !demoMode) {
+  // Not signed in
+  if (!sessionUser) {
     return (
       <div className="min-h-screen bg-stone-50 py-12 px-4 sm:px-6">
         <div className="mx-auto max-w-md">
@@ -593,6 +569,7 @@ function AdminPage() {
                   <Input
                     type="email"
                     placeholder="staff@jjt-digital.com"
+                    autoComplete="username"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -605,6 +582,7 @@ function AdminPage() {
                   <Input
                     type="password"
                     placeholder="••••••••"
+                    autoComplete="current-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -619,43 +597,6 @@ function AdminPage() {
                     "Sign In to Dashboard"
                   )}
                 </Button>
-
-                <div className="relative my-3">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t border-stone-200" />
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-card px-2 text-muted-foreground text-[10px] font-bold">Or Instant Preview</span>
-                  </div>
-                </div>
-
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleQuickDemoAccess}
-                  className="w-full border-brand/40 text-brand hover:bg-brand/10 font-bold text-xs cursor-pointer"
-                >
-                  <CheckCircle2 className="mr-1.5 h-3.5 w-3.5 text-brand" />
-                  One-Click Quick Access
-                </Button>
-
-                <div className="mt-4 p-3 bg-stone-100 dark:bg-stone-900/60 rounded-md text-xs border border-stone-200 dark:border-stone-800">
-                  <p className="font-bold text-foreground mb-1 flex items-center gap-1.5">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-brand" /> Admin Login Credentials:
-                  </p>
-                  <p className="text-muted-foreground mt-1">
-                    <span className="font-semibold text-foreground">Email:</span>{" "}
-                    <code className="bg-stone-200 dark:bg-stone-800 px-1.5 py-0.5 rounded text-[11px] font-mono font-bold text-foreground">
-                      admin@jjt-digital.com
-                    </code>
-                  </p>
-                  <p className="text-muted-foreground mt-1">
-                    <span className="font-semibold text-foreground">Password:</span>{" "}
-                    <code className="bg-stone-200 dark:bg-stone-800 px-1.5 py-0.5 rounded text-[11px] font-mono font-bold text-foreground">
-                      admin123
-                    </code>
-                  </p>
-                </div>
               </form>
             </CardContent>
           </Card>
@@ -1765,11 +1706,7 @@ function AdminPage() {
                             .createSignedUrl(path, 60 * 10);
                           if (error || !data?.signedUrl) {
                             tab?.close();
-                            toast.error(
-                              demoMode
-                                ? "Logo files are only available when signed in with a real staff account."
-                                : "Could not fetch logo URL.",
-                            );
+                            toast.error("Could not fetch logo URL.");
                             return;
                           }
                           if (tab) {
@@ -2142,53 +2079,6 @@ function AdminPage() {
   );
 }
 
-// Sample mock data for quick local testing and demonstration
-const sampleLeads: QuoteLead[] = [
-  {
-    id: "99194812-9290-4917-b9fa-d4b4fd4ab060",
-    company: "Acme Global Tech",
-    contact_name: "Sarah Jenkins",
-    email: "s.jenkins@acmeglobal.io",
-    phone: "+63 917 555 1234",
-    event_date: "2026-10-15",
-    occasion: "annual-summit",
-    budget_range: "₱250,000 – ₱500,000",
-    status: "new",
-    items: [
-      { id: "p-hoodie", name: "Heavyweight Cotton Hoodie", qty: 250, unit: "pcs", moq: 50 },
-      { id: "p-notebook", name: "Hardcover Executive Notebook", qty: 300, unit: "pcs", moq: 100 },
-      { id: "p-umbrella", name: "Auto-Open Inverted Umbrella", qty: 250, unit: "pcs", moq: 50 },
-    ],
-    services: ["Custom Logo Mockups & Vectorization", "Kitting & Custom Gift Box Packaging"],
-    size_breakdown: "S: 30, M: 90, L: 80, XL: 40, 2XL: 10",
-    notes: "Please prioritize navy blue fabric matching Pantone 289 C. Delivery needed in BGC by Oct 1.",
-    logo_path: "logos/acme-brandmark-2026.png",
-    created_at: new Date(Date.now() - 3600000 * 4).toISOString(),
-    updated_at: new Date(Date.now() - 3600000 * 4).toISOString(),
-  },
-  {
-    id: "c6940baa-d8ba-41b2-b0e9-f7b24db48976",
-    company: "Metro Financial Innovations",
-    contact_name: "Carlos Rivera",
-    email: "carlos.r@metrofin.ph",
-    phone: "+63 928 444 8899",
-    event_date: "2026-11-20",
-    occasion: "client-gifting",
-    budget_range: "₱500,000+",
-    status: "quoted",
-    items: [
-      { id: "p-giftset", name: "Premium Onboarding VIP Gift Set", qty: 150, unit: "sets", moq: 30 },
-      { id: "p-laptop-bag", name: "Padded Water-Resistant Laptop Sleeve", qty: 150, unit: "pcs", moq: 50 },
-    ],
-    services: ["Door-to-Door Recipient Delivery across NCR", "Kitting & Custom Gift Box Packaging"],
-    size_breakdown: null,
-    notes: "Individual VIP packaging for executive partners.",
-    logo_path: null,
-    created_at: new Date(Date.now() - 3600000 * 26).toISOString(),
-    updated_at: new Date(Date.now() - 3600000 * 12).toISOString(),
-  },
-];
-
 /**
  * Read an image file and return a resized data URL (max 1200px on the longest
  * side). Keeps uploaded product photos small enough for browser storage.
@@ -2223,4 +2113,14 @@ function shrinkImageFile(file: File, maxSize = 1200): Promise<string> {
     };
     reader.readAsDataURL(file);
   });
+}
+
+/** True when the signed-in user has the "admin" role in the database. */
+async function isAdminUser(userId: string): Promise<boolean> {
+  const { data, error } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
+  if (error) {
+    console.error("Role check failed:", error);
+    return false;
+  }
+  return data === true;
 }

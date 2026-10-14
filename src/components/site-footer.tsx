@@ -102,14 +102,6 @@ export function SiteFooter() {
                 }
               />
             </li>
-            <li>
-              <Link
-                to="/admin"
-                className="text-xs text-navy-foreground/50 hover:text-navy-foreground/90 transition-colors inline-block pt-3"
-              >
-                Staff Portal Sign In &rarr;
-              </Link>
-            </li>
           </ul>
         </div>
 
