@@ -38,6 +38,7 @@ import {
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
+import { uploadProductImage } from "@/lib/site-content";
 import { categories, allProducts, bundles, type Product, type PriceTier } from "@/lib/catalog";
 import { useInventory, StockStatus, InventoryItem } from "@/lib/inventory-store";
 import { Button } from "@/components/ui/button";
@@ -207,19 +208,30 @@ function AdminPage() {
       toast.error("Please upload an image file (PNG, JPG, WEBP, etc.)");
       return;
     }
-    // Photos are stored in the browser (about 5MB total), so shrink them first.
+    // Shrink first, then upload to the "product-images" storage bucket so the
+    // photo is saved on the server (not only in this browser).
+    const uploading = toast.loading("Uploading image...");
     shrinkImageFile(file)
-      .then((dataUrl) => {
+      .then(async (dataUrl) => {
+        const blob = await (await fetch(dataUrl)).blob();
+        const url = await uploadProductImage(blob);
         if (isNew) {
-          setNewImage(dataUrl);
+          setNewImage(url ?? dataUrl);
         } else {
-          setEditImage(dataUrl);
+          setEditImage(url ?? dataUrl);
         }
-        toast.success("Image selected successfully!");
+        if (url) {
+          toast.success("Image uploaded. Click Save to apply it.", { id: uploading });
+        } else {
+          toast.warning(
+            "Image storage isn't set up yet, so the photo is kept inside the catalog data instead. Click Save to apply it.",
+            { id: uploading },
+          );
+        }
       })
       .catch((err) => {
         console.error(err);
-        toast.error("Couldn't read that image. Please try another file.");
+        toast.error("Couldn't read that image. Please try another file.", { id: uploading });
       })
       .finally(() => {
         // Allow choosing the same file again later

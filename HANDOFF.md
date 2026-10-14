@@ -5,7 +5,7 @@ what needs to be set up, and how to create the admin account.
 
 ## What changed
 
-Three commits on top of `06d4d58`:
+Four commits on top of `06d4d58`:
 
 1. **Bug fixes**
    - Consultation bookings were never saved. They are now stored in `quote_requests` with `occasion = "Consultation Booking"`.
@@ -42,6 +42,12 @@ No visual design was changed except removing the footer link and the demo/creden
    - Phone number changed to +(63) 977 830 3388 (as confirmed by the owner); the email stays sales@jjt-digital.com.
    - 58 product photos were rebuilt as consistent 800×800 studio images (`src/assets/products-v2/*.webp`), using the PDF catalog as reference: single clean product per item, AI-upscaled (Real-ESRGAN), soft shadow, light background that matches the image boxes. Client names/logos visible in the PDF (plaques, certificate holders) were removed. Unused old images were deleted.
 
+4. **Admin edits saved on the server** (they used to stay only in the admin's own browser)
+   - Catalog, bundle and stock edits are saved in a new `site_content` table: everyone can read it, only admins can write. Every visitor sees the same catalog. The browser copy is now only a cache.
+   - Photos uploaded in `/admin` go to a new public storage bucket `product-images`, under `products/...`, and the product stores the public URL. Before, the photo was turned into text and kept only in that browser.
+   - If the server isn't reachable or the migration hasn't run, the site falls back to the built-in catalog and the admin sees a warning.
+   - The flashlight photo was redone and the flashlight moved to the end of "Popular".
+
 ## Build and run
 
 ```bash
@@ -70,7 +76,7 @@ The app needs these environment variables at build time:
 **Note:** `.env` is committed and points to the Lovable Cloud Supabase project (`*.lovable.cloud`). If you move to your own Supabase project:
 
 1. Apply the migrations in `supabase/migrations/` (e.g. `supabase db push`).
-2. Create a **private** storage bucket named `quote-logos`. The migrations add its policies but do not create the bucket.
+2. The newest migration (`20261015120000_site_content_and_product_images.sql`) creates the `site_content` table and the storage buckets: `product-images` (public) and `quote-logos` (private). **Run it on the existing project too**, otherwise admin edits can't be saved on the server.
 3. Update the env vars above. Preferably set them in the host's environment and remove `.env` from git.
 
 ## Create the admin account
@@ -111,7 +117,7 @@ Also consider disabling public sign-ups in Supabase Auth settings. The site does
 
 ## Known limitations (not changed)
 
-- Catalog and inventory edits made in `/admin` are saved in **that browser's localStorage only**. Visitors and other staff do not see them. Making them shared needs database tables.
+- The catalog saved from `/admin` takes priority over the defaults in `src/lib/catalog.ts`. After adding or changing products in code, either press "Reset to Defaults" in `/admin` (this discards admin edits) or merge the changes into the saved copy.
 - The admin lead view does not display the customer's chosen type, size, or color, although they are saved in `items`.
-- The booking confirmation text says an invitation email was sent. No email is sent.
+- No emails or calendar invites are sent yet, although the booking confirmation text says one was sent. See **`AUTOMATION.md`** for everything needed to automate bookings, lead alerts and reminders.
 - Contact details on the website (`company` in `src/lib/catalog.ts` and the footer) differ from the PDF catalog. The owner should confirm which are correct.

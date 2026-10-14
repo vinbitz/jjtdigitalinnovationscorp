@@ -178,22 +178,6 @@ export const categories: Category[] = [
     tagline: "High-impact brand-ready essentials tailored for corporate gifting and brand activations.",
     products: [
       {
-        id: "tactical-led-flashlight",
-        name: "Tactical Rechargeable LED Flashlight",
-        blurb: "Heavy-duty aerospace aluminum LED torch with high-lumen output, adjustable zoom focus beam, strobe/SOS modes, and USB-C rechargeable battery. Precision laser engraved logo.",
-        image: pv2_tactical_led_flashlight,
-        moq: 25,
-        priceTier: "under_500",
-        specs: "USB-C Rechargeable • 800 Lumens • Zoomable • IPX6 Waterproof",
-        variants: {
-          types: [
-            "Standard Compact USB Torch (Under ₱500)",
-            "Heavy-Duty Tactical Zoom Power Torch (Under ₱1,000)",
-          ],
-          colors: ["Black", "Gunmetal Gray", "Navy Blue"],
-        },
-      },
-      {
         id: "metal-pen",
         name: "Personalized Laser-Engraved Metal Pen",
         blurb: "Luxury executive metal ballpoint pen with precision laser engraving. Gift box ready.",
@@ -317,6 +301,22 @@ export const categories: Category[] = [
         image: itemNfcBadge,
         moq: 50,
         specs: "CR80 credit card size or oversize 4x6 badge",
+      },
+      {
+        id: "tactical-led-flashlight",
+        name: "Tactical Rechargeable LED Flashlight",
+        blurb: "Heavy-duty aerospace aluminum LED torch with high-lumen output, adjustable zoom focus beam, strobe/SOS modes, and USB-C rechargeable battery. Precision laser engraved logo.",
+        image: pv2_tactical_led_flashlight,
+        moq: 25,
+        priceTier: "under_500",
+        specs: "USB-C Rechargeable • 800 Lumens • Zoomable • IPX6 Waterproof",
+        variants: {
+          types: [
+            "Standard Compact USB Torch (Under ₱500)",
+            "Heavy-Duty Tactical Zoom Power Torch (Under ₱1,000)",
+          ],
+          colors: ["Black", "Gunmetal Gray", "Navy Blue"],
+        },
       },
     ],
   },

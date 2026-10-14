@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from "react";
-import { toast } from "sonner";
+import { fetchSiteContent, saveSiteContent, deleteSiteContent } from "./site-content";
 import {
   categories as defaultCategories,
   bundles as defaultBundles,
@@ -90,10 +90,33 @@ export function getStoredBundles(): Bundle[] {
 }
 
 function notifySaveFailed(err: unknown) {
-  console.error("Failed to save catalog to storage:", err);
-  toast.error(
-    "Couldn't save the catalog in this browser (storage is full). Try a smaller image.",
-  );
+  // localStorage is only a local cache; the shared copy is saved to the server.
+  console.warn("Couldn't cache catalog in this browser:", err);
+}
+
+// ---------------------------------------------------------------------------
+// Shared copy (Supabase `site_content` table), fetched once per page load
+// ---------------------------------------------------------------------------
+type RemoteCatalog = { categories: Category[]; bundles: Bundle[]; saved: boolean };
+let remoteCatalog: Promise<RemoteCatalog | null> | null = null;
+let editedThisSession = false;
+
+function loadRemoteCatalog(): Promise<RemoteCatalog | null> {
+  if (!remoteCatalog) {
+    remoteCatalog = fetchSiteContent(["catalog_categories", "catalog_bundles"]).then((rows) => {
+      if (!rows) return null; // server unreachable or not set up: keep local copy
+      const cats = rows.catalog_categories;
+      const buns = rows.catalog_bundles;
+      const hasCats = Array.isArray(cats) && cats.length > 0;
+      const hasBuns = Array.isArray(buns) && buns.length > 0;
+      return {
+        categories: hasCats ? healCategories(cats as Category[]) : defaultCategories,
+        bundles: hasBuns ? healBundles(buns as Bundle[]) : defaultBundles,
+        saved: hasCats || hasBuns,
+      };
+    });
+  }
+  return remoteCatalog;
 }
 
 export function saveCategoriesToStorage(categories: Category[]): boolean {
@@ -143,7 +166,30 @@ export function useCatalogStore() {
     load();
     window.addEventListener("jjt_catalog_updated", load);
     window.addEventListener("storage", load);
+
+    // Then switch to the shared copy saved from /admin (same for every visitor)
+    let cancelled = false;
+    void loadRemoteCatalog().then((remote) => {
+      if (cancelled || !remote || editedThisSession) return;
+      try {
+        if (remote.saved) {
+          localStorage.setItem(STORAGE_CATALOG_KEY, JSON.stringify(remote.categories));
+          localStorage.setItem(STORAGE_BUNDLES_KEY, JSON.stringify(remote.bundles));
+        } else {
+          localStorage.removeItem(STORAGE_CATALOG_KEY);
+          localStorage.removeItem(STORAGE_BUNDLES_KEY);
+        }
+      } catch {
+        /* cache only */
+      }
+      categoriesRef.current = remote.categories;
+      bundlesRef.current = remote.bundles;
+      setCategories(remote.categories);
+      setBundles(remote.bundles);
+    });
+
     return () => {
+      cancelled = true;
       window.removeEventListener("jjt_catalog_updated", load);
       window.removeEventListener("storage", load);
     };
@@ -159,7 +205,9 @@ export function useCatalogStore() {
     if (next === prev) return;
     categoriesRef.current = next;
     setCategories(next);
+    editedThisSession = true;
     saveCategoriesToStorage(next);
+    void saveSiteContent("catalog_categories", next);
   }
 
   function commitBundles(update: (prev: Bundle[]) => Bundle[]) {
@@ -168,7 +216,9 @@ export function useCatalogStore() {
     if (next === prev) return;
     bundlesRef.current = next;
     setBundles(next);
+    editedThisSession = true;
     saveBundlesToStorage(next);
+    void saveSiteContent("catalog_bundles", next);
   }
 
   // Update existing product
@@ -275,6 +325,8 @@ export function useCatalogStore() {
     } catch (err) {
       console.error("Failed to clear catalog storage:", err);
     }
+    editedThisSession = true;
+    void deleteSiteContent(["catalog_categories", "catalog_bundles"]);
     categoriesRef.current = defaultCategories;
     bundlesRef.current = defaultBundles;
     setCategories(defaultCategories);

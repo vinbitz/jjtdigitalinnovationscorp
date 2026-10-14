@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { categories } from "./catalog";
+import { fetchSiteContent, saveSiteContent } from "./site-content";
 
 export type StockStatus = "in_stock" | "low_stock" | "made_to_order" | "out_of_stock";
 
@@ -64,30 +65,49 @@ export function getStoredInventory(): Record<string, InventoryItem> {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(initial));
       return initial;
     }
-    const parsed = JSON.parse(raw) as Record<string, InventoryItem>;
-    const defaults = getInitialInventory();
-    // Merge in case catalog was expanded. Name, image, category and specs always
-    // come from the current catalog so they never go stale (e.g. image URLs
-    // change after a redeploy); stock, MOQ and status keep the saved values.
-    const merged: Record<string, InventoryItem> = { ...defaults };
-    for (const [id, saved] of Object.entries(parsed ?? {})) {
-      const base = defaults[id];
-      merged[id] = base
-        ? {
-            ...base,
-            ...saved,
-            name: base.name,
-            image: base.image,
-            category: base.category,
-            specs: base.specs,
-          }
-        : saved;
-    }
-    return merged;
+    return mergeInventory(JSON.parse(raw) as Record<string, InventoryItem>);
   } catch (err) {
     console.error("Failed reading inventory from storage:", err);
     return getInitialInventory();
   }
+}
+
+function mergeInventory(parsed: Record<string, InventoryItem>): Record<string, InventoryItem> {
+  const defaults = getInitialInventory();
+  // Merge in case catalog was expanded. Name, image, category and specs always
+  // come from the current catalog so they never go stale (e.g. image URLs
+  // change after a redeploy); stock, MOQ and status keep the saved values.
+  const merged: Record<string, InventoryItem> = { ...defaults };
+  for (const [id, saved] of Object.entries(parsed ?? {})) {
+    const base = defaults[id];
+    merged[id] = base
+      ? {
+          ...base,
+          ...saved,
+          name: base.name,
+          image: base.image,
+          category: base.category,
+          specs: base.specs,
+        }
+      : saved;
+  }
+  return merged;
+}
+
+// Shared copy saved from /admin (Supabase `site_content` table), fetched once per page load
+let remoteInventory: Promise<Record<string, InventoryItem> | null> | null = null;
+let inventoryEdited = false;
+function loadRemoteInventory() {
+  if (!remoteInventory) {
+    remoteInventory = fetchSiteContent(["inventory"]).then((rows) => {
+      if (!rows) return null;
+      const saved = rows.inventory;
+      return saved && typeof saved === "object"
+        ? mergeInventory(saved as Record<string, InventoryItem>)
+        : getInitialInventory();
+    });
+  }
+  return remoteInventory;
 }
 
 export function saveInventoryToStorage(data: Record<string, InventoryItem>) {
@@ -121,7 +141,21 @@ export function useInventory() {
     load();
     window.addEventListener("jjt_inventory_updated", load);
     window.addEventListener("storage", load);
+
+    let cancelled = false;
+    void loadRemoteInventory().then((remote) => {
+      if (cancelled || !remote || inventoryEdited) return;
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(remote));
+      } catch {
+        /* cache only */
+      }
+      inventoryRef.current = remote;
+      setInventory(remote);
+    });
+
     return () => {
+      cancelled = true;
       window.removeEventListener("jjt_inventory_updated", load);
       window.removeEventListener("storage", load);
     };
@@ -132,7 +166,9 @@ export function useInventory() {
   function commit(next: Record<string, InventoryItem>) {
     inventoryRef.current = next;
     setInventory(next);
+    inventoryEdited = true;
     saveInventoryToStorage(next);
+    void saveSiteContent("inventory", next);
   }
 
   function updateItem(id: string, updates: Partial<InventoryItem>) {
