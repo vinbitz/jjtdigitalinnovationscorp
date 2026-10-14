@@ -1,25 +1,3 @@
-import pTshirt from "@/assets/p-tshirt.jpg";
-import pPolo from "@/assets/p-polo.jpg";
-import pHoodie from "@/assets/p-hoodie.jpg";
-import pJacket from "@/assets/p-jacket.jpg";
-import pCap from "@/assets/p-cap.jpg";
-import pCanvasTote from "@/assets/p-canvas-tote.jpg";
-import pDrawstring from "@/assets/p-drawstring.jpg";
-import pLaptopBag from "@/assets/p-laptop-bag.jpg";
-import pEcoBag from "@/assets/p-eco-bag.jpg";
-import pJpTumbler from "@/assets/p-jp-tumbler.jpg";
-import pBambooTumbler from "@/assets/p-bamboo-tumbler.jpg";
-import pMug from "@/assets/p-mug.jpg";
-import pPowerbank from "@/assets/p-powerbank.jpg";
-import pWirelessCharger from "@/assets/p-wireless-charger.jpg";
-import pMousepad from "@/assets/p-mousepad.jpg";
-import pNotebook from "@/assets/p-notebook.jpg";
-import pPen from "@/assets/p-pen.jpg";
-import pLanyard from "@/assets/p-lanyard.jpg";
-import pBanner from "@/assets/p-banner.jpg";
-import pRaincoat from "@/assets/p-raincoat.jpg";
-import pUmbrella from "@/assets/p-umbrella.jpg";
-import pGiftset from "@/assets/p-giftset.jpg";
 
 import setA from "@/assets/products/set-a.jpg";
 import setB from "@/assets/products/set-b.jpg";
@@ -34,16 +12,8 @@ import setJ from "@/assets/products/set-j.jpg";
 import setK from "@/assets/products/set-k.jpg";
 import setL from "@/assets/products/set-l.jpg";
 
-import eventBooth from "@/assets/products/event-booth.jpg";
 import eventLedWall from "@/assets/products/event-led-wall.jpg";
-import eventRegistration from "@/assets/products/event-registration.jpg";
-import eventPhotobooth from "@/assets/products/event-photobooth.jpg";
-import eventTechCrew from "@/assets/products/event-tech-crew.jpg";
-import eventHost from "@/assets/products/event-host.jpg";
-import eventCorporateSetup from "@/assets/products/event-corporate-setup.jpg";
 import eventDigitalKiosk from "@/assets/products/event-digital-kiosk.jpg";
-import eventIdBadge from "@/assets/products/event-id-badge.jpg";
-import eventCertificateHolder from "@/assets/products/event-certificate-holder.jpg";
 
 import kitDailyCommute from "@/assets/products/kit-daily-commute.jpg";
 import kitMobileWork from "@/assets/products/kit-mobile-work.jpg";
@@ -74,57 +44,67 @@ import kitConcerts from "@/assets/products/kit-concerts.jpg";
 import kitAwardsNight from "@/assets/products/kit-awards-night.jpg";
 import kitNewYears from "@/assets/products/kit-new-years.jpg";
 
-import ecoCutlery from "@/assets/products/eco-cutlery.jpg";
-import ecoLunchbox from "@/assets/products/eco-lunchbox.jpg";
-import techSpeaker from "@/assets/products/tech-speaker.jpg";
-import techUsb from "@/assets/products/tech-usb.jpg";
-import techWirelessCharger from "@/assets/products/tech-wireless-charger.jpg";
 
-import itemBambooBox from "@/assets/products/item-bamboo-box.jpg";
-import itemBambooCutlery from "@/assets/products/item-bamboo-cutlery.jpg";
-import itemCertHolder from "@/assets/products/item-cert-holder.jpg";
-import itemChargingMousepad from "@/assets/products/item-charging-mousepad.jpg";
-import itemCoolingTowel from "@/assets/products/item-cooling-towel.jpg";
-import itemDigitalClock from "@/assets/products/item-digital-clock.jpg";
-import itemDryBag from "@/assets/products/item-dry-bag.jpg";
-import itemFlashlight from "@/assets/products/item-flashlight.jpg";
-import itemGlassBento from "@/assets/products/item-glass-bento.jpg";
-import itemJacket from "@/assets/products/item-jacket.jpg";
-import itemKraftBox from "@/assets/products/item-kraft-box.jpg";
-import itemLanyard from "@/assets/products/item-lanyard.jpg";
-import itemLaptopStand from "@/assets/products/item-laptop-stand.jpg";
-import itemMetalPen from "@/assets/products/item-metal-pen.jpg";
-import itemMiniFan from "@/assets/products/item-mini-fan.jpg";
-import itemMouse from "@/assets/products/item-mouse.jpg";
-import itemMultiCable from "@/assets/products/item-multi-cable.jpg";
-import itemNeckPillow from "@/assets/products/item-neck-pillow.jpg";
-import itemPlaque from "@/assets/products/item-plaque.jpg";
-import itemPocketMirror from "@/assets/products/item-pocket-mirror.jpg";
-import itemPoloLongsleeve from "@/assets/products/item-polo-longsleeve.jpg";
-import itemPolo from "@/assets/products/item-polo.jpg";
-import itemPowerbank10k from "@/assets/products/item-powerbank-10k.jpg";
-import itemRaincoat from "@/assets/products/item-raincoat.jpg";
-import itemRubberMousepad from "@/assets/products/item-rubber-mousepad.jpg";
-import itemSandoJersey from "@/assets/products/item-sando-jersey.jpg";
-import itemSocks from "@/assets/products/item-socks.jpg";
-import itemSpeakerAuthentic from "@/assets/products/item-speaker.jpg";
-import itemSwivelUsb from "@/assets/products/item-swivel-usb.jpg";
-import itemTissueCaddy from "@/assets/products/item-tissue-caddy.jpg";
-import itemToiletryBag from "@/assets/products/item-toiletry-bag.jpg";
-import itemUmbrellaMaster from "@/assets/products/item-umbrella-master.jpg";
-import itemWirelessPad from "@/assets/products/item-wireless-pad.jpg";
-import itemPinsStickers from "@/assets/products/item-pins-stickers.jpg";
 import itemNfcBadge from "@/assets/products/item-nfc-badge.jpg";
-import itemSprayBottle from "@/assets/products/item-spray-bottle.jpg";
-import itemHumidifier from "@/assets/products/item-humidifier.jpg";
-import itemJuteBag from "@/assets/products/item-jute-bag.jpg";
-import itemPaperBag from "@/assets/products/item-paper-bag.jpg";
-import itemCanvasPouch from "@/assets/products/item-canvas-pouch.jpg";
-import itemWaistBag from "@/assets/products/item-waist-bag.jpg";
-import itemSlingBag from "@/assets/products/item-sling-bag.jpg";
-import itemDrifitShirt from "@/assets/products/item-drifit-shirt.jpg";
-import itemNotebookExec from "@/assets/products/item-notebook-exec.jpg";
-import itemCustomMug from "@/assets/products/item-custom-mug.jpg";
+// Studio product photos (rebuilt from the 2026 PDF catalog)
+import pv2_athletic_sando from "@/assets/products-v2/athletic-sando.webp";
+import pv2_bamboo_cable_organizer from "@/assets/products-v2/bamboo-cable-organizer.webp";
+import pv2_bamboo_cutlery from "@/assets/products-v2/bamboo-cutlery.webp";
+import pv2_bluetooth_speaker from "@/assets/products-v2/bluetooth-speaker.webp";
+import pv2_booth_installation from "@/assets/products-v2/booth-installation.webp";
+import pv2_canvas_pouch from "@/assets/products-v2/canvas-pouch.webp";
+import pv2_canvas_tote from "@/assets/products-v2/canvas-tote.webp";
+import pv2_corporate_setups from "@/assets/products-v2/corporate-setups.webp";
+import pv2_corrugated_box from "@/assets/products-v2/corrugated-box.webp";
+import pv2_custom_ceramic_glass_mug from "@/assets/products-v2/custom-ceramic-glass-mug.webp";
+import pv2_custom_coffee_mug from "@/assets/products-v2/custom-coffee-mug.webp";
+import pv2_custom_notebook from "@/assets/products-v2/custom-notebook.webp";
+import pv2_custom_socks from "@/assets/products-v2/custom-socks.webp";
+import pv2_custom_thermal_tumbler from "@/assets/products-v2/custom-thermal-tumbler.webp";
+import pv2_custom_umbrella from "@/assets/products-v2/custom-umbrella.webp";
+import pv2_digital_clock_nightlight from "@/assets/products-v2/digital-clock-nightlight.webp";
+import pv2_diploma_holders from "@/assets/products-v2/diploma-holders.webp";
+import pv2_drawstring_bag from "@/assets/products-v2/drawstring-bag.webp";
+import pv2_drifit_shirt from "@/assets/products-v2/drifit-shirt.webp";
+import pv2_dry_bag from "@/assets/products-v2/dry-bag.webp";
+import pv2_ecobag from "@/assets/products-v2/ecobag.webp";
+import pv2_event_host from "@/assets/products-v2/event-host.webp";
+import pv2_headwear from "@/assets/products-v2/headwear.webp";
+import pv2_humidifier_desk from "@/assets/products-v2/humidifier-desk.webp";
+import pv2_jacket_collection from "@/assets/products-v2/jacket-collection.webp";
+import pv2_jute_bag from "@/assets/products-v2/jute-bag.webp";
+import pv2_lanyard_id from "@/assets/products-v2/lanyard-id.webp";
+import pv2_laptop_bag from "@/assets/products-v2/laptop-bag.webp";
+import pv2_long_sleeves from "@/assets/products-v2/long-sleeves.webp";
+import pv2_lunch_box_bamboo from "@/assets/products-v2/lunch-box-bamboo.webp";
+import pv2_metal_pen from "@/assets/products-v2/metal-pen.webp";
+import pv2_mini_fan from "@/assets/products-v2/mini-fan.webp";
+import pv2_mousepad from "@/assets/products-v2/mousepad.webp";
+import pv2_multi_cable_case from "@/assets/products-v2/multi-cable-case.webp";
+import pv2_neck_pillow from "@/assets/products-v2/neck-pillow.webp";
+import pv2_organizer_toiletry from "@/assets/products-v2/organizer-toiletry.webp";
+import pv2_paper_bag from "@/assets/products-v2/paper-bag.webp";
+import pv2_phone_laptop_stand from "@/assets/products-v2/phone-laptop-stand.webp";
+import pv2_photo_booth from "@/assets/products-v2/photo-booth.webp";
+import pv2_pins_stickers from "@/assets/products-v2/pins-stickers.webp";
+import pv2_plaques_trophies from "@/assets/products-v2/plaques-trophies.webp";
+import pv2_pocket_mirror from "@/assets/products-v2/pocket-mirror.webp";
+import pv2_polo from "@/assets/products-v2/polo.webp";
+import pv2_powerbank_10k from "@/assets/products-v2/powerbank-10k.webp";
+import pv2_pullup_banner from "@/assets/products-v2/pullup-banner.webp";
+import pv2_raincoat_hooded from "@/assets/products-v2/raincoat-hooded.webp";
+import pv2_registration_system from "@/assets/products-v2/registration-system.webp";
+import pv2_sling_bag from "@/assets/products-v2/sling-bag.webp";
+import pv2_sports_towel from "@/assets/products-v2/sports-towel.webp";
+import pv2_spray_bottle from "@/assets/products-v2/spray-bottle.webp";
+import pv2_swivel_usb from "@/assets/products-v2/swivel-usb.webp";
+import pv2_tactical_led_flashlight from "@/assets/products-v2/tactical-led-flashlight.webp";
+import pv2_tech_documentation from "@/assets/products-v2/tech-documentation.webp";
+import pv2_tissue_box_caddy from "@/assets/products-v2/tissue-box-caddy.webp";
+import pv2_tshirt from "@/assets/products-v2/tshirt.webp";
+import pv2_waist_bag from "@/assets/products-v2/waist-bag.webp";
+import pv2_wireless_charger_pad from "@/assets/products-v2/wireless-charger-pad.webp";
+import pv2_wireless_mouse from "@/assets/products-v2/wireless-mouse.webp";
 
 export const STANDARD_COLORS = [
   "Black",
@@ -201,7 +181,7 @@ export const categories: Category[] = [
         id: "tactical-led-flashlight",
         name: "Tactical Rechargeable LED Flashlight",
         blurb: "Heavy-duty aerospace aluminum LED torch with high-lumen output, adjustable zoom focus beam, strobe/SOS modes, and USB-C rechargeable battery. Precision laser engraved logo.",
-        image: itemFlashlight,
+        image: pv2_tactical_led_flashlight,
         moq: 25,
         priceTier: "under_500",
         specs: "USB-C Rechargeable • 800 Lumens • Zoomable • IPX6 Waterproof",
@@ -217,7 +197,7 @@ export const categories: Category[] = [
         id: "metal-pen",
         name: "Personalized Laser-Engraved Metal Pen",
         blurb: "Luxury executive metal ballpoint pen with precision laser engraving. Gift box ready.",
-        image: itemMetalPen,
+        image: pv2_metal_pen,
         moq: 50,
         priceTier: "under_500",
         specs: "Multiple barrel finishes • Blue or black ink",
@@ -226,7 +206,7 @@ export const categories: Category[] = [
         id: "custom-notebook",
         name: "Custom Corporate Executive Notebook",
         blurb: "Debossed or foil-stamped luxury cover, satin ribbon bookmark, pen loop, and 100gsm ink-proof cream paper. Tailor your binding style, cover texture, and branding.",
-        image: itemNotebookExec,
+        image: pv2_custom_notebook,
         moq: 30,
         priceTier: "under_500",
         specs: "Sizes: A5 & B5 • 5 Binding Styles • 8 Colors",
@@ -247,7 +227,7 @@ export const categories: Category[] = [
         id: "custom-coffee-mug",
         name: "Custom Ceramic & Glass Coffee Mugs",
         blurb: "High-grade ceramic and tempered glass coffee mugs. Choose classic porcelain, magic heat-activated color reveal, or modern frosted glass with your corporate emblem.",
-        image: pMug,
+        image: pv2_custom_coffee_mug,
         moq: 30,
         priceTier: "under_500",
         specs: "11oz to 14oz • Dishwasher Safe Sublimation",
@@ -266,7 +246,7 @@ export const categories: Category[] = [
         id: "pullup-banner",
         name: "Roll-Up Pull-Up Display Banner",
         blurb: "High-resolution printed banner on heavy vinyl with retractable aluminum stand and carry bag.",
-        image: pBanner,
+        image: pv2_pullup_banner,
         moq: 1,
         priceTier: "under_1000",
         specs: "2.75 x 6.5 ft (85 x 200 cm) • Heavy aluminum base",
@@ -275,7 +255,7 @@ export const categories: Category[] = [
         id: "pins-stickers",
         name: "Custom Button Pins & Vinyl Stickers",
         blurb: "2.25\" round pinback buttons with matte or glitter finish, plus die-cut and kiss-cut sheet stickers.",
-        image: itemPinsStickers,
+        image: pv2_pins_stickers,
         moq: 100,
         priceTier: "under_500",
         specs: "2.25\" Pins • Waterproof vinyl kiss/die cut",
@@ -284,7 +264,7 @@ export const categories: Category[] = [
         id: "lanyard-id",
         name: "Premium ID Lanyard",
         blurb: "High-quality corporate lanyards tailored for your brand, available with different attachments and safety features.",
-        image: itemLanyard,
+        image: pv2_lanyard_id,
         moq: 100,
         priceTier: "under_500",
         specs: "Multiple widths and attachments available • Full-color sublimation",
@@ -301,7 +281,7 @@ export const categories: Category[] = [
         id: "corrugated-box",
         name: "Custom Branded Gift Box",
         blurb: "Sturdy custom packaging boxes with one-color or full-color print. Custom sizes available for kits and giveaways.",
-        image: itemKraftBox,
+        image: pv2_corrugated_box,
         moq: 30,
         priceTier: "under_500",
         specs: "Multiple custom dimensions • Perfect for kits",
@@ -318,7 +298,7 @@ export const categories: Category[] = [
         id: "plaques-trophies",
         name: "Custom Recognition Plaques & Trophies",
         blurb: "Laser-engraved acrylic, crystal, or wooden award plaques with UV color accents.",
-        image: itemPlaque,
+        image: pv2_plaques_trophies,
         moq: 5,
         specs: "Beveled acrylic / crystal / solid mahogany",
       },
@@ -326,7 +306,7 @@ export const categories: Category[] = [
         id: "diploma-holders",
         name: "Diploma & Certificate Holders",
         blurb: "Padded leatherette certificate folders with gold satin corner ribbons and hot foil stamping.",
-        image: itemCertHolder,
+        image: pv2_diploma_holders,
         moq: 30,
         specs: "Letter / A4 size • Gold corner tabs",
       },
@@ -349,7 +329,7 @@ export const categories: Category[] = [
         id: "canvas-tote",
         name: "Canvas Tote Bag",
         blurb: "High-quality cotton canvas totes perfect for corporate giveaways, conferences, and daily use.",
-        image: pCanvasTote,
+        image: pv2_canvas_tote,
         moq: 50,
         specs: "Durable natural cotton canvas",
         variants: {
@@ -364,7 +344,7 @@ export const categories: Category[] = [
         id: "ecobag",
         name: "Ecobag",
         blurb: "Eco-friendly non-woven bags ideal for budget-friendly high-volume distributions and events.",
-        image: pEcoBag,
+        image: pv2_ecobag,
         moq: 100,
         specs: "80gsm - 100gsm non-woven • Assorted vibrant colors",
         variants: {
@@ -380,7 +360,7 @@ export const categories: Category[] = [
         id: "drawstring-bag",
         name: "Polyester Sports Drawstring Bag",
         blurb: "Water-resistant polyester with reinforced PU corners and thick braided drawstrings. Ideal for sports and fun runs.",
-        image: pDrawstring,
+        image: pv2_drawstring_bag,
         moq: 50,
         specs: "14 x 18 inches • 210D water-resistant polyester",
       },
@@ -388,7 +368,7 @@ export const categories: Category[] = [
         id: "jute-bag",
         name: "Eco Jute Bag with Padded Rope Handles",
         blurb: "Natural organic burlap jute tote with laminated interior and soft padded cotton handles.",
-        image: itemJuteBag,
+        image: pv2_jute_bag,
         moq: 50,
         specs: "Natural jute • Waterproof interior coating",
       },
@@ -396,7 +376,7 @@ export const categories: Category[] = [
         id: "paper-bag",
         name: "Branded Paper Shopping Bag with Rope",
         blurb: "High-grade kraft or white cardboard with reinforced bottom card and matching rope handles.",
-        image: itemPaperBag,
+        image: pv2_paper_bag,
         moq: 100,
         specs: "250gsm art card / kraft • Matte/gloss lamination",
       },
@@ -404,7 +384,7 @@ export const categories: Category[] = [
         id: "canvas-pouch",
         name: "Canvas Organizer Pouch",
         blurb: "Versatile canvas pouches for packing tumblers, stationery, or cosmetics.",
-        image: itemCanvasPouch,
+        image: pv2_canvas_pouch,
         moq: 50,
         specs: "Multiple sizes and closures",
         variants: {
@@ -418,7 +398,7 @@ export const categories: Category[] = [
         id: "laptop-bag",
         name: "Executive Padded Laptop Briefcase (15.6\")",
         blurb: "Padded shockproof compartment fits laptops up to 15.6\", luggage strap, and removable shoulder strap.",
-        image: pLaptopBag,
+        image: pv2_laptop_bag,
         moq: 25,
         specs: "Fits up to 15.6\" • Water-resistant nylon/poly",
       },
@@ -426,7 +406,7 @@ export const categories: Category[] = [
         id: "sling-bag",
         name: "Compact Versatile Crossbody Sling Bag",
         blurb: "Modern ergonomic chest/shoulder sling with multi-zipper compartments and quick-access pockets.",
-        image: itemSlingBag,
+        image: pv2_sling_bag,
         moq: 30,
         specs: "Adjustable ambidextrous strap • USB pass-through",
       },
@@ -434,7 +414,7 @@ export const categories: Category[] = [
         id: "waist-bag",
         name: "Adjustable Sports Waist Bag / Fanny Pack",
         blurb: "Slim-profile waist pack with heavy-duty buckle, zippered front pocket, and concealed back wallet slot.",
-        image: itemWaistBag,
+        image: pv2_waist_bag,
         moq: 30,
         specs: "High-density nylon • Reflective zipper pulls",
       },
@@ -442,7 +422,7 @@ export const categories: Category[] = [
         id: "dry-bag",
         name: "Waterproof Roll-Top Dry Bag",
         blurb: "Heavy-duty 500D PVC tarpaulin with welded watertight seams and adjustable shoulder sling.",
-        image: itemDryBag,
+        image: pv2_dry_bag,
         moq: 30,
         specs: "10L or 20L capacity • Floats safely if dropped in water",
       },
@@ -450,7 +430,7 @@ export const categories: Category[] = [
         id: "organizer-toiletry",
         name: "Hanging Travel Wash & Toiletry Bag",
         blurb: "Fold-out multi-compartment travel organizer with 360-degree swivel hanging hook and waterproof mesh pockets.",
-        image: itemToiletryBag,
+        image: pv2_organizer_toiletry,
         moq: 30,
         specs: "Waterproof Oxford fabric • 4 separate zip sections",
       },
@@ -465,7 +445,7 @@ export const categories: Category[] = [
         id: "tshirt",
         name: "Combed Cotton Round-Neck T-Shirt",
         blurb: "100% premium combed cotton, ultra-soft handfeel. Available in top retail and wholesale brands with custom DTF, silkscreen, or embroidered logos.",
-        image: pTshirt,
+        image: pv2_tshirt,
         moq: 24,
         apparel: true,
         priceTier: "under_500",
@@ -491,7 +471,7 @@ export const categories: Category[] = [
         id: "drifit-shirt",
         name: "Dri-Fit Performance Sports Shirt",
         blurb: "Breathable moisture-wicking athletic polyester. Fast-drying performance fabric tailored for company fun runs, team building, and outdoor events.",
-        image: itemDrifitShirt,
+        image: pv2_drifit_shirt,
         moq: 24,
         apparel: true,
         priceTier: "under_500",
@@ -513,7 +493,7 @@ export const categories: Category[] = [
         id: "polo",
         name: "Corporate Pique Polo Shirt",
         blurb: "Classic collared corporate polo with ribbed cuffs. Available in top retail & corporate brands with high-definition embroidery.",
-        image: itemPolo,
+        image: pv2_polo,
         moq: 24,
         apparel: true,
         priceTier: "under_1000",
@@ -538,7 +518,7 @@ export const categories: Category[] = [
         id: "jacket-collection",
         name: "Corporate Jacket & Outerwear Collection",
         blurb: "Tailored executive jackets, hoodies, and vests for company uniforms, client gifts, and air-conditioned offices. Select your preferred silhouette and embroidery/DTF branding.",
-        image: itemJacket,
+        image: pv2_jacket_collection,
         moq: 15,
         apparel: true,
         priceTier: "under_1000",
@@ -562,7 +542,7 @@ export const categories: Category[] = [
         id: "long-sleeves",
         name: "Long Sleeves Corporate Shirt / Jersey",
         blurb: "Tailored long sleeve shirt or drifit crewneck for sun protection and air-conditioned offices.",
-        image: itemPoloLongsleeve,
+        image: pv2_long_sleeves,
         moq: 24,
         apparel: true,
         priceTier: "under_500",
@@ -577,7 +557,7 @@ export const categories: Category[] = [
         id: "athletic-sando",
         name: "Athletic Sando / Singlet",
         blurb: "High-performance sleeveless tops for sports festivals, marathons, and training.",
-        image: itemSandoJersey,
+        image: pv2_athletic_sando,
         moq: 24,
         apparel: true,
         priceTier: "under_500",
@@ -595,7 +575,7 @@ export const categories: Category[] = [
         id: "headwear",
         name: "Custom Headwear",
         blurb: "Branded headwear options for casual everyday use, outdoor events, or company uniforms.",
-        image: pCap,
+        image: pv2_headwear,
         moq: 24,
         specs: "Adjustable sizing • Premium embroidery",
         variants: {
@@ -610,7 +590,7 @@ export const categories: Category[] = [
         id: "custom-socks",
         name: "Custom Jacquard Knit Crew Socks",
         blurb: "Cushioned sole cotton crew socks with custom jacquard-knitted brand patterns and logo.",
-        image: itemSocks,
+        image: pv2_custom_socks,
         moq: 50,
         specs: "80% Combed cotton, 17% Poly, 3% Spandex",
       },
@@ -618,7 +598,7 @@ export const categories: Category[] = [
         id: "sports-towel",
         name: "Quick-Dry Sports Cooling Towel",
         blurb: "Soft absorbent microfiber towel for sports events, marathons, and gym kits.",
-        image: itemCoolingTowel,
+        image: pv2_sports_towel,
         moq: 50,
         specs: "30 x 80 cm or 35 x 100 cm • Sublimated edge-to-edge",
       },
@@ -633,7 +613,7 @@ export const categories: Category[] = [
         id: "powerbank-10k",
         name: "Slim Fast-Charging Power Bank (10,000mAh)",
         blurb: "Ultra-slim lithium-polymer power bank with dual USB + Type-C ports and digital LED percentage display.",
-        image: itemPowerbank10k,
+        image: pv2_powerbank_10k,
         moq: 25,
         specs: "10,000mAh • 22.5W Fast Charge • Full UV Print",
       },
@@ -641,7 +621,7 @@ export const categories: Category[] = [
         id: "phone-laptop-stand",
         name: "Foldable Aluminum Phone & Laptop Stand",
         blurb: "Ergonomic multi-angle riser that elevates devices to eye level, folds completely flat for travel.",
-        image: itemLaptopStand,
+        image: pv2_phone_laptop_stand,
         moq: 30,
         specs: "Anodized aluminum alloy • Anti-slip silicone pads",
       },
@@ -649,7 +629,7 @@ export const categories: Category[] = [
         id: "bluetooth-speaker",
         name: "Portable Fabric Bluetooth Speaker",
         blurb: "Crisp 360-degree sound with woven fabric acoustic grille and convenient silicone lanyard strap.",
-        image: itemSpeakerAuthentic,
+        image: pv2_bluetooth_speaker,
         moq: 25,
         specs: "5W Output • 6 Hours Playtime • Bluetooth 5.3",
       },
@@ -657,7 +637,7 @@ export const categories: Category[] = [
         id: "mini-fan",
         name: "Rechargeable Handheld & Desk Mini Fan",
         blurb: "Whisper-quiet 3-speed brushless motor with detachable desktop stand and USB-C rechargeable battery.",
-        image: itemMiniFan,
+        image: pv2_mini_fan,
         moq: 50,
         specs: "2000mAh Battery • 4-8 Hours run time",
       },
@@ -665,7 +645,7 @@ export const categories: Category[] = [
         id: "wireless-mouse",
         name: "Ergonomic Silent Wireless Optical Mouse",
         blurb: "Quiet-click 2.4GHz wireless mouse with sleek matte finish and custom printed brand logo.",
-        image: itemMouse,
+        image: pv2_wireless_mouse,
         moq: 30,
         specs: "1600 DPI • USB Nano receiver • Auto-sleep power saving",
       },
@@ -673,7 +653,7 @@ export const categories: Category[] = [
         id: "mousepad",
         name: "Custom Mouse Pad",
         blurb: "Enhance your desk setup with our premium branded mousepads. Available in standard rubber or integrated Qi wireless charging.",
-        image: itemRubberMousepad,
+        image: pv2_mousepad,
         moq: 50,
         specs: "Anti-slip base • Smooth tracking surface",
         variants: {
@@ -687,7 +667,7 @@ export const categories: Category[] = [
         id: "multi-cable-case",
         name: "3-in-1 Retractable Multi-Charging Cable",
         blurb: "Compact circular roll case housing Type-C, Lightning, and Micro-USB cables in one neat package.",
-        image: itemMultiCable,
+        image: pv2_multi_cable_case,
         moq: 50,
         specs: "Extendable up to 1.2m • 3A fast charging",
       },
@@ -695,7 +675,7 @@ export const categories: Category[] = [
         id: "bamboo-cable-organizer",
         name: "Multifunctional Bamboo Cable Organizer Box",
         blurb: "Real natural bamboo wooden folding case with built-in wireless charging coil, cables, and pen stand.",
-        image: itemBambooBox,
+        image: pv2_bamboo_cable_organizer,
         moq: 20,
         specs: "Natural organic bamboo • Multi-connector cable set",
       },
@@ -703,7 +683,7 @@ export const categories: Category[] = [
         id: "swivel-usb",
         name: "Swivel Metal USB Flash Drive (32GB / 64GB)",
         blurb: "Classic 360-degree aluminum rotating shield protects the USB connector. Laser-engraved or silkscreened.",
-        image: itemSwivelUsb,
+        image: pv2_swivel_usb,
         moq: 50,
         specs: "High-speed USB 3.0 • 32GB or 64GB capacity",
       },
@@ -711,7 +691,7 @@ export const categories: Category[] = [
         id: "wireless-charger-pad",
         name: "Ultra-Slim Qi Wireless Charger (15W)",
         blurb: "Minimalist circular induction charging pad with breathing LED ring indicator and non-slip feet.",
-        image: itemWirelessPad,
+        image: pv2_wireless_charger_pad,
         moq: 25,
         specs: "15W Max Output • Aluminum base with acrylic face",
       },
@@ -719,7 +699,7 @@ export const categories: Category[] = [
         id: "digital-clock-nightlight",
         name: "Digital Clock & Night Light",
         blurb: "Modern desktop accessories that combine utility with illuminated branding for your workspace or bedside.",
-        image: itemDigitalClock,
+        image: pv2_digital_clock_nightlight,
         moq: 25,
         specs: "LED glow • Elegant design",
         variants: {
@@ -740,7 +720,7 @@ export const categories: Category[] = [
         id: "custom-umbrella",
         name: "Custom Corporate Umbrella",
         blurb: "High-grade weather-ready corporate umbrella. Choose handle style, frame size, and corporate color with precision silk-screen or heat-transfer branding.",
-        image: itemUmbrellaMaster,
+        image: pv2_custom_umbrella,
         moq: 30,
         priceTier: "under_500",
         specs: "Sizes: Mini & Standard • 10 Colors Available",
@@ -761,7 +741,7 @@ export const categories: Category[] = [
         id: "raincoat-hooded",
         name: "Hooded Reusable Waterproof Raincoat",
         blurb: "Thick eco-friendly EVA waterproof coat with snap button closures, drawstring hood, and custom logo print.",
-        image: itemRaincoat,
+        image: pv2_raincoat_hooded,
         moq: 50,
         specs: "0.15mm thick EVA • Unisex one-size fit",
       },
@@ -769,7 +749,7 @@ export const categories: Category[] = [
         id: "spray-bottle",
         name: "Pocket Alcohol Mist Spray Bottle (50ml)",
         blurb: "Refillable credit card or pocket mist spray bottle with leak-proof atomizing pump.",
-        image: itemSprayBottle,
+        image: pv2_spray_bottle,
         moq: 100,
         specs: "50ml capacity • Silicone sleeve & carabiner optional",
       },
@@ -777,7 +757,7 @@ export const categories: Category[] = [
         id: "humidifier-desk",
         name: "Desktop Ultrasonic Mist Humidifier",
         blurb: "Quiet cool-mist personal humidifier with continuous/intermittent spray modes and warm LED nightlight.",
-        image: itemHumidifier,
+        image: pv2_humidifier_desk,
         moq: 30,
         specs: "300ml water capacity • USB powered",
       },
@@ -785,7 +765,7 @@ export const categories: Category[] = [
         id: "tissue-box-caddy",
         name: "Multi-Compartment Desk Tissue Box & Caddy",
         blurb: "Minimalist desktop tissue dispenser featuring built-in side slots for mobile phones, remotes, and pens.",
-        image: itemTissueCaddy,
+        image: pv2_tissue_box_caddy,
         moq: 30,
         specs: "Matte ABS body with natural bamboo wood lid",
       },
@@ -793,7 +773,7 @@ export const categories: Category[] = [
         id: "neck-pillow",
         name: "Memory Foam Ergonomic Travel Neck Pillow",
         blurb: "High-density molded memory foam with 360-degree chin support and removable breathable velour cover.",
-        image: itemNeckPillow,
+        image: pv2_neck_pillow,
         moq: 30,
         specs: "Contoured ergonomic curve • Washable zip cover",
       },
@@ -801,7 +781,7 @@ export const categories: Category[] = [
         id: "pocket-mirror",
         name: "Dual Folding Compact Pocket Mirror",
         blurb: "Sleek metallic pocket mirror with 1x true view and 2x magnification mirror inside.",
-        image: itemPocketMirror,
+        image: pv2_pocket_mirror,
         moq: 50,
         specs: "Round 70mm diameter • PU leather or metallic casing",
       },
@@ -816,7 +796,7 @@ export const categories: Category[] = [
         id: "custom-thermal-tumbler",
         name: "Custom Stainless Steel Vacuum Insulated Tumbler",
         blurb: "Food-grade 304 double-wall vacuum insulation. Keeps drinks ice cold for 24h or steaming hot for 12h. Select your silhouette, capacity, and precision laser engraving or full-color UV wrap.",
-        image: pJpTumbler,
+        image: pv2_custom_thermal_tumbler,
         moq: 25,
         priceTier: "under_500",
         specs: "Sizes: 350ml to 1.2L • 7 Silhouettes • 10 Colors",
@@ -839,7 +819,7 @@ export const categories: Category[] = [
         id: "custom-ceramic-glass-mug",
         name: "Custom Ceramic & Glass Coffee Mugs",
         blurb: "High-grade ceramic and tempered glass mugs. Select classic white porcelain, magic heat-activated color reveal, or modern frosted glass with your corporate emblem.",
-        image: itemCustomMug,
+        image: pv2_custom_ceramic_glass_mug,
         moq: 30,
         priceTier: "under_500",
         specs: "11oz to 14oz • Dishwasher Safe Sublimation",
@@ -858,7 +838,7 @@ export const categories: Category[] = [
         id: "bamboo-cutlery",
         name: "Bamboo Cutlery Set with Bamboo Straw & Pouch",
         blurb: "Full reusable dining set: wooden spoon, fork, knife, chopsticks, bamboo straw, and wire brush in custom canvas pouch.",
-        image: itemBambooCutlery,
+        image: pv2_bamboo_cutlery,
         moq: 50,
         specs: "Natural bamboo utensils • Cotton tie pouch",
       },
@@ -866,7 +846,7 @@ export const categories: Category[] = [
         id: "lunch-box-bamboo",
         name: "Glass Bento Lunch Box with Bamboo Lid",
         blurb: "Oven & microwave-safe borosilicate glass container topped with a solid bamboo cutting board lid and elastic band.",
-        image: itemGlassBento,
+        image: pv2_lunch_box_bamboo,
         moq: 30,
         specs: "1000ml glass base • Solid bamboo lid",
       },
@@ -881,7 +861,7 @@ export const categories: Category[] = [
         id: "booth-installation",
         name: "Small / Big Booth Installation & Fabrication",
         blurb: "Full exhibition booth setup: modular aluminum framing, laminated wall panels, display counters, and overhead signage.",
-        image: eventBooth,
+        image: pv2_booth_installation,
         moq: 1,
         specs: "Custom 2x2m, 3x3m, or multi-island exhibition booths",
       },
@@ -897,7 +877,7 @@ export const categories: Category[] = [
         id: "registration-system",
         name: "Event Registration System & Automated Website",
         blurb: "Custom branded registration microsite, automated QR confirmation passes, badge printing setup, and on-site crew.",
-        image: eventRegistration,
+        image: pv2_registration_system,
         moq: 1,
         specs: "Web platform + QR scanner equipment + trained manpower",
       },
@@ -905,7 +885,7 @@ export const categories: Category[] = [
         id: "photo-booth",
         name: "Photo Booth & 360 Video Booth Support",
         blurb: "Interactive open-air photo booth or 360-degree rotating video platform with instant magnetic photo prints and custom frames.",
-        image: eventPhotobooth,
+        image: pv2_photo_booth,
         moq: 1,
         specs: "Unlimited 4R prints or magnetic strips • Custom overlay",
       },
@@ -913,7 +893,7 @@ export const categories: Category[] = [
         id: "tech-documentation",
         name: "AV Tech Crew & Video Documentation",
         blurb: "Professional videography and photography team for event recaps, high-res photo albums, and multi-camera live switching.",
-        image: eventTechCrew,
+        image: pv2_tech_documentation,
         moq: 1,
         specs: "Full coverage • Same-day edit (SDE) available",
       },
@@ -921,7 +901,7 @@ export const categories: Category[] = [
         id: "event-host",
         name: "Professional Bilingual Event Emcee / Host",
         blurb: "Experienced English and Filipino hosts for corporate conferences, awards galas, team buildings, and sports fests.",
-        image: eventHost,
+        image: pv2_event_host,
         moq: 1,
         specs: "Script consultation and full event program hosting",
       },
@@ -937,7 +917,7 @@ export const categories: Category[] = [
         id: "corporate-setups",
         name: "Corporate Venue & Stage Staging",
         blurb: "Comprehensive venue dressing, lighting fixtures, floral/corporate table centerpieces, and stage backdrop fabrication.",
-        image: eventCorporateSetup,
+        image: pv2_corporate_setups,
         moq: 1,
         specs: "Bespoke production based on venue floorplan",
       },
@@ -1362,8 +1342,8 @@ export const company = {
   name: "JJT Digital Innovative Inc.",
   tagline: "Driving Innovation",
   est: "2020",
-  phones: ["+(63) 917-143-5890", "+(63) 968-231-4096"],
-  phone: "+(63) 917-143-5890",
+  phones: ["+(63) 977 830 3388"],
+  phone: "+(63) 977 830 3388",
   emails: ["sales@jjt-digital.com", "jjtdigitalinnovative@gmail.com"],
   email: "sales@jjt-digital.com",
   location: "Parañaque City, Metro Manila",

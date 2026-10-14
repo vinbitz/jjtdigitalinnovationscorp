@@ -118,8 +118,7 @@ export function SiteFooter() {
             <p className="flex items-start gap-2 text-xs">
               <Phone className="h-4 w-4 text-brand shrink-0 mt-0.5" />
               <span>
-                +(63) 917-143-5890 <br />
-                +(63) 968-231-4096
+                +(63) 977 830 3388
               </span>
             </p>
             <p className="flex items-center gap-2 text-xs text-navy-foreground/80">

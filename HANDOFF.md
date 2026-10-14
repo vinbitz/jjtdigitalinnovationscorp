@@ -5,7 +5,7 @@ what needs to be set up, and how to create the admin account.
 
 ## What changed
 
-Two commits on top of `06d4d58`:
+Three commits on top of `06d4d58`:
 
 1. **Bug fixes**
    - Consultation bookings were never saved. They are now stored in `quote_requests` with `occasion = "Consultation Booking"`.
@@ -37,6 +37,10 @@ Two commits on top of `06d4d58`:
    - Added `scripts/create-admin.mjs` (`npm run create-admin`).
 
 No visual design was changed except removing the footer link and the demo/credentials box on the login screen.
+
+3. **Phone number and product photos**
+   - Phone number changed to +(63) 977 830 3388 (as confirmed by the owner); the email stays sales@jjt-digital.com.
+   - 58 product photos were rebuilt as consistent 800×800 studio images (`src/assets/products-v2/*.webp`), using the PDF catalog as reference: single clean product per item, AI-upscaled (Real-ESRGAN), soft shadow, light background that matches the image boxes. Client names/logos visible in the PDF (plaques, certificate holders) were removed. Unused old images were deleted.
 
 ## Build and run
 
