@@ -62,6 +62,10 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
     details: emptyDetails,
   });
 
+  // Becomes true once the saved draft has been read. Until then we must not
+  // write, or the empty initial state would overwrite the saved draft.
+  const [hydrated, setHydrated] = useState(false);
+
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -76,16 +80,19 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
       }
     } catch {
       /* ignore malformed drafts */
+    } finally {
+      setHydrated(true);
     }
   }, []);
 
   useEffect(() => {
+    if (!hydrated) return;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch {
       /* storage unavailable */
     }
-  }, [state]);
+  }, [state, hydrated]);
 
   const value = useMemo<QuoteContextValue>(() => {
     const totalPieces = Object.values(state.items).reduce((sum, n) => sum + n, 0);
@@ -133,7 +140,15 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
         })),
       updateDetails: (patch) =>
         setState((prev) => ({ ...prev, details: { ...prev.details, ...patch } })),
-      reset: () => setState({ items: {}, itemOptions: {}, services: [], details: emptyDetails }),
+      reset: () => {
+        // Clear the saved draft too, so it can't be re-loaded after a reset.
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+        } catch {
+          /* storage unavailable */
+        }
+        setState({ items: {}, itemOptions: {}, services: [], details: emptyDetails });
+      },
     };
   }, [state]);
 

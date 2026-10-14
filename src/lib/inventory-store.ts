@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { allProducts, categories, Product } from "./catalog";
+import { useState, useEffect, useRef } from "react";
+import { categories } from "./catalog";
 
 export type StockStatus = "in_stock" | "low_stock" | "made_to_order" | "out_of_stock";
 
@@ -64,10 +64,26 @@ export function getStoredInventory(): Record<string, InventoryItem> {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(initial));
       return initial;
     }
-    const parsed = JSON.parse(raw);
+    const parsed = JSON.parse(raw) as Record<string, InventoryItem>;
     const defaults = getInitialInventory();
-    // Merge in case catalog was expanded
-    return { ...defaults, ...parsed };
+    // Merge in case catalog was expanded. Name, image, category and specs always
+    // come from the current catalog so they never go stale (e.g. image URLs
+    // change after a redeploy); stock, MOQ and status keep the saved values.
+    const merged: Record<string, InventoryItem> = { ...defaults };
+    for (const [id, saved] of Object.entries(parsed ?? {})) {
+      const base = defaults[id];
+      merged[id] = base
+        ? {
+            ...base,
+            ...saved,
+            name: base.name,
+            image: base.image,
+            category: base.category,
+            specs: base.specs,
+          }
+        : saved;
+    }
+    return merged;
   } catch (err) {
     console.error("Failed reading inventory from storage:", err);
     return getInitialInventory();
@@ -84,62 +100,76 @@ export function saveInventoryToStorage(data: Record<string, InventoryItem>) {
   }
 }
 
+// Computed once; used for the first render on both server and browser so the
+// markup matches during hydration. Saved values load right after mount.
+let initialInventoryCache: Record<string, InventoryItem> | undefined;
+function getDefaultInventory() {
+  if (!initialInventoryCache) initialInventoryCache = getInitialInventory();
+  return initialInventoryCache;
+}
+
 export function useInventory() {
-  const [inventory, setInventory] = useState<Record<string, InventoryItem>>(getStoredInventory());
+  const [inventory, setInventory] = useState<Record<string, InventoryItem>>(getDefaultInventory);
+  const inventoryRef = useRef(inventory);
 
   useEffect(() => {
-    function handleUpdate() {
-      setInventory(getStoredInventory());
+    function load() {
+      const next = getStoredInventory();
+      inventoryRef.current = next;
+      setInventory(next);
     }
-    window.addEventListener("jjt_inventory_updated", handleUpdate);
-    window.addEventListener("storage", handleUpdate);
+    load();
+    window.addEventListener("jjt_inventory_updated", load);
+    window.addEventListener("storage", load);
     return () => {
-      window.removeEventListener("jjt_inventory_updated", handleUpdate);
-      window.removeEventListener("storage", handleUpdate);
+      window.removeEventListener("jjt_inventory_updated", load);
+      window.removeEventListener("storage", load);
     };
   }, []);
 
+  // Apply a change, update state and persist it (kept outside React's
+  // state updater functions, which must be pure).
+  function commit(next: Record<string, InventoryItem>) {
+    inventoryRef.current = next;
+    setInventory(next);
+    saveInventoryToStorage(next);
+  }
+
   function updateItem(id: string, updates: Partial<InventoryItem>) {
-    setInventory((prev) => {
-      const current = prev[id] || {
-        id,
-        name: id,
-        category: "General",
-        image: "",
-        moq: 1,
-        stock: 100,
-        status: "in_stock",
+    const prev = inventoryRef.current;
+    const current: InventoryItem = prev[id] || {
+      id,
+      name: id,
+      category: "General",
+      image: "",
+      moq: 1,
+      stock: 100,
+      status: "in_stock",
+      updatedAt: new Date().toISOString(),
+    };
+    commit({
+      ...prev,
+      [id]: {
+        ...current,
+        ...updates,
         updatedAt: new Date().toISOString(),
-      };
-      const updated = {
-        ...prev,
-        [id]: {
-          ...current,
-          ...updates,
-          updatedAt: new Date().toISOString(),
-        },
-      };
-      saveInventoryToStorage(updated);
-      return updated;
+      },
     });
   }
 
   function bulkUpdateStock(categoryName: string, addAmount: number) {
-    setInventory((prev) => {
-      const next = { ...prev };
-      Object.keys(next).forEach((id) => {
-        const item = next[id];
-        if (item && item.category === categoryName) {
-          next[id] = {
-            ...item,
-            stock: Math.max(0, item.stock + addAmount),
-            updatedAt: new Date().toISOString(),
-          };
-        }
-      });
-      saveInventoryToStorage(next);
-      return next;
+    const next = { ...inventoryRef.current };
+    Object.keys(next).forEach((id) => {
+      const item = next[id];
+      if (item && item.category === categoryName) {
+        next[id] = {
+          ...item,
+          stock: Math.max(0, item.stock + addAmount),
+          updatedAt: new Date().toISOString(),
+        };
+      }
     });
+    commit(next);
   }
 
   return {

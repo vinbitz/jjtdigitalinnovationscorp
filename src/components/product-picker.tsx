@@ -1,9 +1,9 @@
 import { useState, useMemo } from "react";
 import { Check, Plus, Search, Layers, Package, CheckCircle2, Sparkles, SlidersHorizontal } from "lucide-react";
 
-import { Product } from "@/lib/catalog";
+import type { Product } from "@/lib/catalog";
 import { useCatalogStore } from "@/lib/catalog-store";
-import { useQuote, ItemOptions } from "@/lib/quote-store";
+import { useQuote, type ItemOptions } from "@/lib/quote-store";
 import { useInventory } from "@/lib/inventory-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -122,7 +122,7 @@ export function ProductPicker() {
         return { ...cat, products: matchingProducts };
       })
       .filter((cat) => cat.products.length > 0);
-  }, [activeCategory, budgetFilter, searchQuery]);
+  }, [categories, activeCategory, budgetFilter, searchQuery]);
 
   const filteredBundles = useMemo(() => {
     if (activeCategory !== "all" && activeCategory !== "bundles") return [];
@@ -143,7 +143,7 @@ export function ProductPicker() {
         b.blurb.toLowerCase().includes(q) ||
         b.contents.some((c) => c.toLowerCase().includes(q))
     );
-  }, [activeCategory, budgetFilter, searchQuery]);
+  }, [bundles, activeCategory, budgetFilter, searchQuery]);
 
   return (
     <div className="space-y-8">
@@ -336,7 +336,11 @@ export function ProductPicker() {
                       <div className="flex items-center justify-between pt-2 border-t border-border/60 text-xs">
                         <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 bg-emerald-50/80 px-2 py-0.5 rounded-xs border border-emerald-200">
                           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                          {status === "made_to_order" ? "Custom Production" : `${stockCount.toLocaleString()} in stock`}
+                          {status === "made_to_order"
+                            ? "Custom Production"
+                            : status === "out_of_stock" || stockCount <= 0
+                              ? "Out of stock"
+                              : `${stockCount.toLocaleString()} in stock`}
                         </span>
                         <span className="text-[11px] text-muted-foreground font-medium">
                           No Minimum
@@ -496,7 +500,7 @@ export function ProductPicker() {
 
       {/* Comprehensive Customizer Modal with Variant Options & Uncropped Image */}
       <Dialog open={picked !== null} onOpenChange={(o) => !o && setPicked(null)}>
-        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto auto-rows-max">
           {picked && (
             <>
               <DialogHeader>

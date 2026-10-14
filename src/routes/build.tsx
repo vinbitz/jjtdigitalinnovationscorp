@@ -46,6 +46,11 @@ const stepTitles = ["Products & quantities", "Services", "Branding & event detai
 
 const MAX_LOGO_BYTES = 10 * 1024 * 1024;
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function isValidEmail(value: string) {
+  return EMAIL_PATTERN.test(value.trim());
+}
+
 function BuildPage() {
   const navigate = useNavigate();
   const quote = useQuote();
@@ -59,7 +64,11 @@ function BuildPage() {
   const showSizes = hasApparel(items, itemOptions);
 
   const canContinue =
-    step === 1 ? lines.length > 0 : step === 3 ? details.contactName && details.company && details.email : true;
+    step === 1
+      ? lines.length > 0
+      : step === 3
+        ? Boolean(details.contactName.trim() && details.company.trim() && details.email.trim())
+        : true;
 
   function pickLogo(file: File | null) {
     if (!file) return setLogo(null);
@@ -70,9 +79,22 @@ function BuildPage() {
     setLogo(file);
   }
 
+  function goNext() {
+    if (step === 3 && !isValidEmail(details.email)) {
+      toast.error("Please enter a valid email address so we can send your quote.");
+      return;
+    }
+    setStep(step + 1);
+  }
+
   async function submit() {
-    if (!details.contactName || !details.company || !details.email) {
+    if (!details.contactName.trim() || !details.company.trim() || !details.email.trim()) {
       toast.error("Please fill in your name, company and email.");
+      setStep(3);
+      return;
+    }
+    if (!isValidEmail(details.email)) {
+      toast.error("Please enter a valid email address so we can send your quote.");
       setStep(3);
       return;
     }
@@ -90,9 +112,9 @@ function BuildPage() {
       }
 
       const { error } = await supabase.from("quote_requests").insert({
-        contact_name: details.contactName,
-        company: details.company,
-        email: details.email,
+        contact_name: details.contactName.trim(),
+        company: details.company.trim(),
+        email: details.email.trim(),
         phone: details.phone || null,
         event_date: details.eventDate || null,
         occasion: details.occasion || null,
@@ -414,7 +436,7 @@ function BuildPage() {
           )}
 
           {step < 4 ? (
-            <Button className="ml-auto" onClick={() => setStep(step + 1)} disabled={!canContinue}>
+            <Button className="ml-auto" onClick={goNext} disabled={!canContinue}>
               Continue <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           ) : (

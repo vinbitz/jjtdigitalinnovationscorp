@@ -38,7 +38,7 @@ import {
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
-import { categories, allProducts, bundles, Product } from "@/lib/catalog";
+import { categories, allProducts, bundles, type Product, type PriceTier } from "@/lib/catalog";
 import { useInventory, StockStatus, InventoryItem } from "@/lib/inventory-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -89,8 +89,9 @@ export interface QuoteLead {
   event_date: string | null;
   occasion: string | null;
   budget_range: string | null;
-  items: LeadItem[] | any;
-  services: string[] | any;
+  // Stored as JSON in the database; always check with Array.isArray before use
+  items: LeadItem[] | unknown;
+  services: string[] | unknown;
   size_breakdown: string | null;
   notes: string | null;
   logo_path: string | null;
@@ -98,6 +99,12 @@ export interface QuoteLead {
   created_at: string;
   updated_at: string;
 }
+
+type AdminUser = {
+  id: string;
+  email?: string | undefined;
+  user_metadata?: Record<string, unknown> | undefined;
+};
 
 const statusColors: Record<string, { bg: string; text: string; label: string }> = {
   new: { bg: "bg-amber-100 text-amber-800 border-amber-300", text: "text-amber-700", label: "New Lead" },
@@ -115,7 +122,7 @@ const stockStatusInfo: Record<StockStatus, { label: string; badge: string }> = {
 };
 
 function AdminPage() {
-  const [sessionUser, setSessionUser] = useState<any>(null);
+  const [sessionUser, setSessionUser] = useState<AdminUser | null>(null);
   const [authChecking, setAuthChecking] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -199,19 +206,24 @@ function AdminPage() {
       toast.error("Please upload an image file (PNG, JPG, WEBP, etc.)");
       return;
     }
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const base64 = event.target?.result as string;
-      if (base64) {
+    // Photos are stored in the browser (about 5MB total), so shrink them first.
+    shrinkImageFile(file)
+      .then((dataUrl) => {
         if (isNew) {
-          setNewImage(base64);
+          setNewImage(dataUrl);
         } else {
-          setEditImage(base64);
+          setEditImage(dataUrl);
         }
         toast.success("Image selected successfully!");
-      }
-    };
-    reader.readAsDataURL(file);
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Couldn't read that image. Please try another file.");
+      })
+      .finally(() => {
+        // Allow choosing the same file again later
+        e.target.value = "";
+      });
   }
 
   function handleSaveProductEdit() {
@@ -232,7 +244,7 @@ function AdminPage() {
       specs: editSpecs.trim() || undefined,
       image: editImage || editingProduct.image,
       moq: Math.max(1, editMoq),
-      priceTier: (editPriceTier as any) || undefined,
+      priceTier: (editPriceTier as PriceTier) || undefined,
       variants: {
         ...editingProduct.variants,
         ...(typesArray.length > 0 ? { types: typesArray } : {}),
@@ -276,7 +288,7 @@ function AdminPage() {
       specs: newSpecs.trim() || undefined,
       image: newImage || "/placeholder.svg",
       moq: Math.max(1, newMoq),
-      priceTier: (newPriceTier as any) || undefined,
+      priceTier: (newPriceTier as PriceTier) || undefined,
       variants: typesArray.length > 0 ? { types: typesArray } : undefined,
     };
 
@@ -298,15 +310,12 @@ function AdminPage() {
         const timeout = new Promise<never>((_, reject) =>
           setTimeout(() => reject(new Error("auth-timeout")), 3000)
         );
-        const { data } = await Promise.race([
-          supabase.auth.getUser(),
-          timeout,
-        ]) as any;
+        const { data } = await Promise.race([supabase.auth.getUser(), timeout]);
         if (data?.user) {
           setSessionUser(data.user);
         }
-      } catch (err: any) {
-        if (err?.message !== "auth-timeout") {
+      } catch (err) {
+        if (!(err instanceof Error) || err.message !== "auth-timeout") {
           console.warn("Auth check:", err);
         }
       } finally {
@@ -321,6 +330,8 @@ function AdminPage() {
     if (sessionUser || demoMode) {
       loadLeads();
     }
+    // loadLeads is recreated every render; re-run only when sign-in state changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionUser, demoMode]);
 
   async function handleLogin(e: React.FormEvent) {
@@ -350,9 +361,22 @@ function AdminPage() {
       return;
     }
 
-    // Wrong credentials
-    toast.error("Incorrect email or password. Try: admin@jjt-digital.com / jjt2026");
-    setAuthLoading(false);
+    // Otherwise try a real Supabase staff account. Only a real admin account can
+    // read actual quote requests (the database blocks everyone else).
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: cleanEmail,
+        password: cleanPass,
+      });
+      if (error || !data.user) throw error ?? new Error("No user returned");
+      setSessionUser(data.user);
+      toast.success("Signed in successfully.");
+    } catch {
+      // Wrong credentials
+      toast.error("Incorrect email or password. Try: admin@jjt-digital.com / jjt2026");
+    } finally {
+      setAuthLoading(false);
+    }
   }
 
   function handleQuickDemoAccess() {
@@ -428,7 +452,11 @@ function AdminPage() {
   }
 
   // Inventory handling
-  function handleDraftChange(id: string, field: "stock" | "moq" | "status", value: any) {
+  function handleDraftChange(
+    id: string,
+    field: "stock" | "moq" | "status",
+    value: number | StockStatus,
+  ) {
     setDraftEdits((prev) => {
       const current = prev[id] || {
         stock: inventory[id]?.stock ?? 100,
@@ -861,7 +889,10 @@ function AdminPage() {
                           label: lead.status,
                         };
                         const itemsArray = Array.isArray(lead.items) ? lead.items : [];
-                        const totalQty = itemsArray.reduce((acc: number, cur: any) => acc + (cur.qty || 0), 0);
+                        const totalQty = itemsArray.reduce(
+                          (acc: number, cur: Partial<LeadItem> | null) => acc + (Number(cur?.qty) || 0),
+                          0,
+                        );
 
                         return (
                           <tr key={lead.id} className="hover:bg-stone-50/70 transition-colors">
@@ -1553,7 +1584,7 @@ function AdminPage() {
 
       {/* Lead Detail Modal */}
       <Dialog open={!!activeLead} onOpenChange={(open) => !open && setActiveLead(null)}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto auto-rows-max">
           {activeLead && (
             <>
               <DialogHeader>
@@ -1646,7 +1677,7 @@ function AdminPage() {
                       </thead>
                       <tbody className="divide-y divide-stone-200">
                         {Array.isArray(activeLead.items) && activeLead.items.length > 0 ? (
-                          activeLead.items.map((item: any, idx: number) => (
+                          activeLead.items.map((item: Partial<LeadItem>, idx: number) => (
                             <tr key={idx}>
                               <td className="px-3 py-2 font-medium text-foreground">{item.name}</td>
                               <td className="px-3 py-2 text-right font-bold text-brand">
@@ -1724,13 +1755,27 @@ function AdminPage() {
                         variant="outline"
                         className="text-xs"
                         onClick={async () => {
-                          const { data } = supabase.storage
+                          const path = activeLead.logo_path;
+                          if (!path) return;
+                          // Open the tab right away so pop-up blockers allow it
+                          const tab = window.open("", "_blank");
+                          // The "quote-logos" bucket is private, so use a short-lived signed link
+                          const { data, error } = await supabase.storage
                             .from("quote-logos")
-                            .getPublicUrl(activeLead.logo_path!);
-                          if (data?.publicUrl) {
-                            window.open(data.publicUrl, "_blank");
+                            .createSignedUrl(path, 60 * 10);
+                          if (error || !data?.signedUrl) {
+                            tab?.close();
+                            toast.error(
+                              demoMode
+                                ? "Logo files are only available when signed in with a real staff account."
+                                : "Could not fetch logo URL.",
+                            );
+                            return;
+                          }
+                          if (tab) {
+                            tab.location.href = data.signedUrl;
                           } else {
-                            toast.error("Could not fetch logo URL.");
+                            window.location.href = data.signedUrl;
                           }
                         }}
                       >
@@ -1748,7 +1793,7 @@ function AdminPage() {
 
       {/* ================= MODAL 1: EDIT PRODUCT & CHANGE PHOTO ================= */}
       <Dialog open={!!editingProduct} onOpenChange={(open) => !open && setEditingProduct(null)}>
-        <DialogContent className="sm:max-w-xl max-h-[92vh] overflow-y-auto">
+        <DialogContent className="sm:max-w-xl max-h-[92vh] overflow-y-auto auto-rows-max">
           {editingProduct && (
             <>
               <DialogHeader>
@@ -1926,7 +1971,7 @@ function AdminPage() {
 
       {/* ================= MODAL 2: ADD NEW PRODUCT ================= */}
       <Dialog open={isAddingProduct} onOpenChange={setIsAddingProduct}>
-        <DialogContent className="sm:max-w-xl max-h-[92vh] overflow-y-auto">
+        <DialogContent className="sm:max-w-xl max-h-[92vh] overflow-y-auto auto-rows-max">
           <DialogHeader>
             <DialogTitle className="font-display text-lg font-bold flex items-center gap-2">
               <Plus className="h-4 w-4 text-brand" /> Add New Product to Catalog
@@ -2143,3 +2188,39 @@ const sampleLeads: QuoteLead[] = [
     updated_at: new Date(Date.now() - 3600000 * 12).toISOString(),
   },
 ];
+
+/**
+ * Read an image file and return a resized data URL (max 1200px on the longest
+ * side). Keeps uploaded product photos small enough for browser storage.
+ */
+function shrinkImageFile(file: File, maxSize = 1200): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(reader.error ?? new Error("Failed to read file"));
+    reader.onload = () => {
+      const original = typeof reader.result === "string" ? reader.result : "";
+      if (!original) return reject(new Error("Empty file"));
+      // Keep SVGs and GIFs untouched (resizing would flatten/animate them)
+      if (file.type === "image/svg+xml" || file.type === "image/gif") return resolve(original);
+
+      const img = new window.Image();
+      img.onerror = () => resolve(original);
+      img.onload = () => {
+        const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+        const width = Math.max(1, Math.round(img.width * scale));
+        const height = Math.max(1, Math.round(img.height * scale));
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return resolve(original);
+        ctx.drawImage(img, 0, 0, width, height);
+        // WebP keeps transparency; browsers without WebP encoding fall back to PNG
+        const resized = canvas.toDataURL("image/webp", 0.85);
+        resolve(resized.length < original.length ? resized : original);
+      };
+      img.src = original;
+    };
+    reader.readAsDataURL(file);
+  });
+}

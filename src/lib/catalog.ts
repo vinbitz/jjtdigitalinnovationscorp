@@ -157,17 +157,19 @@ export type ProductVariants = {
   printMethods?: string[];
 };
 
+export type PriceTier = "under_500" | "under_1000" | "executive";
+
 export type Product = {
   id: string;
   name: string;
   blurb: string;
   image: string;
   moq: number;
-  apparel?: boolean;
-  specs?: string;
-  category?: string;
-  priceTier?: "under_500" | "under_1000" | "executive";
-  variants?: ProductVariants;
+  apparel?: boolean | undefined;
+  specs?: string | undefined;
+  category?: string | undefined;
+  priceTier?: PriceTier | undefined;
+  variants?: ProductVariants | undefined;
 };
 
 export type Category = {
@@ -184,9 +186,9 @@ export type Bundle = {
   contents: string[];
   image: string;
   moq: number;
-  category?: string;
-  isPremium?: boolean;
-  priceTier?: "under_500" | "under_1000" | "executive";
+  category?: string | undefined;
+  isPremium?: boolean | undefined;
+  priceTier?: PriceTier | undefined;
 };
 
 export const categories: Category[] = [

@@ -15,6 +15,7 @@ import { toast } from "sonner";
 
 import { company } from "@/lib/catalog";
 import { schedulingUrl } from "@/lib/scheduling";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -64,15 +65,50 @@ const timeSlots = [
   "04:30 PM",
 ];
 
+// Format a date as YYYY-MM-DD using the visitor's local calendar day.
+// (toISOString() converts to UTC first, which shifts the day backwards for
+// Philippine visitors before 8:00 AM.)
+function toLocalDateValue(d: Date) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+// Parse YYYY-MM-DD as a local calendar date (new Date("YYYY-MM-DD") is UTC).
+function parseLocalDateValue(value: string) {
+  const [y, m, d] = value.split("-").map(Number);
+  return new Date(y ?? 1970, (m ?? 1) - 1, d ?? 1);
+}
+
+// Build Google Calendar start/end stamps (UTC) for a slot in Philippine time.
+function toGoogleCalendarRange(dateValue: string, timeLabel: string, durationMins: number) {
+  const [y, m, d] = dateValue.split("-").map(Number);
+  const match = /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i.exec(timeLabel.trim());
+  let hours = Number(match?.[1] ?? 9);
+  const minutes = Number(match?.[2] ?? 0);
+  const meridiem = (match?.[3] ?? "AM").toUpperCase();
+  if (meridiem === "PM" && hours !== 12) hours += 12;
+  if (meridiem === "AM" && hours === 12) hours = 0;
+
+  const PHT_OFFSET_HOURS = 8; // Philippines is UTC+8 with no daylight saving
+  const start = new Date(
+    Date.UTC(y ?? 1970, (m ?? 1) - 1, d ?? 1, hours - PHT_OFFSET_HOURS, minutes),
+  );
+  const end = new Date(start.getTime() + durationMins * 60_000);
+  const stamp = (dt: Date) => dt.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  return `${stamp(start)}/${stamp(end)}`;
+}
+
 // Generate next 5 business days
 function getAvailableDates() {
   const dates: { value: string; label: string; day: string }[] = [];
-  let d = new Date();
+  const d = new Date();
   while (dates.length < 5) {
     d.setDate(d.getDate() + 1);
     const dayOfWeek = d.getDay();
     if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-      const isoStr = d.toISOString().split("T")[0] ?? "";
+      const isoStr = toLocalDateValue(d);
       dates.push({
         value: isoStr,
         label: d.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
@@ -101,18 +137,46 @@ export function BookingModal({ trigger, open, onOpenChange, defaultTopic }: Book
   const [confirmed, setConfirmed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  function handleBooking(e: React.FormEvent) {
+  async function handleBooking(e: React.FormEvent) {
     e.preventDefault();
-    if (!name || !clientCompany || !email) {
+    if (!name.trim() || !clientCompany.trim() || !email.trim()) {
       toast.error("Please fill in your name, company and email.");
       return;
     }
     setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
+    try {
+      // Save the booking as a lead so the team sees it in the admin portal.
+      const when = `${parseLocalDateValue(selectedDate).toLocaleDateString("en-US", {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })} at ${selectedTime} (PHT)`;
+      const { error } = await supabase.from("quote_requests").insert({
+        contact_name: name.trim(),
+        company: clientCompany.trim(),
+        email: email.trim(),
+        phone: phone.trim() || null,
+        event_date: selectedDate || null,
+        occasion: "Consultation Booking",
+        notes: [
+          `Consultation booking: ${activeMeeting.title} (${activeMeeting.duration})`,
+          `Requested slot: ${when}`,
+          notes.trim() ? `Client notes: ${notes.trim()}` : null,
+        ]
+          .filter(Boolean)
+          .join("\n"),
+      });
+      if (error) throw error;
+
       setConfirmed(true);
       toast.success("Meeting invitation confirmed! Check your inbox.");
-    }, 600);
+    } catch (err) {
+      console.error("Booking failed:", err);
+      toast.error(`We couldn't book your slot. Please try again or email us at ${company.email}.`);
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   function handleReset() {
@@ -179,7 +243,7 @@ export function BookingModal({ trigger, open, onOpenChange, defaultTopic }: Book
               <div className="flex items-center justify-between border-b border-border/60 pb-2">
                 <span className="text-xs font-semibold text-muted-foreground uppercase">Date & Time</span>
                 <span className="font-medium text-brand">
-                  {new Date(selectedDate).toLocaleDateString("en-US", {
+                  {parseLocalDateValue(selectedDate).toLocaleDateString("en-US", {
                     weekday: "short",
                     month: "short",
                     day: "numeric",
@@ -203,7 +267,11 @@ export function BookingModal({ trigger, open, onOpenChange, defaultTopic }: Book
                 onClick={() => {
                   const googleCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
                     `JJT Digital Innovative - ${activeMeeting.title}`
-                  )}&dates=${selectedDate.replace(/-/g, "")}T013000Z/${selectedDate.replace(/-/g, "")}T020000Z&details=${encodeURIComponent(
+                  )}&dates=${toGoogleCalendarRange(
+                    selectedDate,
+                    selectedTime ?? "",
+                    Number.parseInt(activeMeeting.duration, 10) || 30,
+                  )}&details=${encodeURIComponent(
                     `Consultation with JJT Digital Innovative Inc. Contact: ${company.email}`
                   )}&location=${encodeURIComponent("Google Meet")}`;
                   window.open(googleCalUrl, "_blank");
